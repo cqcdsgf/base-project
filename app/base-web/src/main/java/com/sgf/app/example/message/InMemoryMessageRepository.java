@@ -42,8 +42,7 @@ public class InMemoryMessageRepository implements MessageRepository {
 			message.setId(id);
 		}
 		this.messages.put(id, message);
-		throw new NumberFormatException("test");
-		//return message;
+		return message;
 	}
 
 	@Override
