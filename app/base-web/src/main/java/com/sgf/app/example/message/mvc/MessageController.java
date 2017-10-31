@@ -85,4 +85,11 @@ public class MessageController {
 		return new ModelAndView("example/message/form", "message", message);
 	}
 
+	@GetMapping(value = "testValidate")
+	public ModelAndView testValidate(){
+
+		return new ModelAndView("example/jquery-validate","message","test");
+
+	}
+
 }
