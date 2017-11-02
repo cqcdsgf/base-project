@@ -92,4 +92,11 @@ public class MessageController {
 
 	}
 
+	@GetMapping(value = "testDate")
+	public ModelAndView testDate(){
+
+		return new ModelAndView("example/datetime","message","test");
+
+	}
+
 }

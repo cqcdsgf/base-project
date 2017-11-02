@@ -83,6 +83,9 @@ public class BaseErrorController extends AbstractErrorController {
         HttpStatus status = getStatus(request);
 
         String stackTrace = (String) body.get("trace");
+        if(StringUtils.isBlank(stackTrace)){
+            stackTrace = body.get("status") + ("-").concat((String) body.get("error")).concat("-").concat((String) body.get("path"));
+        }
         String errorCode = errorLog(stackTrace);
         body.put("errorCode",errorCode);
         String queryString = request.getQueryString();
