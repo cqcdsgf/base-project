@@ -19,28 +19,28 @@ import javax.validation.Valid;
 @Controller
 public class ExampleController {
 
-    @GetMapping(value = "testValidate")
-    public ModelAndView testValidate(){
+    @GetMapping(value = "demoValidate")
+    public ModelAndView demoValidate(){
 
-        return new ModelAndView("example/jquery-validate","message","test");
+        return new ModelAndView("example/demo-validate","message","test");
 
     }
 
-    @GetMapping(value = "testDate")
-    public ModelAndView testDate(){
-        return new ModelAndView("example/datetime","message","test");
+    @GetMapping(value = "demoDate")
+    public ModelAndView demoDate(){
+        return new ModelAndView("example/demo-datetime","message","test");
     }
 
 
-    @PostMapping(value = "/testPostDate")
-    public ModelAndView testPostDate(HttpServletRequest request, String choosedDate,String currentDate,  RedirectAttributes redirect){
+    @PostMapping(value = "/demoPostDate")
+    public ModelAndView demoPostDate(HttpServletRequest request, String choosedDate,String currentDate,  RedirectAttributes redirect){
 
-        return new ModelAndView("example/datetime","choosedDate","2017-11-11");
+        return new ModelAndView("example/demo-datetime","choosedDate","2017-11-11");
     }
 
-    @GetMapping(value = "testRichText")
-    public ModelAndView testRichText(){
-        return new ModelAndView("example/rich-text","message","test");
+    @GetMapping(value = "demoRichText")
+    public ModelAndView demoRichText(){
+        return new ModelAndView("example/demo-rich-text","message","test");
     }
 
 
