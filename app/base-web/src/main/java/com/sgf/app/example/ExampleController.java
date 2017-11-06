@@ -38,5 +38,10 @@ public class ExampleController {
         return new ModelAndView("example/datetime","choosedDate","2017-11-11");
     }
 
+    @GetMapping(value = "testRichText")
+    public ModelAndView testRichText(){
+        return new ModelAndView("example/rich-text","message","test");
+    }
+
 
 }

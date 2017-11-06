@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>富文本框演示</title>
+
+    <link rel="stylesheet" th:href="@{/plugin/kindeditor/themes/default/default.css}" />
+    <link rel="stylesheet" th:href="@{/plugin/kindeditor/plugins/code/prettify.css}" />
+
+    <script type="text/javascript" th:src="@{/plugin/kindeditor/kindeditor-all.js}"></script>
+    <script type="text/javascript" th:src="@{/plugin/kindeditor/lang/zh-CN.js}"></script>
+    <script type="text/javascript" th:src="@{/plugin/kindeditor/plugins/code/prettify.js}"></script>
+
+    <script>
+        KindEditor.ready(function(K) {
+            var editor1 = K.create('textarea[name="content1"]', {
+            });
+            prettyPrint();
+        });
+
+        KindEditor.ready(function(K) {
+            var editor1 = K.create('textarea[name="content2"]', {
+                items:['source', '|', 'undo', 'redo', '|', '/','preview', 'print', 'template']
+            });
+            prettyPrint();
+        });
+    </script>
+</head>
+<body>
+
+<br/>
+<br/>
+
+    <textarea name="content1" cols="100" rows="8" style="width:700px;height:200px;visibility:hidden;"></textarea>
+    <br />
+
+<br/>
+<br/>
+
+<span>带换行的简化版</span>
+<textarea name="content2" cols="100" rows="8" style="width:700px;height:200px;visibility:hidden;"></textarea>
+<br />
+
+
+
+</body>
+</html>
