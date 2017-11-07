@@ -6,27 +6,13 @@
 
     <title>富文本框演示</title>
 
-    <link rel="stylesheet" th:href="@{/plugin/kindeditor/themes/default/default.css}" />
-    <link rel="stylesheet" th:href="@{/plugin/kindeditor/plugins/code/prettify.css}" />
+    <link rel="stylesheet" href="../../static/plugin/kindeditor/themes/default/default.css" th:href="@{/plugin/kindeditor/themes/default/default.css}"/>
+    <link rel="stylesheet" href="../../static/plugin/kindeditor/plugins/code/prettify.css" th:href="@{/plugin/kindeditor/plugins/code/prettify.css}" />
+    <script type="text/javascript" src="../../static/plugin/kindeditor/kindeditor-all.js" th:src="@{/plugin/kindeditor/kindeditor-all.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/kindeditor/lang/zh-CN.js" th:src="@{/plugin/kindeditor/lang/zh-CN.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/kindeditor/plugins/code/prettify.js" th:src="@{/plugin/kindeditor/plugins/code/prettify.js}"></script>
 
-    <script type="text/javascript" th:src="@{/plugin/kindeditor/kindeditor-all.js}"></script>
-    <script type="text/javascript" th:src="@{/plugin/kindeditor/lang/zh-CN.js}"></script>
-    <script type="text/javascript" th:src="@{/plugin/kindeditor/plugins/code/prettify.js}"></script>
 
-    <script>
-        KindEditor.ready(function(K) {
-            var editor1 = K.create('textarea[name="content1"]', {
-            });
-            prettyPrint();
-        });
-
-        KindEditor.ready(function(K) {
-            var editor1 = K.create('textarea[name="content2"]', {
-                items:['source', '|', 'undo', 'redo', '|', '/','preview', 'print', 'template']
-            });
-            prettyPrint();
-        });
-    </script>
 </head>
 <body>
 
@@ -44,6 +30,19 @@
 <br />
 
 
+<script>
+    KindEditor.ready(function(K) {
+        var editor1 = K.create('textarea[name="content1"]', {
+        });
+        prettyPrint();
+    });
 
+    KindEditor.ready(function(K) {
+        var editor1 = K.create('textarea[name="content2"]', {
+            items:['source', '|', 'undo', 'redo', '|', '/','preview', 'print', 'template']
+        });
+        prettyPrint();
+    });
+</script>
 </body>
 </html>
