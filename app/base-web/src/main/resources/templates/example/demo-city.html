@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/cxSelect/js/jquery.cxselect.js" th:src="@{/plugin/cxSelect/js/jquery.cxselect.js}"></script>
+
+    <title>Title</title>
+</head>
+<body>
+
+<br/>
+<br/>
+<br/>
+
+<fieldset id="city_china">
+    <legend>默认</legend>
+    <span>省份：<select class="province other" data-value="河北省">
+        <option>请选择</option>
+    </select></span>
+    <span>城市：<select class="city" data-value="石家庄市">
+        <option>请选择</option>
+    </select></span>
+    <span>地区：<select class="area" data-value="长安区">
+        <option>请选择</option>
+    </select></span>
+</fieldset>
+
+</body>
+
+
+
+
+<script>
+    /*<![CDATA[*/
+    (function() {
+        urlChina = "../../plugin/cxSelect/js/cityData.min.json";
+
+        $.cxSelect.defaults.url = urlChina;
+        // 默认
+        $('#city_china').cxSelect({
+            url: urlChina,
+            selects: ['province', 'city', 'area'],
+            nodata: 'none'
+        });
+    })();
+    /*]]>*/
+    </script>
+</html>

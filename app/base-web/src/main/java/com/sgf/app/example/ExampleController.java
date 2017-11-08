@@ -43,5 +43,9 @@ public class ExampleController {
         return new ModelAndView("example/demo-rich-text","message","test");
     }
 
+    @GetMapping(value = "demoCity")
+    public ModelAndView demoCity(){
+        return new ModelAndView("example/demo-city","message","test");
+    }
 
 }
