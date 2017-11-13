@@ -48,4 +48,8 @@ public class ExampleController {
         return new ModelAndView("example/demo-city","message","test");
     }
 
+    @GetMapping(value = "demoUploadImg")
+    public ModelAndView demoUploadImg(){
+        return new ModelAndView("example/demo-upload-img","message","test");
+    }
 }
