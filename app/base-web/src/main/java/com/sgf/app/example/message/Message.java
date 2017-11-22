@@ -30,7 +30,7 @@ public class Message {
 	@NotEmpty(message = "Text is required.")
 	private String text;
 
-	@NotEmpty(message = "Summary is required.")
+	@NotEmpty(message = "Summary 为必须项.")
 	private String summary;
 
 	private Calendar created = Calendar.getInstance();
