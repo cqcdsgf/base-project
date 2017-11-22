@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="example/fragments :: head('Messages : Create')">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="example/layout">
+<head>
+    <title>Messages : Create</title>
 </head>
 <body>
-<div class="container">
-    <div th:replace="example/fragments :: navbar"></div>
-    <h1>Messages : Create</h1>
-
-    <form id="messageForm" th:action="@{/(form)}" th:object="${message}"
-          action="#" method="post">
-        <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+<h1 layout:fragment="header">Messages : Create</h1>
+<div layout:fragment="content" class="container">
+    <!--/*@thymesVar id="message" type="com.sgf.app.example.message.Message"*/-->
+    <form id="messageForm" th:action="@{/(form)}" th:object="${message}"  action="#" method="post">
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
             <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
         </div>
-<!--        <div class="pull-right">
+        <div class="pull-right">
             <a th:href="@{/}" href="messages.html"> Messages </a>
-        </div>-->
-
-        <input type="text" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'"/>
+        </div>
+        <input type="hidden" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'" />
 
         <label for="summary">Summary</label>
-        <input type="text" th:field="*{summary}" th:class="${#fields.hasErrors('summary')} ? 'field-error'"/>
-
+        <input type="text" id="summary" th:field="*{summary}" th:class="${#fields.hasErrors('summary')} ? 'field-error'" />
+        <br/>
         <label for="text">Message</label>
-        <textarea th:field="*{text}" th:class="${#fields.hasErrors('text')} ? 'field-error'"></textarea>
-
-        <div class="form-actions">
-            <input type="submit" value="Save"/>
+        <textarea id="text" th:field="*{text}" th:class="${#fields.hasErrors('text')} ? 'field-error'"></textarea>
+        <div class="form-horizontal">
+            <input type="submit" value="Save" />
         </div>
     </form>
 </div>
