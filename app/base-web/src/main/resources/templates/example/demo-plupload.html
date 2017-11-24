@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <title>图片上传前的预览——plupload演示demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/plupload/plupload.full.min.js" th:src="@{/plugin/plupload/plupload.full.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/plupload/i18n/zh_CN.js" th:src="@{/plugin/plupload/i18n/zh_CN.js}"></script>
+
+
+
+</head>
+
+<body>
+
+<div style="width:750px; margin:0 auto">
+    <form id="formId" th:action="@{/upload}" class="form-horizontal"  method="post">
+        <div id="uploader">
+            <p>您的浏览器未安装 Flash, Silverlight, Gears, BrowserPlus 或者支持 HTML5 .</p>
+        </div>
+        <input value="重新上传" id="Reload" type="button">
+    </form>
+</div>
+
+
+<script type="text/javascript">
+    // Initialize the widget when the DOM is ready
+    $(function() {
+        // Setup html5 version
+        function plupload(){
+            $("#uploader").pluploadQueue({
+                // General settings
+                runtimes : 'flash,html5,gears,browserplus,silverlight,html4',
+                url : "/upload",
+                //unique_names: true,
+                chunk_size : '1mb',
+                //rename : true,
+                dragdrop: true,
+                filters : {
+                    // Maximum file size
+                    max_file_size : '10mb',
+                    // Specify what files to browse for
+                    mime_types: [
+                        {title : "Image files", extensions : "jpg,gif,png"},
+                        {title : "Zip files", extensions : "zip"}
+                    ]
+                },
+                // Resize images on clientside if we can
+                resize: {
+                    width : 200,
+                    height : 200,
+                    quality : 90,
+                    crop: true
+                    // crop to exact dimensions
+                },             // Flash settings
+/*                flash_swf_url : '<%=basePath%>plupload/js/Moxie.swf',
+                // Silverlight settings
+                silverlight_xap_url : '<%=basePath%>plupload/js/Moxie.xap' ,*/
+                // 参数
+                multipart_params: {'user': 'Rocky', 'time': '2012-06-12'}
+
+            });
+        }
+
+
+    });
+    plupload();
+
+    $('#Reload').click(function(){
+        alert(1);
+        plupload();
+        alert(2)
+    });
+
+</script>
+</body>
+
+</html>
