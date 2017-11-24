@@ -26,13 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * ClassName: BasicErrorController
- * Description:
- *
- * @author kang.wang03
- *         Date 2016/10/14
- */
 //@Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class BaseErrorController extends AbstractErrorController {
