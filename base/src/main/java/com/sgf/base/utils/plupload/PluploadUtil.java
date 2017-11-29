@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -21,6 +23,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
  * 这里主要处理文件上传
  */
 public class PluploadUtil {
+    private static final Logger logger = LoggerFactory.getLogger(PluploadUtil.class);
+
     private static final int BUF_SIZE = 2 * 1024;
     /**上传失败响应的成功状态码*/
     public static final String RESP_SUCCESS = "{\"jsonrpc\" : \"2.0\", \"result\" : \"success\", \"id\" : \"id\"}";
@@ -34,10 +38,11 @@ public class PluploadUtil {
      * @throws IllegalStateException
      * @throws IOException
      */
-    public static void upload(Plupload plupload, File dir) throws IllegalStateException, IOException {
+    public static String upload(Plupload plupload, File dir) throws IllegalStateException, IOException {
         //生成唯一的文件名
-        String filename = "" + System.currentTimeMillis() + plupload.getName();
+        String filename = "" + System.currentTimeMillis() + "-" +  plupload.getName();
         upload(plupload, dir, filename);
+        return filename;
     }
 
     /**
@@ -52,7 +57,7 @@ public class PluploadUtil {
         int chunks = plupload.getChunks();  //获取总的碎片数
         int chunk = plupload.getChunk();    //获取当前碎片(从0开始计数)
 
-        System.out.println(plupload.getMultipartFile() + "----------");
+        logger.info(plupload.getMultipartFile() + "----------");
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) plupload.getRequest();
         MultiValueMap<String, MultipartFile> map = multipartRequest.getMultiFileMap();
