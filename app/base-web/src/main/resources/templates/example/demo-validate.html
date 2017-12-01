@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th = "http://www.thymeleaf.org">
-<head>
+<head th:replace="example/fragments::head('validate')">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,21 +14,19 @@
 </head>
 <body>
 
+
+<div th:replace="example/fragments :: navbar"></div>
 <div class="container">
-
-    <div class="row">
+    <div class="row" th:fragment="demoValidate">
+        <br>
         <div class="col-sm-8 col-sm-offset-2">
-            <div class="page-header">
-                <div class="alert alert-info">
-                    <h4>集成bootstap 与 jquery validate</h4>
-                </div>
-
-
-                <div class="panel panel-default">
+            <div class="alert alert-info">
+                <h4>集成bootstap 与 jquery validate</h4>
+            </div>
+            <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">简单Form</h3>
                     </div>
-
                     <div class="panel-body">
                         <form id="signupForm" method="post" class="form-horizontal" action="">
                             <div class="form-group">
@@ -81,30 +79,24 @@
                                         </label>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-9 col-sm-offset-4">
-                                        <button type="submit" class="btn btn-primary" name="signup" th:value="确认">确认</button>
-                                    </div>
-                                </div>
-
                             </div>
-
+                            <div class="form-group">
+                                <div class="col-sm-5 col-sm-offset-4 text-center">
+                                    <button type="submit" class="btn btn-primary" name="signup" th:value="确认">确认</button>
+                                </div>
+                            </div>
                         </form>
-
                     </div>
-
-
                 </div>
-
-
-            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $.validator.setDefaults({
         submitHandler:function () {
             alert("submitted!");
         }
-        });
+    });
 
     $( document ).ready( function () {
         $( "#signupForm" ).validate( {
@@ -170,16 +162,7 @@
     } );
 
 </script>
-
-
-
-        </div>
-
-
-
-
-    </div>
-</div>
+<div th:replace="example/fragments :: bottom"></div>
 
 </body>
 </html>

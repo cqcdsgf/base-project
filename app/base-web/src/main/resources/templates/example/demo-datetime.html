@@ -7,70 +7,72 @@
     <title>日期演示</title>
     <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}" />
     <link rel="stylesheet" href="../../static/plugin/datetimepicker/bootstrap-datetimepicker.min.css" th:href="@{/plugin/datetimepicker/bootstrap-datetimepicker.min.css}" />
+    <link rel="stylesheet" href="../../static/plugin/css/customized.css" th:href="@{/plugin/css/customized.css}"/>
 
     <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
     <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
     <script type="text/javascript" src="../../static/plugin/datetimepicker/bootstrap-datetimepicker.js" th:src="@{/plugin/datetimepicker/bootstrap-datetimepicker.js}"></script>
     <script type="text/javascript" src="../../static/plugin/datetimepicker/bootstrap-datetimepicker.zh-CN.js" th:src="@{/plugin/datetimepicker/bootstrap-datetimepicker.zh-CN.js}"></script>
 </head>
 
 <body>
+<div th:replace="example/fragments :: navbar"></div>
 <div class="container">
-    <form th:action="@{/testPostDate}" class="form-horizontal"  method="post">
-
-        <br/>
-        <br/>
-        <br/>
-            <div class="form-group">
-                <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
-                <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-                    <input class="form-control" size="16" type="text" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+    <div class="row">
+        <br>
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">日期校验</h3>
                 </div>
-                <input type="hidden" id="dtp_input1" value="" /><br/>
-            </div>
-
-        <div class="form-group">
-            <label for="chooseDate" class="col-md-2 control-label">Date Picking</label>
-            <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="chooseDate" data-link-format="yyyy-mm-dd">
-                <input class="form-control" id="currentDate" name="currentDate" size="16" type="text" value="" readonly>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-            <input type="hidden" id="chooseDate" value="" name="chooseDate"/><br/>
-        </div>
-
-            <div class="form-group">
-                <label for="dtp_input3" class="col-md-2 control-label">Time Picking</label>
-                <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
-                    <input class="form-control" size="16" type="text" value="" readonly>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                <div class="panel-body">
+                    <form th:action="@{/testPostDate}" class="form-horizontal"  method="post">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="form-group">
+                            <lable for="dtp_input1" class="col-md-4 control-label">DateTime Picking</lable>
+                            <div class="col-md-5">
+                                <div class="input-group date form_datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                                    <input class="form-control" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input1" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <lable for="chooseDate" class="col-md-4 control-label">Date Picking</lable>
+                            <div class="col-md-5">
+                                <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="chooseDate" data-link-format="yyyy-mm-dd">
+                                    <input class="form-control" id="currentDate" name="currentDate" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                <input type="hidden" id="chooseDate" value="" name="chooseDate"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <lable for="dtp_input3" class="col-md-4 control-label">Time Picking</lable>
+                            <div class="col-md-5">
+                                <div class="input-group date form_time" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                    <input class="form-control" size="16" type="text" value="" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input3" value="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-5 col-md-offset-4 text-center">
+                                <button type="submit" class="btn btn-primary" name="signup" th:value="Save">Save</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <input type="hidden" id="dtp_input3" value="" /><br/>
             </div>
-
-        <div class="form-actions">
-            <input type="submit" value="Save"/>
         </div>
-    </form>
-
-    <br/>
-    <br/>
-    <br/>
-    <div class="form-group">
-        <label for="dtp_input2" class="col-md-2 control-label">choosed Date</label>
-        <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-            <input class="form-control" id="choosedDate" size="16" type="text" value="" readonly>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-        </div>
-        <input type="hidden" id="dtp_input2" value="" /><br/>
     </div>
-
 </div>
-
+<div th:replace="example/fragments :: bottom"></div>
 <script type="text/javascript">
     $('.form_datetime').datetimepicker({
         language:  'zh-CN',
@@ -80,7 +82,8 @@
         todayHighlight: 1,
         startView: 2,
         forceParse: 0,
-        showMeridian: 1
+        showMeridian: 1,
+        pickerPosition: "bottom-left"
     });
     var start = new Date();
     var mydate = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate();
@@ -97,7 +100,8 @@
         minView: 2,
         startDate:start,
         endDate:end,
-        forceParse: 0
+        forceParse: 0,
+        pickerPosition: "bottom-left"
     });
     $('.form_time').datetimepicker({
         language:  'zh-CN',
@@ -108,7 +112,8 @@
         startView: 1,
         minView: 0,
         maxView: 1,
-        forceParse: 0
+        forceParse: 0,
+        pickerPosition: "bottom-left"
     });
 </script>
 

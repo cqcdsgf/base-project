@@ -57,6 +57,11 @@ public class ExampleController {
         return new ModelAndView("example/demo-city","message","test");
     }
 
+    @GetMapping(value = "template")
+    public ModelAndView template(){
+        return new ModelAndView("example/template","message","test");
+    }
+
     @GetMapping(value = "demoUpload")
     public ModelAndView demoUploadImg(){
         return new ModelAndView("example/demo-upload","message","test");

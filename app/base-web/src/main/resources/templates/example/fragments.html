@@ -1,20 +1,87 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head th:fragment="head (title)">
-		<title th:text="${title}">Fragments</title>
-		<link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"  th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
-	</head>
+<head th:fragment="head (title)">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title th:text="${title}">Fragments</title>
+	<link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"  th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" href="../../static/plugin/css/customized.css" th:href="@{/plugin/css/customized.css}"/>
+	<script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+	<script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
+</head>
 
-	<body>
-	<div class="container">
-		<div th:fragment="navbar" class="navbar">
-			<div class="navbar-inverse">
-				<a class="brand" href="http://thymeleaf.org">Thymeleaf</a>
-				<ul class="nav">
-					<li><a th:href="@{/}"> Messages </a></li>
+<body>
+<div th:fragment="navbar" id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="5000">
+	<!--导航条-->
+	<nav class="navbar navbar-default x-navbar bg-primary">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" target="_blank" href="http://thymeleaf.org">Thymeleaf</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="http://localhost:8080/template">Template</a></li>
+					<li><a href="/">List</a></li>
+					<li><a href="http://localhost:8080/demoValidate">DemoValidate</a></li>
+					<li><a href="http://localhost:8080/demoDate">DemoDate</a></li>
+					<!--<li><a href="http://localhost:8080/demoPostDate">DemoPostDate</a></li>-->
+					<li><a href="http://localhost:8080/demoRichText">DemoRichText</a></li>
+					<li><a href="http://localhost:8080/demoCity">DemoCity</a></li>
+					<li><a href="http://localhost:8080/demoUpload">DemoUpload</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Link</a></li>
 				</ul>
 			</div>
 		</div>
+	</nav>
+	<!-- 轮播（Carousel）指标 -->
+	<ol class="carousel-indicators hidden-xs">
+		<li data-target="#carousel" data-slide-to="0" class="active"></li>
+		<li data-target="#carousel" data-slide-to="1"></li>
+		<li data-target="#carousel" data-slide-to="2"></li>
+		<li data-target="#carousel" data-slide-to="3"></li>
+	</ol>
+	<!-- 轮播（Carousel）项目 -->
+	<div class="carousel-inner hidden-xs">
+		<div class="item active">
+			<img src="../../../static/plugin/images/banner1.jpg" th:src="@{/plugin/images/banner1.jpg}" height="400" width="1920"/>
+		</div>
+		<div class="item">
+			<img src="../../../static/plugin/images/banner2.jpg" th:src="@{/plugin/images/banner2.jpg}" height="400" width="1920"/>
+		</div>
+
+		<div class="item">
+			<img src="../../../static/plugin/images/banner3.jpg" th:src="@{/plugin/images/banner3.jpg}" height="400" width="1920"/>
+		</div>
+		<div class="item">
+			<img src="../../../static/plugin/images/banner4.jpg" th:src="@{/plugin/images/banner4.jpg}" height="400" width="1920"/>
+		</div>
 	</div>
-	</body>
+	<!--设置轮播器箭头区域-->
+	<a href="#carousel" data-slide="prev" class="carousel-control left hidden-xs">
+		<span class="glyphicon glyphicon-chevron-left"></span>
+	</a>
+	<a href="#carousel" data-slide="next" class="carousel-control right hidden-xs">
+		<span class="glyphicon glyphicon-chevron-right"></span>
+	</a>
+</div>
+<div th:fragment="bottom" class="container-fluid">
+	<hr>
+	<div class="text-center">
+		<small>Copyright  2011-2017 fragment. 当前呈现版本 17.11.01<br>
+			渝ICP备 150231296号-2   渝公网安备 412653236183123号 重庆中票科技有限公司版权所有</small>
+	</div>
+	<br>
+
+</div>
+</body>
 </html>

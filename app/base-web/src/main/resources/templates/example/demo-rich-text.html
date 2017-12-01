@@ -5,30 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>富文本框演示</title>
-
+    <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"  th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/plugin/css/customized.css" th:href="@{/plugin/css/customized.css}"/>
     <link rel="stylesheet" href="../../static/plugin/kindeditor/themes/default/default.css" th:href="@{/plugin/kindeditor/themes/default/default.css}"/>
     <link rel="stylesheet" href="../../static/plugin/kindeditor/plugins/code/prettify.css" th:href="@{/plugin/kindeditor/plugins/code/prettify.css}" />
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
     <script type="text/javascript" src="../../static/plugin/kindeditor/kindeditor-all.js" th:src="@{/plugin/kindeditor/kindeditor-all.js}"></script>
     <script type="text/javascript" src="../../static/plugin/kindeditor/lang/zh-CN.js" th:src="@{/plugin/kindeditor/lang/zh-CN.js}"></script>
     <script type="text/javascript" src="../../static/plugin/kindeditor/plugins/code/prettify.js" th:src="@{/plugin/kindeditor/plugins/code/prettify.js}"></script>
 
-
 </head>
 <body>
 
+<div th:replace="example/fragments :: navbar"></div>
+<div class="container">
 <br/>
 <br/>
 
-    <textarea name="content1" cols="100" rows="8" style="width:700px;height:200px;visibility:hidden;"></textarea>
+    <textarea name="content1" cols="100" rows="8" style="width:100%;height:200px;visibility:hidden;"></textarea>
     <br />
 
 <br/>
 <br/>
 
 <span>带换行的简化版</span>
-<textarea name="content2" cols="100" rows="8" style="width:700px;height:200px;visibility:hidden;"></textarea>
+<textarea name="content2" cols="100" rows="8" style="width:100%;height:200px;visibility:hidden;"></textarea>
 <br />
-
+</div>
+<div th:replace="example/fragments :: bottom"></div>
 
 <script>
     KindEditor.ready(function(K) {
