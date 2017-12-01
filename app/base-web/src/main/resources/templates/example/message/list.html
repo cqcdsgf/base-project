@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="example/fragments::head('test sgf')">
-    <link rel="stylesheet" href="../../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"  th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+
 
 </head>
 
 <body>
+<div th:replace="example/fragments :: navbar"></div>
 <div class="container">
-    <div th:replace="example/fragments :: navbar"></div>
-    <h1>Messages : View all</h1>
-    <div class="container">
-        <div class="pull-right">
-            <a href="form.html" th:href="@{/(form)}">Create Message</a>
-        </div>
-        <table class="table table-bordered table-striped">
+    <!--title-->
+    <div style="overflow: hidden">
+        <h2 class="pull-left">Messages : View all</h2>
+        <h3 class="pull-right">
+            <a href="form.html" class="btn btn-info" th:href="@{/(form)}">Create Message</a>
+        </h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
             <thead>
             <tr>
-                <td>ID</td>
-                <td>Created</td>
-                <td>Summary</td>
+                <th>ID</th>
+                <th>Created</th>
+                <th>Summary</th>
+                <th>Text</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${messages.empty}">
-                <td colspan="3">No messages</td>
+            <tr th:if="${messages.empty}" class="has-error">
+                <td colspan="4" class="text-center control-label">No messages</td>
             </tr>
             <tr th:each="message : ${messages}">
                 <td th:text="${message.id}">1</td>
-                <td th:text="${#calendars.format(message.created)}">July 11,
-                    2012 2:17:16 PM CDT</td>
-                <td><a href="view.html" th:href="@{'/' + ${message.id}}"
-                       th:text="${message.summary}"> The summary </a></td>
+                <td th:text="${#calendars.format(message.created)}">July 11,2012 2:17:16 PM CDT</td>
+                <td><a href="view.html" th:href="@{'/' + ${message.id}}" th:text="${message.summary}"> The summary </a></td>
+                <td th:text="${message.text}"></td>
             </tr>
             </tbody>
         </table>
     </div>
+
 </div>
+<div th:replace="example/fragments :: bottom"></div>
 </body>
-
-
 </html>

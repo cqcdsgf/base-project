@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="example/fragments :: head('Messages : Create')">
-
-    <link rel="stylesheet" href="../../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}" />
-
-    <script type="text/javascript" src="../../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
 </head>
 <body>
-<div class="container"><div th:replace="example/fragments :: navbar"></div>
+<div th:replace="example/fragments :: navbar"></div>
+<div class="container">
+    <h2 class="row text-center">Messages : Create</h2>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form id="messageForm" class="form-horizontal" th:action="@{/(form)}" th:object="${message}" action="#" method="post">
+                <div th:if="${#fields.hasErrors('*')}" class="row alert alert-danger">
+                    <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
+                </div>
 
-    <h1>Messages : Create</h1>
-
-    <!--/*@thymesVar id="message" type="com.sgf.app.example.message.Message"*/-->
-    <form id="messageForm" th:action="@{/(form)}" th:object="${message}"
-          action="#" method="post">
-        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-            <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
+                <div class="form-group">
+                    <label for="" class="control-label">Id</label>
+                    <div>
+                        <!--<input type="text" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'"/>-->
+                        <input type="text" th:field="*{id}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="summary" class="control-label">Summary</label>
+                    <div>
+                        <!--<input type="text" th:field="*{summary}" th:class="${#fields.hasErrors('summary')} ? 'field-error'"/>-->
+                        <input type="text" th:field="*{summary}" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="text" class="control-label">Message</label>
+                    <div>
+                        <!--<textarea th:field="*{text}" th:class="${#fields.hasErrors('text')} ? 'field-error'"></textarea>-->
+                        <textarea th:field="*{text}" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="row form-actions text-center">
+                    <input type="submit" class="btn btn-primary btn-block" value="Save"/>
+                </div>
+            </form>
         </div>
-
-        <div class="pull-right">
-            <a th:href="@{/}" href="messages.html"> Messages </a>
-        </div>
-
-        <input type="hidden"  th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'"/>
-
-        <label for="summary">Summary</label>
-        <input type="text" id="summary" th:field="*{summary}" th:class="${#fields.hasErrors('summary')} ? 'field-error'"/>
-        <br/>
-        <label for="text">Message</label>
-        <textarea id="text" th:field="*{text}" th:class="${#fields.hasErrors('text')} ? 'field-error'"></textarea>
-
-        <div class="form-actions">
-            <input type="submit" value="Save"/>
-        </div>
-    </form>
+    </div>
 </div>
+<div th:replace="example/fragments :: bottom"></div>
 </body>
 </html>
