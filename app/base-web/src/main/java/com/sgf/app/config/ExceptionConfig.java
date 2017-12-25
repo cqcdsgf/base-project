@@ -23,8 +23,7 @@ public class ExceptionConfig {
 
     @Bean
     public BaseErrorController basicErrorController(ErrorAttributes errorAttributes) {
-        return new BaseErrorController(errorAttributes, this.serverProperties.getError(),
-                this.errorViewResolvers);
+        return new BaseErrorController(errorAttributes, this.serverProperties.getError(),this.errorViewResolvers);
     }
 
 }
