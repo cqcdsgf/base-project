@@ -11,29 +11,29 @@ import org.springframework.web.servlet.ModelAndView;
 public class thymeleafController {
 
 
-    @GetMapping(value = "list",produces = "application/json")
+    @GetMapping(value = "/list",produces = "application/json")
     public String testList() throws Exception{
 
         throw  new Exception("test");
         //return "list";
     }
 
-    @GetMapping("testList")
+    @GetMapping("/testList")
     public ModelAndView List(){
 
         return new ModelAndView("list","message","ok");
     }
 
 
-    @GetMapping("testPath")
+    @GetMapping("/testPath")
     public String testPath(){
 
 
-        return "path/list";
+        return "/path/list";
     }
 
 
-    @GetMapping("deep")
+    @GetMapping("/deep")
     public ModelAndView testDeep(){
 
         return  new ModelAndView("path/deeppath/deep");

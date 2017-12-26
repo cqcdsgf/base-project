@@ -31,7 +31,6 @@ import javax.validation.Valid;
  * @author Doo-Hwan Kwak
  */
 @Controller
-@RequestMapping("/")
 public class MessageController {
 
 	private final MessageRepository messageRepository;
@@ -40,7 +39,7 @@ public class MessageController {
 		this.messageRepository = messageRepository;
 	}
 
-	@GetMapping
+	@GetMapping("/msgList")
 	public ModelAndView list() {
 		Iterable<Message> messages = this.messageRepository.findAll();
 		return new ModelAndView("example/message/list", "messages", messages);

@@ -11,14 +11,14 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017\11\30 0030.
  */
-@Controller
-public class HomeController {
+//@Controller
+public class ShiroHomeController {
     @RequestMapping({"/index"})
     public String index(){
         return"/index";
     }
 
-    @RequestMapping("/login")
+    //@RequestMapping("/login")
     public String login(HttpServletRequest request, Map<String, Object> map) throws Exception{
         System.out.println("HomeController.login()");
         // 登录失败从request中获取shiro处理的异常信息。

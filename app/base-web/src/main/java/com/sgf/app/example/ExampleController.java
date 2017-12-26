@@ -24,14 +24,14 @@ import java.util.Map;
 public class ExampleController {
     private static final Logger logger = LoggerFactory.getLogger(ExampleController.class);
 
-    @GetMapping(value = "demoValidate")
+    @GetMapping(value = "/demoValidate")
     public ModelAndView demoValidate(){
 
         return new ModelAndView("example/demo-validate","message","test");
 
     }
 
-    @GetMapping(value = "demoDate")
+    @GetMapping(value = "/demoDate")
     public ModelAndView demoDate(){
         return new ModelAndView("example/demo-datetime","message","test");
     }
@@ -43,22 +43,22 @@ public class ExampleController {
         return new ModelAndView("example/demo-datetime","choosedDate","2017-11-11");
     }
 
-    @GetMapping(value = "demoRichText")
+    @GetMapping(value = "/demoRichText")
     public ModelAndView demoRichText(){
         return new ModelAndView("example/demo-rich-text","message","test");
     }
 
-    @GetMapping(value = "demoCity")
+    @GetMapping(value = "/demoCity")
     public ModelAndView demoCity(){
         return new ModelAndView("example/demo-city","message","test");
     }
 
-    @GetMapping(value = "template")
+    @GetMapping(value = "/template")
     public ModelAndView template(){
         return new ModelAndView("example/template","message","test");
     }
 
-    @GetMapping(value = "demoUpload")
+    @GetMapping(value = "/demoUpload")
     public ModelAndView demoUploadImg(){
         return new ModelAndView("example/demo-upload","message","test");
     }
