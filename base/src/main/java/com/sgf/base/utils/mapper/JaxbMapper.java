@@ -3,11 +3,11 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package com.sgf.base.mapper;
+package com.sgf.base.utils.mapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
-import com.sgf.base.utils.Exceptions;
+import com.sgf.base.exception.Exceptions;
 import com.sgf.base.utils.Reflections;
 
 import javax.xml.bind.*;

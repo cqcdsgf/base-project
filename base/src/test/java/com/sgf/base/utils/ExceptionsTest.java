@@ -5,11 +5,11 @@
  *******************************************************************************/
 package com.sgf.base.utils;
 
+import com.sgf.base.exception.Exceptions;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExceptionsTest {

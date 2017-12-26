@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package com.sgf.base.beanvalidator;
+package com.sgf.base.utils.beanvalidator;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

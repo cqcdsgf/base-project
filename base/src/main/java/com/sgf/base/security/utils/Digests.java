@@ -6,7 +6,7 @@
 package com.sgf.base.security.utils;
 
 import org.apache.commons.lang3.Validate;
-import com.sgf.base.utils.Exceptions;
+import com.sgf.base.exception.Exceptions;
 
 import java.io.IOException;
 import java.io.InputStream;

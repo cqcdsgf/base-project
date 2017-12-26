@@ -1,22 +1,18 @@
 package com.sgf.app.example;
 
 import com.google.common.collect.Maps;
-import com.sgf.app.example.message.Message;
-import com.sgf.base.mapper.JsonMapper;
+import com.sgf.base.utils.mapper.JsonMapper;
 import com.sgf.base.utils.plupload.Plupload;
 import com.sgf.base.utils.plupload.PluploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;

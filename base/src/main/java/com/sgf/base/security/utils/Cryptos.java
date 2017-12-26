@@ -5,7 +5,7 @@
  *******************************************************************************/
 package com.sgf.base.security.utils;
 
-import com.sgf.base.utils.Exceptions;
+import com.sgf.base.exception.Exceptions;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
