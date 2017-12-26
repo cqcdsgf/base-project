@@ -17,7 +17,7 @@ import java.util.Properties;
 /**
  * Created by Administrator on 2017\11\30 0030.
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
