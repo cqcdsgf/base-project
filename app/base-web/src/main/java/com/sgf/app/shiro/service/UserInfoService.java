@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  */
 @Service
 public class UserInfoService {
-    @Resource
+    //@Resource
     private UserInfoDao userInfoDao;
 
     public UserInfo findByUsername(String username) {
