@@ -13,7 +13,7 @@ import org.springframework.core.convert.converter.Converter;
 @ComponentScan(basePackages = "com.sgf.base,com.sgf.app")
 public class BaseWebApplication {
 
-	@Bean
+/*	@Bean
 	public MessageRepository messageRepository() {
 		return new InMemoryMessageRepository();
 	}
@@ -26,7 +26,7 @@ public class BaseWebApplication {
 				return messageRepository().findMessage(Long.valueOf(id));
 			}
 		};
-	}
+	}*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(BaseWebApplication.class, args);

@@ -30,7 +30,7 @@ import javax.validation.Valid;
  * @author Rob Winch
  * @author Doo-Hwan Kwak
  */
-@Controller
+//@Controller
 public class MessageController {
 
 	private final MessageRepository messageRepository;
