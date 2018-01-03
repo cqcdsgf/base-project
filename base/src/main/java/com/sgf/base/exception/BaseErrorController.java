@@ -88,7 +88,7 @@ public class BaseErrorController extends AbstractErrorController {
         return new ResponseEntity(body, status);
     }
 
-    protected boolean isIncludeStackTrace(HttpServletRequest request,MediaType produces) {
+    private boolean isIncludeStackTrace(HttpServletRequest request,MediaType produces) {
         ErrorProperties.IncludeStacktrace include = getErrorProperties().getIncludeStacktrace();
         if (include == ErrorProperties.IncludeStacktrace.ALWAYS) {
             return true;
@@ -99,7 +99,7 @@ public class BaseErrorController extends AbstractErrorController {
         return false;
     }
 
-    protected ErrorProperties getErrorProperties() {
+    private ErrorProperties getErrorProperties() {
         return this.errorProperties;
     }
 
