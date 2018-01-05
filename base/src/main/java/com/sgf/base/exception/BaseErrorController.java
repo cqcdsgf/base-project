@@ -31,8 +31,6 @@ import java.util.Random;
 public class BaseErrorController extends AbstractErrorController {
     private final ErrorProperties errorProperties;
     private static final Logger logger = LoggerFactory.getLogger(BaseErrorController.class);
-    @Autowired
-    private ApplicationContext applicationContext;
 
     public BaseErrorController(ErrorAttributes errorAttributes,
                                   ErrorProperties errorProperties, List<ErrorViewResolver> errorViewResolvers) {
@@ -49,20 +47,19 @@ public class BaseErrorController extends AbstractErrorController {
     @RequestMapping(produces = "text/html")
     public ModelAndView errorHtml(HttpServletRequest request,HttpServletResponse response) throws Exception {
         HttpStatus status = getStatus(request);
-        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(
-                request, isIncludeStackTrace(request, MediaType.TEXT_HTML)));
+        Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(request, isIncludeStackTrace(request, MediaType.TEXT_HTML)));
         response.setStatus(status.value());
+        String queryString = request.getQueryString();
 
-        String stackTrace = (String) model.get("trace");
-        String errorCode = errorLog(stackTrace);
+        String errorCode = errorLog(model,queryString);
 
         ModelAndView modelAndView = resolveErrorView(request, response, status, model);
         if(modelAndView == null){
             modelAndView =  new ModelAndView("/error/error", model);
         }
-        String queryString = request.getQueryString();
+
         if(StringUtils.isNotBlank(queryString)) {
-            modelAndView.addObject("path", model.get("path").toString().concat(queryString));
+            modelAndView.addObject("path", model.get("path").toString().concat("?").concat(queryString));
         }
         modelAndView.addObject("errorCode",errorCode);
         return modelAndView;
@@ -71,19 +68,15 @@ public class BaseErrorController extends AbstractErrorController {
     @RequestMapping
     @ResponseBody
     public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) throws Exception{
-        Map<String, Object> body = getErrorAttributes(request,
-                isIncludeStackTrace(request, MediaType.ALL));
+        Map<String, Object> body = getErrorAttributes(request,isIncludeStackTrace(request, MediaType.ALL));
         HttpStatus status = getStatus(request);
-
-        String stackTrace = (String) body.get("trace");
-        if(StringUtils.isBlank(stackTrace)){
-            stackTrace = body.get("status") + ("-").concat((String) body.get("error")).concat("-").concat((String) body.get("path"));
-        }
-        String errorCode = errorLog(stackTrace);
-        body.put("errorCode",errorCode);
         String queryString = request.getQueryString();
+
+        String errorCode = errorLog(body,queryString);
+        body.put("errorCode",errorCode);
+
         if(StringUtils.isNotBlank(queryString)){
-        body.put("path",body.get("path").toString().concat(queryString));
+            body.put("path",body.get("path").toString().concat("?").concat(queryString));
         }
         return new ResponseEntity(body, status);
     }
@@ -103,13 +96,31 @@ public class BaseErrorController extends AbstractErrorController {
         return this.errorProperties;
     }
 
-    private String errorLog(String stackTrace) throws IOException {
+    private String errorLog(Map<String,Object> model,String queryString) throws IOException {
         LocalDate currentDate = new LocalDate();
         String temp = currentDate.toString("yyyy/MM/dd") + "——";
         Random random = new Random();
         String errCode = temp + random.nextInt(1000000000);
 
-        logger.error(errCode + " : " + stackTrace);
+        String status = model.get("status").toString();
+        String path = (String) model.get("path");
+        String error = (String) model.get("error");
+        String message = (String) model.get("message");
+        String stackTrace = (String) model.get("stackTrace");
+
+        if(StringUtils.isNotBlank(queryString)){
+            path = path.toString().concat("?").concat(queryString);
+        }
+
+        logger.error("出现异常： "
+                + "errCode : {} " +System.getProperty("line.separator")
+                + "path : {} " +System.getProperty("line.separator")
+                + "status : {} " +System.getProperty("line.separator")
+                + "error : {} " +System.getProperty("line.separator")
+                + "message : {} " +System.getProperty("line.separator")
+                + "errCode : {} " +System.getProperty("line.separator")
+                + "stackTrace : {} " +System.getProperty("line.separator")
+                ,errCode,path,status,error,message,errCode,stackTrace);
         return errCode;
     }
 }
