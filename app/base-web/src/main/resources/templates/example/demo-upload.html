@@ -4,6 +4,10 @@
     <title>图片上传前的预览——plupload演示demo</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"  th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../../static/css/customized.css" th:href="@{/css/customized.css}"/>
     <link type="text/css" rel="stylesheet"  href="../../static/plugin/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" th:href="@{/plugin/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css}">
@@ -56,6 +60,19 @@
             </div>
         </div>
     </div>
+
+sssddd
+
+    <p id="sgf1" th:text="${_csrf.headerName}">11</p>
+
+    <p th:text="${_csrf.token}">11</p>
+
+    <br/>
+    <input name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <!--<input id="csrf" type="hidden"-->
+           <!--th:name="${_csrf.parameterName}"-->
+           <!--th:value="${_csrf.token}" />-->
+
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <div class="panel panel-default">
@@ -74,16 +91,24 @@
 </div>
 <div th:replace="example/fragments :: bottom"></div>
 <script>
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+
+
     var uploader = new plupload.Uploader( { //实例化一个plupload上传对象
         browse_button: 'uploadBtn',
         url: '/localUpload',
         multipart: true,
         runtimes: 'html5,html4,flash,silverlight',
-        flash_swf_url: '/static/plugin/plupload/Moxie.swf',
+        flash_swf_url: '/plugin/plupload/Moxie.swf',
         multipart_params: {
-            type: 'content'
+            type: 'content',
+            '_csrf':token
         },
-        silverlight_xap_url: '/static/plugin/plupload/Moxie.xap',
+        silverlight_xap_url: '/plugin/plupload/Moxie.xap',
         filters: {
             mime_types: [ {
                 title: "Image files",
@@ -165,11 +190,14 @@
                     crop: true
                     // crop to exact dimensions
                 },             // Flash settings
-                flash_swf_url : '/static/plugin/plupload/Moxie.swf',
+                flash_swf_url : '/plugin/plupload/Moxie.swf',
                 // Silverlight settings
-                silverlight_xap_url : '/static/plugin/plupload/Moxie.xap' ,
+                silverlight_xap_url : '/plugin/plupload/Moxie.xap' ,
                 // 参数
-                multipart_params: {'user': 'Rocky', 'time': '2012-06-12'}
+                multipart_params: {
+                    'user': 'Rocky',
+                    'time': '2012-06-12'
+                }
 
             });
         }
