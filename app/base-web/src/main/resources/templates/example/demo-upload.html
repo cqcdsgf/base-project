@@ -183,20 +183,21 @@ sssddd
                     ]
                 },
                 // Resize images on clientside if we can
-                resize: {
+ /*               resize: {
                     width : 200,
                     height : 200,
                     quality : 90,
                     crop: true
                     // crop to exact dimensions
-                },             // Flash settings
+                }, */            // Flash settings
                 flash_swf_url : '/plugin/plupload/Moxie.swf',
                 // Silverlight settings
                 silverlight_xap_url : '/plugin/plupload/Moxie.xap' ,
                 // 参数
                 multipart_params: {
                     'user': 'Rocky',
-                    'time': '2012-06-12'
+                    'time': '2012-06-12',
+                    '_csrf':token
                 }
 
             });
