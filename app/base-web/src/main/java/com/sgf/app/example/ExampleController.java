@@ -76,7 +76,7 @@ public class ExampleController {
         //文件存储路径
         File dir = new File(fileDir);
 
-        logger.info("当前文件路径： " + dir.getPath());
+        logger.info("上传文件路径为： " + dir.getPath());
 
         try {
 

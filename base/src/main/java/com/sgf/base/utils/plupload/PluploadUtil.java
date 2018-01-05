@@ -57,7 +57,7 @@ public class PluploadUtil {
         int chunks = plupload.getChunks();  //获取总的碎片数
         int chunk = plupload.getChunk();    //获取当前碎片(从0开始计数)
 
-        logger.info(plupload.getMultipartFile() + "----------");
+        logger.info("上传文件chunks ：{} , chunk: {} ",chunks,chunk);
 
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) plupload.getRequest();
         MultiValueMap<String, MultipartFile> map = multipartRequest.getMultiFileMap();
