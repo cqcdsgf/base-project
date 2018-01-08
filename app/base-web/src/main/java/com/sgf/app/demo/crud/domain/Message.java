@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sgf.app.example.message;
+package com.sgf.app.demo.crud.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

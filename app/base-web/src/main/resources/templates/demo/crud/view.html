@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="example/fragments :: head(title=~{::title/text()})">
+<head th:replace="demo/fragments :: head(title=~{::title/text()})">
 	<title>Messages : View</title>
 
 </head>
 
 <body>
-<div th:replace="example/fragments :: navbar"></div>
+<div th:replace="demo/fragments :: navbar('/demo/crud/list')"></div>
 <div class="container"><div style="position: absolute; top: -50px;">
 	<h2><span class="label label-default">Messages:View all</span></h2>
 </div>
@@ -14,7 +14,7 @@
 	<div class="row">
 		<h2 class="pull-left">Messages : View</h2>
 		<h3 class="pull-right">
-			<a th:href="@{/}" class="btn btn-info" href="list.html"> Messages </a>
+			<a th:href="@{/demo/crud/list}" class="btn btn-info" href="list.html"> MsgList </a>
 		</h3>
 	</div>
 	<div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message</div>
@@ -59,10 +59,10 @@
         </tbody>
     </table>-->
 	<div>
-		<a href="messages" class="btn btn-warning" th:href="@{'/delete/' + ${message.id}}">delete </a>
-		<a href="form.html" class="btn btn-info" th:href="@{'/modify/' + ${message.id}}"> modify </a>
+		<a href="messages" class="btn btn-warning" th:href="@{'/demo/crud/delete/' + ${message.id}}">delete </a>
+		<a href="form.html" class="btn btn-info" th:href="@{'/demo/crud/modify/' + ${message.id}}"> modify </a>
 	</div>
 </div>
-<div th:replace="example/fragments :: bottom"></div>
+<div th:replace="demo/fragments :: bottom"></div>
 </body>
 </html>

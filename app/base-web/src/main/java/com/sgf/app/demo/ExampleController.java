@@ -1,4 +1,4 @@
-package com.sgf.app.example;
+package com.sgf.app.demo;
 
 import com.google.common.collect.Maps;
 import com.sgf.base.utils.mapper.JsonMapper;
@@ -27,40 +27,40 @@ public class ExampleController {
     @GetMapping(value = "/demoValidate")
     public ModelAndView demoValidate(){
 
-        return new ModelAndView("example/demo-validate","message","test");
+        return new ModelAndView("demo/demo-validate","message","test");
 
     }
 
     @GetMapping(value = "/demoDate")
     public ModelAndView demoDate(){
-        return new ModelAndView("example/demo-datetime","message","test");
+        return new ModelAndView("demo/demo-datetime","message","test");
     }
 
 
     @PostMapping(value = "/demoPostDate")
     public ModelAndView demoPostDate(HttpServletRequest request, String choosedDate,String currentDate,  RedirectAttributes redirect){
 
-        return new ModelAndView("example/demo-datetime","choosedDate","2017-11-11");
+        return new ModelAndView("demo/demo-datetime","choosedDate","2017-11-11");
     }
 
     @GetMapping(value = "/demoRichText")
     public ModelAndView demoRichText(){
-        return new ModelAndView("example/demo-rich-text","message","test");
+        return new ModelAndView("demo/demo-rich-text","message","test");
     }
 
     @GetMapping(value = "/demoCity")
     public ModelAndView demoCity(){
-        return new ModelAndView("example/demo-city","message","test");
+        return new ModelAndView("demo/demo-city","message","test");
     }
 
     @GetMapping(value = "/template")
     public ModelAndView template(){
-        return new ModelAndView("example/template","message","test");
+        return new ModelAndView("demo/template","message","test");
     }
 
     @GetMapping(value = "/demoUpload")
     public ModelAndView demoUploadImg(){
-        return new ModelAndView("example/demo-upload","message","test");
+        return new ModelAndView("demo/demo-upload","message","test");
     }
 
     /**上传处理方法*/

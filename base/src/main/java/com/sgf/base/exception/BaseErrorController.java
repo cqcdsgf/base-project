@@ -106,7 +106,7 @@ public class BaseErrorController extends AbstractErrorController {
         String path = (String) model.get("path");
         String error = (String) model.get("error");
         String message = (String) model.get("message");
-        String stackTrace = (String) model.get("stackTrace");
+        String trace = (String) model.get("trace");
 
         if(StringUtils.isNotBlank(queryString)){
             path = path.toString().concat("?").concat(queryString);
@@ -119,8 +119,8 @@ public class BaseErrorController extends AbstractErrorController {
                 + "error : {} " +System.getProperty("line.separator")
                 + "message : {} " +System.getProperty("line.separator")
                 + "errCode : {} " +System.getProperty("line.separator")
-                + "stackTrace : {} " +System.getProperty("line.separator")
-                ,errCode,path,status,error,message,errCode,stackTrace);
+                + "trace : {} " +System.getProperty("line.separator")
+                ,errCode,path,status,error,message,errCode,trace);
         return errCode;
     }
 }

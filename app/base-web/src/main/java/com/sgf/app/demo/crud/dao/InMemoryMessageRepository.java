@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.sgf.app.example.message;
+package com.sgf.app.demo.crud.dao;
+
+import com.sgf.app.demo.crud.domain.Message;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

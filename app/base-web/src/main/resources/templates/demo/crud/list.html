@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="example/fragments::head('test sgf')">
+<head th:replace="demo/fragments::head('crud list')">
 
 
 </head>
 
 <body>
-<div th:replace="example/fragments :: navbar"></div>
+<div th:replace="demo/fragments :: navbar('/demo/crud/list')"></div>
 <div class="container">
     <!--title-->
     <div style="overflow: hidden">
         <h2 class="pull-left">Messages : View all</h2>
         <h3 class="pull-right">
-            <a href="form.html" class="btn btn-info" th:href="@{/(form)}">Create Message</a>
+            <a href="form.html" class="btn btn-info" th:href="@{/demo/crud/create}">Create Message</a>
         </h3>
     </div>
     <div class="table-responsive">
@@ -40,6 +40,6 @@
     </div>
 
 </div>
-<div th:replace="example/fragments :: bottom"></div>
+<div th:replace="demo/fragments :: bottom"></div>
 </body>
 </html>

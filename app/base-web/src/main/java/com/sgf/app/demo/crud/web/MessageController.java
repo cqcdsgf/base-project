@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.sgf.app.example.message.mvc;
+package com.sgf.app.demo.crud.web;
 
-import com.sgf.app.example.message.Message;
-import com.sgf.app.example.message.MessageRepository;
+import com.sgf.app.demo.crud.domain.Message;
+import com.sgf.app.demo.crud.dao.MessageRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,8 @@ import javax.validation.Valid;
  * @author Rob Winch
  * @author Doo-Hwan Kwak
  */
-//@Controller
+@Controller
+@RequestMapping("/demo/crud")
 public class MessageController {
 
 	private final MessageRepository messageRepository;
@@ -39,49 +40,43 @@ public class MessageController {
 		this.messageRepository = messageRepository;
 	}
 
-	@GetMapping("/msgList")
+	@GetMapping("/list")
 	public ModelAndView list() {
 		Iterable<Message> messages = this.messageRepository.findAll();
-		return new ModelAndView("example/message/list", "messages", messages);
-		//return new ModelAndView("example/messages/list");
+		return new ModelAndView("demo/crud/list", "messages", messages);
+		//return new ModelAndView("demo/cruds/list");
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("/view/{id}")
 	public ModelAndView view(@PathVariable("id") Message message) {
-		return new ModelAndView("example/message/view", "message", message);
+		return new ModelAndView("demo/crud/view", "message", message);
 	}
 
-	@GetMapping(params = "form")
+	@GetMapping(path = "/create")
 	public String createForm(@ModelAttribute Message message) {
-		return "example/message/form";
+		return "demo/crud/form";
 	}
 
-	@PostMapping
-	public ModelAndView create(@Valid Message message, BindingResult result,
-			RedirectAttributes redirect) {
+	@PostMapping(path = "/create", params = "form")
+	public ModelAndView create(@Valid Message message, BindingResult result,RedirectAttributes redirect) {
 		if (result.hasErrors()) {
-			return new ModelAndView("example/message/form", "formErrors", result.getAllErrors());
+			return new ModelAndView("demo/crud/form", "formErrors", result.getAllErrors());
 		}
 		message = this.messageRepository.save(message);
 		redirect.addFlashAttribute("globalMessage", "Successfully created a new message");
-		return new ModelAndView("redirect:/{message.id}", "message.id", message.getId());
+		return new ModelAndView("redirect:/demo/crud/view/{message.id}", "message.id", message.getId());
 	}
 
-	@RequestMapping("foo")
-	public String foo() {
-		throw new RuntimeException("Expected exception in controller");
-	}
-
-	@GetMapping(value = "delete/{id}")
+	@GetMapping(value = "/delete/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
 		this.messageRepository.deleteMessage(id);
 		Iterable<Message> messages = this.messageRepository.findAll();
-		return new ModelAndView("example/message/list", "messages", messages);
+		return new ModelAndView("demo/crud/list", "messages", messages);
 	}
 
-	@GetMapping(value = "modify/{id}")
+	@GetMapping(value = "/modify/{id}")
 	public ModelAndView modifyForm(@PathVariable("id") Message message) {
-		return new ModelAndView("example/message/form", "message", message);
+		return new ModelAndView("demo/crud/form", "message", message);
 	}
 
 

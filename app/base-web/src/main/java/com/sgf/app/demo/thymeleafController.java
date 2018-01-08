@@ -1,4 +1,4 @@
-package com.sgf.app.example;
+package com.sgf.app.demo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

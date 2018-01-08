@@ -1,19 +1,14 @@
 package com.sgf.app;
 
-import com.sgf.app.example.message.InMemoryMessageRepository;
-import com.sgf.app.example.message.Message;
-import com.sgf.app.example.message.MessageRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.convert.converter.Converter;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.sgf.base,com.sgf.app")
 public class BaseWebApplication {
 
-/*	@Bean
+	/*@Bean
 	public MessageRepository messageRepository() {
 		return new InMemoryMessageRepository();
 	}

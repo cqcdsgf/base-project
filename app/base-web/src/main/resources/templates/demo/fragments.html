@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<div th:fragment="navbar" id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="5000">
+<div th:fragment="navbar (path)" id="carousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="5000">
 	<!--导航条-->
 	<nav class="navbar navbar-default x-navbar bg-primary">
 		<div class="container-fluid">
@@ -29,7 +29,7 @@
 
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="http://localhost:8080/template">Template</a></li>
-					<li><a href="/">List</a></li>
+					<li><a href="/demo/crud/list">msgList</a></li>
 					<li><a href="http://localhost:8080/demoValidate">DemoValidate</a></li>
 					<li><a href="http://localhost:8080/demoDate">DemoDate</a></li>
 					<!--<li><a href="http://localhost:8080/demoPostDate">DemoPostDate</a></li>-->
@@ -73,6 +73,7 @@
 	<a href="#carousel" data-slide="next" class="carousel-control right hidden-xs">
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</a>
+	选中模块的路径 ： <p th:text="${path}"></p>
 </div>
 <div th:fragment="bottom" class="container-fluid">
 	<hr>
