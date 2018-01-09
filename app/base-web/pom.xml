@@ -5,7 +5,7 @@
 
     <groupId>com.sgf.app</groupId>
     <artifactId>base-web</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${project.release.version}</version>
     <packaging>jar</packaging>
 
     <name>base-web</name>
@@ -64,5 +64,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+
 
 </project>
