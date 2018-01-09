@@ -21,6 +21,7 @@ import java.util.Map;
  * Created by sgf on 2017/11/2.
  */
 @Controller
+@RequestMapping("/demo")
 public class ExampleController {
     private static final Logger logger = LoggerFactory.getLogger(ExampleController.class);
 

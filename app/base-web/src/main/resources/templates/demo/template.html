@@ -27,7 +27,7 @@
 </head>
 
 <body>
-<div th:replace="example/fragments :: navbar"></div>
+<div th:replace="demo/fragments :: navbar('/demo/template')"></div>
 <div class="container">
     <div class="panel-body"></div>
     <div class="panel panel-default">
@@ -305,7 +305,7 @@
 
 
 </div>
-<div th:replace="example/fragments :: bottom"></div>
+<div th:replace="demo/fragments :: bottom"></div>
 <script type="text/javascript">
     $.validator.setDefaults({
         submitHandler:function () {

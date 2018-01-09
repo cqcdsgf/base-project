@@ -28,14 +28,14 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="http://localhost:8080/template">Template</a></li>
+					<li class="active"><a href="http://localhost:8080/demo/template">Template</a></li>
 					<li><a href="/demo/crud/list">msgList</a></li>
-					<li><a href="http://localhost:8080/demoValidate">DemoValidate</a></li>
-					<li><a href="http://localhost:8080/demoDate">DemoDate</a></li>
+					<li><a href="http://localhost:8080/demo/demoValidate">DemoValidate</a></li>
+					<li><a href="http://localhost:8080/demo/demoDate">DemoDate</a></li>
 					<!--<li><a href="http://localhost:8080/demoPostDate">DemoPostDate</a></li>-->
-					<li><a href="http://localhost:8080/demoRichText">DemoRichText</a></li>
-					<li><a href="http://localhost:8080/demoCity">DemoCity</a></li>
-					<li><a href="http://localhost:8080/demoUpload">DemoUpload</a></li>
+					<li><a href="http://localhost:8080/demo/demoRichText">DemoRichText</a></li>
+					<li><a href="http://localhost:8080/demo/demoCity">DemoCity</a></li>
+					<li><a href="http://localhost:8080/demo/demoUpload">DemoUpload</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Link</a></li>
@@ -73,7 +73,17 @@
 	<a href="#carousel" data-slide="next" class="carousel-control right hidden-xs">
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</a>
-	选中模块的路径 ： <p th:text="${path}"></p>
+	选中模块的路径 ： <p id="path" th:text="${path}"></p>
+	<script type="text/javascript">
+
+		var path = $('#path').text();
+
+		alert(path);
+
+
+	</script>
+
+
 </div>
 <div th:fragment="bottom" class="container-fluid">
 	<hr>
@@ -84,5 +94,10 @@
 	<br>
 
 </div>
+
+
+
+
+
 </body>
 </html>
