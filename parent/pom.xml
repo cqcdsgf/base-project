@@ -7,7 +7,7 @@
 
     <groupId>com.sgf</groupId>
     <artifactId>parent</artifactId>
-    <version>${project.release.version}</version>
+    <version>${project.version}</version>
     <packaging>pom</packaging>
     <name>parent</name>
 
@@ -22,7 +22,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <encoding>UTF-8</encoding>
-        <project.release.version>0.0.1-SNAPSHOT</project.release.version>
+        <project.version>0.0.1-SNAPSHOT</project.version>
     </properties>
 
 
@@ -43,7 +43,7 @@
         <profile>
             <id>release</id>
             <properties>
-                <project.release.version>0.0.1</project.release.version>
+                <project.version>0.0.1</project.version>
             </properties>
         </profile>
     </profiles>

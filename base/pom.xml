@@ -7,7 +7,7 @@
     <groupId>com.sgf</groupId>
     <artifactId>base</artifactId>
     <packaging>jar</packaging>
-    <version>${project.release.version}</version>
+    <version>${project.version}</version>
 
     <parent>
         <groupId>com.sgf</groupId>
