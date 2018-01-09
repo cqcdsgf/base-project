@@ -38,7 +38,11 @@
 					<li><a href="http://localhost:8080/demo/demoUpload">DemoUpload</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Link</a></li>
+					<li>
+						<form th:action="@{/logout}" method="post">
+							<input type="submit" class="btn btn-primary" value="注销"/><!-- 5 -->
+						</form>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -73,12 +77,13 @@
 	<a href="#carousel" data-slide="next" class="carousel-control right hidden-xs">
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</a>
+
+
 	选中模块的路径 ： <p id="path" th:text="${path}"></p>
 	<script type="text/javascript">
 
 		var path = $('#path').text();
 
-		alert(path);
 
 
 	</script>

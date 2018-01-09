@@ -21,7 +21,7 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String index(Model model){
+    public String index(){
         return "demo/template";
     }
 
