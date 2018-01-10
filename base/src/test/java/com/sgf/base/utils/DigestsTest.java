@@ -5,7 +5,7 @@
  *******************************************************************************/
 package com.sgf.base.utils;
 
-import com.sgf.base.security.utils.Digests;
+import com.sgf.base.security.Digests;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

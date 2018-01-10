@@ -5,10 +5,9 @@
  *******************************************************************************/
 package com.sgf.base.utils;
 
-import com.sgf.base.security.utils.Cryptos;
+import com.sgf.base.security.Cryptos;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CryptosTest {
