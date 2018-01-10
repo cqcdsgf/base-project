@@ -20,7 +20,6 @@
         <!-- 主要依赖库的版本定义 -->
         <hibernate.version>4.3.5.Final</hibernate.version>
         <spring-data-jpa.version>1.6.0.RELEASE</spring-data-jpa.version>
-        <shiro.version>1.2.3</shiro.version>
         <hibernate-validator.version>5.0.3.Final</hibernate-validator.version>
    <!--     <jackson.version>2.4.0</jackson.version>-->
         <slf4j.version>1.7.7</slf4j.version>
@@ -56,16 +55,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-
-
-        <!-- Security begin -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-web</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <!-- Security end -->
 
         <!-- Web begin -->
         <dependency>
