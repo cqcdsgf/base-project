@@ -3,7 +3,6 @@ package com.sgf.app.config;
 import com.sgf.app.secure.IpAuthenticationProcessingFilter;
 import com.sgf.app.secure.IpAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Created by sgf on 2018\1\12 0012.
  */
-@Configuration
+//@Configuration
 public class SecureConfig extends WebSecurityConfigurerAdapter {
 
     //ip认证者配置

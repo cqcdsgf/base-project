@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 /**
  * Created by sgf on 2017\12\26 0026.
  */
-public class CustomUserService implements UserDetailsService{
+public class CustomUserDetailsService implements UserDetailsService{
 
     @Autowired
     SysUserRepository userRepository;
