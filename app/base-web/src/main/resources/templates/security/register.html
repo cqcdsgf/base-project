@@ -17,12 +17,22 @@
 </head>
 <body>
 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/security/login}"> 登录</a></li>
+
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
 
 <div class="container">
 
     <div class="starter-template">
-        <p th:if="${error}" class="bg-warning" th:text="${error}"></p><!-- 1 -->
-        <input width="100%" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />`
+        <p th:if="${errorMessage}" class="bg-warning" th:text="${errorMessage}"></p><!-- 1 -->
 
         <h2>注册</h2>
         <form name="form" th:action="@{/security/register}" action="/security/register" method="POST"> <!-- 3 -->

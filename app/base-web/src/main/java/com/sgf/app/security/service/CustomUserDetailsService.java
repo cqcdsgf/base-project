@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username)  {
         SysUser user = userRepository.findByUsername(username);
         if(user == null){
-            throw new UsernameNotFoundException("用户名不存在");
+            throw new UsernameNotFoundException(username + " 用户名不存在");
         }
         return user;
     }

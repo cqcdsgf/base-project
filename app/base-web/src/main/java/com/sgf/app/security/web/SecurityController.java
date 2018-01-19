@@ -4,6 +4,8 @@ import com.google.common.collect.Maps;
 import com.sgf.app.security.domain.SysUser;
 import com.sgf.app.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
 
@@ -26,7 +27,12 @@ public class SecurityController {
     UserService userService;
 
     @RequestMapping(value = "/login")
-    public ModelAndView login(){
+    public ModelAndView login(String username,String password){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+
         return new ModelAndView("/security/login");
     }
 
@@ -42,7 +48,17 @@ public class SecurityController {
 
     @PostMapping("/register")
     public String register(String username,String password,RedirectAttributes redirectAttributes){
-        RedirectView view = new RedirectView();
+        if(username.length()==0){
+            redirectAttributes.addFlashAttribute( "username", username);
+            redirectAttributes.addFlashAttribute( "errorMessage", "用户名不能为空!");
+            return "redirect:/security/register";
+        }
+
+        if(password.length()==0){
+            redirectAttributes.addFlashAttribute( "username", username);
+            redirectAttributes.addFlashAttribute( "errorMessage", "密码不能为空!");
+            return "redirect:/security/register";
+        }
 
         SysUser sysUser = userService.findByUsername(username);
 
@@ -57,23 +73,14 @@ public class SecurityController {
 
             userService.registerUser(sysUser);
 
-/*            view.setUrl("/security/login");
-            resultMap.put("tip","注册成功！");
-            return new ModelAndView(view,resultMap);*/
-
-            redirectAttributes.addFlashAttribute( "tip", "注册成功！");
+            redirectAttributes.addFlashAttribute( "message", "注册成功！");
 
             return "redirect:/security/login";
 
         }else{
-            resultMap.put("error","用户名重复！");
-            resultMap.put("username",username);
-
-/*            view.setUrl("/security/register");
-            return new ModelAndView("/security/register",resultMap);*/
 
             redirectAttributes.addFlashAttribute( "error", "用户名重复！");
-            redirectAttributes.addFlashAttribute( "username", username);
+
             return "redirect:/security/register";
 
 
