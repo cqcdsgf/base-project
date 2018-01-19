@@ -1,5 +1,7 @@
-package com.sgf.app.security.custome;
+package com.sgf.base.security.custome;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +19,7 @@ import org.springframework.util.Assert;
  * Created by sgf on 2018\1\18 0018.
  */
 public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+    private static final Logger logger = LoggerFactory.getLogger(CustomeAuthenticationProvider.class);
     // ~ Static fields/initializers
     // =====================================================================================
 

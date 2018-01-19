@@ -1,8 +1,8 @@
 package com.sgf.app.config;
 
-import com.sgf.app.security.custome.CustomSimpleUrlAuthenticationFailureHandler;
-import com.sgf.app.security.custome.CustomeAuthenticationProvider;
-import com.sgf.app.security.custome.CustomePreAuthenticationChecks;
+import com.sgf.base.security.custome.CustomSimpleUrlAuthenticationFailureHandler;
+import com.sgf.base.security.custome.CustomeAuthenticationProvider;
+import com.sgf.base.security.custome.CustomePreAuthenticationChecks;
 import com.sgf.app.security.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
