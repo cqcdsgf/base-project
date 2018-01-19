@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录页面</title>
     <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}" />
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
     <style type="text/css">
         body {
             padding-top: 50px;
@@ -14,6 +17,8 @@
             text-align: center;
         }
     </style>
+
+
 </head>
 <body>
 
@@ -44,11 +49,29 @@
                 <label for="password">密码</label>
                 <input type="password" id="password" class="form-control" name="password" placeholder="密码" />
             </div>
+
+            <div class="inTxt">
+                <input type="text" maxlength="4" id="imageCode" name="imageCode"data-prompt-position="inline" data-prompt-target="authCodeErrorMsg"  data-validation-engine="validate[required]" placeholder="请输入随机验证码" />
+                <img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode" />
+            </div>
+
             <input type="submit" id="login" value="Login" class="btn btn-primary" />
         </form>
     </div>
 
 </div>
+
+
+<script type="text/javascript">
+    $( document ).ready( function () {
+        $("#changeCodeBtn").click(function () {
+            $(this).attr("src", "/imageCode/getCode?"+new Date().getTime());
+        });
+    } );
+
+
+</script>
+
 
 </body>
 </html>

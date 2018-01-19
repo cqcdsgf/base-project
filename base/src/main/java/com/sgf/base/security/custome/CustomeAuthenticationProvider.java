@@ -55,9 +55,32 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
     // ~ Methods
     // ========================================================================================================
 
-    protected void additionalAuthenticationChecks(UserDetails userDetails,
-                                                  UsernamePasswordAuthenticationToken authentication)
+    protected void additionalAuthenticationChecks(UserDetails userDetails,UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
+
+        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
+        String imageCode = details.getImageCode();
+        String session_imageCode = details.getSession_imageCode();
+        long session_imageTime = details.getSession_imageTime();
+
+        if(imageCode == null || session_imageCode == null) {
+            String tip = userDetails.getUsername() +  " 验证码错误！";
+            logger.debug(tip);
+            throw new BadCredentialsException(tip);
+        }
+        if(!imageCode.equalsIgnoreCase(session_imageCode)) {
+            String tip = userDetails.getUsername() +  " 验证码错误！";
+            logger.debug(tip);
+            throw new BadCredentialsException(tip);
+        }else{
+            long nowTime = System.currentTimeMillis();
+            if((nowTime - session_imageTime)/1000 > 120) { //大于120s,超时
+                String tip = userDetails.getUsername() +  " 验证码已超时！";
+                logger.debug(tip);
+                throw new BadCredentialsException(tip);
+            }
+        }
+
         Object salt = null;
 
         if (this.saltSource != null) {

@@ -46,6 +46,10 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
                                         HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
 
+        //移除验证码
+/*        request.getSession().removeAttribute("session_imgeCode");
+        request.getSession().removeAttribute("session_imageTime");*/
+
         if (defaultFailureUrl == null) {
             logger.debug("No failure URL set, sending 401 Unauthorized error");
 
