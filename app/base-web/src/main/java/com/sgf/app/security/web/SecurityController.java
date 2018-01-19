@@ -1,6 +1,5 @@
 package com.sgf.app.security.web;
 
-import com.google.common.collect.Maps;
 import com.sgf.app.security.domain.SysUser;
 import com.sgf.app.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Map;
 
 /**
  * Created by sgf on 2018/1/16.
@@ -48,21 +45,19 @@ public class SecurityController {
 
     @PostMapping("/register")
     public String register(String username,String password,RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute( "username", username);
+
         if(username.length()==0){
-            redirectAttributes.addFlashAttribute( "username", username);
             redirectAttributes.addFlashAttribute( "errorMessage", "用户名不能为空!");
             return "redirect:/security/register";
         }
 
         if(password.length()==0){
-            redirectAttributes.addFlashAttribute( "username", username);
             redirectAttributes.addFlashAttribute( "errorMessage", "密码不能为空!");
             return "redirect:/security/register";
         }
 
         SysUser sysUser = userService.findByUsername(username);
-
-        Map<String, Object> resultMap = Maps.newHashMap();
 
         if (null == sysUser) {
             sysUser = new SysUser();
@@ -82,15 +77,6 @@ public class SecurityController {
             redirectAttributes.addFlashAttribute( "error", "用户名重复！");
 
             return "redirect:/security/register";
-
-
-
         }
-
-
     }
-
-
-
-
 }
