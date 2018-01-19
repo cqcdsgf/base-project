@@ -32,10 +32,10 @@
 <div class="container">
 
     <div class="starter-template">
-        <p th:if="${errorMessage}" class="bg-warning" th:text="${errorMessage}"></p><!-- 1 -->
+        <p th:if="${errorMessage}" class="bg-warning" th:text="${errorMessage}"></p>
 
         <h2>注册</h2>
-        <form name="form" th:action="@{/security/register}" action="/security/register" method="POST"> <!-- 3 -->
+        <form name="form" th:action="@{/security/register}" action="/security/register" method="POST">
             <div class="form-group">
                 <label for="username">账号</label>
                 <input type="text" id="username" class="form-control" name="username" value="" th:value="${username}" placeholder="账号" />

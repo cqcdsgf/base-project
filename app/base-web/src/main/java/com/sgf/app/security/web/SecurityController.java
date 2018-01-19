@@ -74,7 +74,7 @@ public class SecurityController {
 
         }else{
 
-            redirectAttributes.addFlashAttribute( "error", "用户名重复！");
+            redirectAttributes.addFlashAttribute( "errorMessage", "用户名重复！");
 
             return "redirect:/security/register";
         }
