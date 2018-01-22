@@ -1,6 +1,8 @@
 package com.sgf.base.security;
 
 import com.google.common.base.Optional;
+import com.sgf.base.constant.ImageCodeConstant;
+import com.sgf.base.constant.SessionConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.WebUtils;
@@ -39,6 +41,7 @@ public class ImageCodeController {
 
     @RequestMapping( value = "/getCode" )
     public void getCode(HttpServletRequest req, HttpServletResponse resp ) {
+        String imageCodeType = req.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
         // 长
         String w = WebUtils.findParameterValue( req, "w" );
         // 宽
@@ -100,8 +103,11 @@ public class ImageCodeController {
         }
         // 将四位数字的验证码保存到Session中。
         HttpSession session = req.getSession();
-        session.setAttribute("session_imageCode", randomCode.toString() );
-        session.setAttribute("session_imageTime",new Long(System.currentTimeMillis()).toString());
+
+        String sessionId = session.getId();
+
+        session.setAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE, randomCode.toString() );
+        session.setAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME,new Long(System.currentTimeMillis()).toString());
 
 
         // 禁止图像缓存。

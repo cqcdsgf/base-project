@@ -56,7 +56,8 @@
 
             <div class="inTxt">
                 <input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-prompt-position="inline" data-prompt-target="authCodeErrorMsg"  data-validation-engine="validate[required]" placeholder="请输入随机验证码" />
-                <img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode" />
+                <input type="hidden" name="imageCodeType" value="personLogin"/>
+                <img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime() />
             </div>
 
             <input type="submit" id="login" value="Login" class="btn btn-primary" />
@@ -69,11 +70,10 @@
 
 <script type="text/javascript"  th:inline="javascript">
     $( document ).ready( function () {
-        var errorCode = [[${errorCode}]];
-        alert(errorCode);
+        /*var errorCode = [[${errorCode}]];*/
 
         $("#changeCodeBtn").click(function () {
-            $(this).attr("src", "/imageCode/getCode?"+new Date().getTime());
+            $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
         });
 
     } );
