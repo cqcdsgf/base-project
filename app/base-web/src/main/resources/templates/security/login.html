@@ -72,6 +72,9 @@
     $( document ).ready( function () {
         /*var errorCode = [[${errorCode}]];*/
 
+        var loginFailFlag = [[${loginFailFlag}]];
+        alert(loginFailFlag);
+
         $("#changeCodeBtn").click(function () {
             $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
         });

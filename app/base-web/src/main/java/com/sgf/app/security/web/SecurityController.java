@@ -5,8 +5,6 @@ import com.sgf.app.security.domain.SysUser;
 import com.sgf.app.security.service.UserService;
 import com.sgf.base.constant.LoginConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -28,20 +27,20 @@ public class SecurityController {
     UserService userService;
 
     @RequestMapping(value = "/backLogin")
-    public ModelAndView backLogin(String username, String password,String imageCode){
+    public ModelAndView backLogin(HttpServletRequest request,String username, String password, String imageCode){
+        boolean loginFailFlag = (boolean) request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
-        Map<String, String> model = Maps.newHashMap();
+        Map<String, Object> model = Maps.newHashMap();
         model.put(LoginConstant.LOGIN_USERNAME,username);
         model.put(LoginConstant.LOGIN_PASSWORD,password);
         model.put(LoginConstant.LOGIN_IMAGECODE,imageCode);
+        model.put(LoginConstant.LOGIN_FAIL_FLAG,loginFailFlag);
 
         return new ModelAndView("/security/login",model);
     }
 
     @RequestMapping(value = "/login")
     public ModelAndView toLogin(String username,String password){
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return new ModelAndView("/security/login");
     }
@@ -53,6 +52,7 @@ public class SecurityController {
 
     @GetMapping("/register")
     public String toRegister(){
+
         return "/security/register";
     }
 

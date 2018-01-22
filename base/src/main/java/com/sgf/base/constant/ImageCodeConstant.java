@@ -8,7 +8,6 @@ public class ImageCodeConstant {
     public static final String IMAGE_CODE ="imageCode";
 
     public static final String IMAGE_CODE_TYPE ="imageCodeType";
-
     public static final String IMAGE_CODE_TYPE_PERSONLOGIN ="personLogin";
 
 

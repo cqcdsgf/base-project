@@ -24,4 +24,9 @@ public class LoginConstant {
     //图形校验码
     public static final String LOGIN_IMAGECODE ="imageCode";
 
+
+    public static final String LOGIN_FAIL_NUM ="loginFailNum";
+
+    public static final String LOGIN_FAIL_FLAG ="loginFailFlag";
+
 }

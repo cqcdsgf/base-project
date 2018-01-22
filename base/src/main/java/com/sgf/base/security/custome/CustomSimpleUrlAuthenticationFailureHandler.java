@@ -5,6 +5,7 @@ import com.sgf.base.constant.LoginConstant;
 import com.sgf.base.exception.ImageCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,12 +15,14 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by sgf on 2018\1\19 0019.
@@ -27,6 +30,9 @@ import java.io.IOException;
 public class CustomSimpleUrlAuthenticationFailureHandler implements
         AuthenticationFailureHandler {
     private static final Logger logger = LoggerFactory.getLogger(CustomSimpleUrlAuthenticationFailureHandler.class);
+
+    @Value("base.security.login.failnum")
+    private String failNum;
 
     private String defaultFailureUrl;
     private boolean forwardToDestination = false;
@@ -87,6 +93,9 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
                                        AuthenticationException exception) {
         String errorCode = getErrorCode(exception);
 
+        String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
+        checkFailNum(username,request);
+
         if (forwardToDestination) {
             request.setAttribute(BaseMessageConstant.ERROR_CODE,errorCode);
             request.setAttribute(BaseMessageConstant.ERROR_MESSAGE,exception.getMessage());
@@ -98,6 +107,27 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
                 request.getSession().setAttribute(BaseMessageConstant.ERROR_MESSAGE,exception.getMessage());
             }
         }
+    }
+
+    private void checkFailNum(String username, HttpServletRequest request) {
+        if(StringUtils.isEmpty(username)){
+            return;
+        }
+
+        AtomicInteger num = new AtomicInteger(0);
+        AtomicInteger oldNum = (AtomicInteger)request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
+        if(oldNum != null){
+            num = oldNum;
+        }
+
+        num.addAndGet(1);
+        request.getSession().setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
+
+        int checkNum = new Integer(failNum).intValue();
+        if(checkNum >5){
+            request.getSession().setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
+        }
+
     }
 
     private String getErrorCode(AuthenticationException exception) {
