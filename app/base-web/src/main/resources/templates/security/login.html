@@ -35,23 +35,27 @@
 <div class="container">
 
     <div class="starter-template">
-        <p th:if="${param.logout}" class="bg-warning">已成功注销</p><!-- 1 -->
-        <p th:if="${param.error}" class="bg-danger" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">有错误，请重试</p> <!-- 2 -->
+        <p th:if="${param.logout}" class="bg-warning">已成功注销</p>
+
         <p th:if="${message}" class="bg-warning" th:text="${message}"></p>
 
+        <p th:if="${param.error}" class="bg-danger" th:text="${errorCode}">有错误，请重试</p>
+
+        <p th:if="${param.error}" class="bg-danger" th:text="${errorMessage}">有错误，请重试</p>
+
         <h2>使用账号密码登录</h2>
-        <form name="form" th:action="@{/security/login}" action="/security/login" method="POST"> <!-- 3 -->
+        <form name="form" th:action="@{/security/login}" action="/security/login" method="POST">
             <div class="form-group">
                 <label for="username">账号</label>
-                <input type="text" id="username"  class="form-control" name="username" value="" th:value="${session.username}" placeholder="账号" />
+                <input type="text" id="username"  class="form-control" name="username" value="" th:value="${username}" placeholder="账号" />
             </div>
             <div class="form-group">
                 <label for="password">密码</label>
-                <input type="password" id="password" class="form-control" name="password" placeholder="密码" />
+                <input type="password" id="password" class="form-control" name="password" th:value="${password}" placeholder="密码" />
             </div>
 
             <div class="inTxt">
-                <input type="text" maxlength="4" id="imageCode" name="imageCode"data-prompt-position="inline" data-prompt-target="authCodeErrorMsg"  data-validation-engine="validate[required]" placeholder="请输入随机验证码" />
+                <input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-prompt-position="inline" data-prompt-target="authCodeErrorMsg"  data-validation-engine="validate[required]" placeholder="请输入随机验证码" />
                 <img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode" />
             </div>
 
@@ -62,14 +66,17 @@
 </div>
 
 
-<script type="text/javascript">
+
+<script type="text/javascript"  th:inline="javascript">
     $( document ).ready( function () {
+        var errorCode = [[${errorCode}]];
+        alert(errorCode);
+
         $("#changeCodeBtn").click(function () {
             $(this).attr("src", "/imageCode/getCode?"+new Date().getTime());
         });
+
     } );
-
-
 </script>
 
 

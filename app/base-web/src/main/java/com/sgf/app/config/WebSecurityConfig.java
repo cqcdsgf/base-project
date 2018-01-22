@@ -49,19 +49,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
+    @Bean
+    protected CustomSimpleUrlAuthenticationFailureHandler customSimpleUrlAuthenticationFailureHandler(){
+        CustomSimpleUrlAuthenticationFailureHandler failureHandler = new CustomSimpleUrlAuthenticationFailureHandler("/security/backLogin?error=true");
+        failureHandler.setUseForward(true);
+        return  failureHandler;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // auth.userDetailsService(customUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
         auth.authenticationProvider(customeAuthenticationProvider());
-
-
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/security/backLogin").permitAll()
                 .antMatchers("/security/login").permitAll()
                 .antMatchers("/imageCode/getCode").permitAll()
                 .antMatchers("/security/register").permitAll()
@@ -69,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/security/login")
-                .failureHandler(new CustomSimpleUrlAuthenticationFailureHandler("/security/login?error=true"))
+                .failureHandler(customSimpleUrlAuthenticationFailureHandler())
                 .authenticationDetailsSource(authenticationDetailsSource())
                 .permitAll()
                 .and()

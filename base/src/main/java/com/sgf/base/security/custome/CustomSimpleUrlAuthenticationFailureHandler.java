@@ -1,8 +1,13 @@
 package com.sgf.base.security.custome;
 
+import com.sgf.base.constant.BaseMessageConstant;
+import com.sgf.base.constant.LoginConstant;
+import com.sgf.base.exception.ImageCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -54,7 +59,7 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
             logger.debug("No failure URL set, sending 401 Unauthorized error");
 
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                    "Authentication Failed: " + exception.getMessage());
+                    "Authentication Failed: " + exception);
         } else {
             saveException(request, exception);
 
@@ -80,16 +85,33 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
      */
     protected final void saveException(HttpServletRequest request,
                                        AuthenticationException exception) {
+        String errorCode = getErrorCode(exception);
+
         if (forwardToDestination) {
-            request.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
+            request.setAttribute(BaseMessageConstant.ERROR_CODE,errorCode);
+            request.setAttribute(BaseMessageConstant.ERROR_MESSAGE,exception.getMessage());
         } else {
             HttpSession session = request.getSession(false);
-
             if (session != null || allowSessionCreation) {
                 request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
-                request.getSession().setAttribute("username", request.getParameter("username"));
+                request.getSession().setAttribute(BaseMessageConstant.ERROR_CODE,errorCode);
+                request.getSession().setAttribute(BaseMessageConstant.ERROR_MESSAGE,exception.getMessage());
             }
         }
+    }
+
+    private String getErrorCode(AuthenticationException exception) {
+        String result;
+        if(exception instanceof BadCredentialsException){
+            result = LoginConstant.ERROR_CODE_LOGIN_EXCEPTION_BadCredentialsException;
+        }else if(exception instanceof UsernameNotFoundException){
+            result = LoginConstant.ERROR_CODE_LOGIN_EXCEPTION_UsernameNotFoundException;
+        }else if(exception instanceof ImageCodeException){
+            result = LoginConstant.ERROR_CODE_LOGIN_EXCEPTION_ImageCodeException;
+        }else{
+            result = LoginConstant.ERROR_CODE_LOGIN_EXCEPTION_OtherException;
+        }
+        return result;
     }
 
     /**

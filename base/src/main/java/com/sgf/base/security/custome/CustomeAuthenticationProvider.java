@@ -1,5 +1,6 @@
 package com.sgf.base.security.custome;
 
+import com.sgf.base.exception.ImageCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -63,24 +64,6 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         String session_imageCode = details.getSession_imageCode();
         long session_imageTime = details.getSession_imageTime();
 
-        if(imageCode == null || session_imageCode == null) {
-            String tip = userDetails.getUsername() +  " 验证码错误！";
-            logger.debug(tip);
-            throw new BadCredentialsException(tip);
-        }
-        if(!imageCode.equalsIgnoreCase(session_imageCode)) {
-            String tip = userDetails.getUsername() +  " 验证码错误！";
-            logger.debug(tip);
-            throw new BadCredentialsException(tip);
-        }else{
-            long nowTime = System.currentTimeMillis();
-            if((nowTime - session_imageTime)/1000 > 120) { //大于120s,超时
-                String tip = userDetails.getUsername() +  " 验证码已超时！";
-                logger.debug(tip);
-                throw new BadCredentialsException(tip);
-            }
-        }
-
         Object salt = null;
 
         if (this.saltSource != null) {
@@ -104,6 +87,25 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
 
             throw new BadCredentialsException(messages.getMessage(
                     "AbstractUserDetailsAuthenticationProvider.badCredentials",tip));
+        }
+
+        if(imageCode == null || session_imageCode == null) {
+            String tip = userDetails.getUsername() +  " 验证码错误！";
+            logger.debug(tip);
+
+            throw new ImageCodeException(tip);
+        }
+        if(!imageCode.equalsIgnoreCase(session_imageCode)) {
+            String tip = userDetails.getUsername() +  " 验证码错误！";
+            logger.debug(tip);
+            throw new ImageCodeException(tip);
+        }else{
+            long nowTime = System.currentTimeMillis();
+            if((nowTime - session_imageTime)/1000 > 120) { //大于120s,超时
+                String tip = userDetails.getUsername() +  " 验证码已超时！";
+                logger.debug(tip);
+                throw new ImageCodeException(tip);
+            }
         }
     }
 
