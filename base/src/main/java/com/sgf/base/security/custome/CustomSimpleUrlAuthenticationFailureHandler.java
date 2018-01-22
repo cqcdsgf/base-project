@@ -31,8 +31,11 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         AuthenticationFailureHandler {
     private static final Logger logger = LoggerFactory.getLogger(CustomSimpleUrlAuthenticationFailureHandler.class);
 
-    @Value("base.security.login.failnum")
-    private String failNum;
+    @Value("${base.security.login.checkImageCode}")
+    private boolean checkImageCode;
+
+    @Value("${base.security.login.failnum}")
+    private int failNum;
 
     private String defaultFailureUrl;
     private boolean forwardToDestination = false;
@@ -93,8 +96,10 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
                                        AuthenticationException exception) {
         String errorCode = getErrorCode(exception);
 
-        String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
-        checkFailNum(username,request);
+        if(checkImageCode) {
+            String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
+            checkFailNum(username, request);
+        }
 
         if (forwardToDestination) {
             request.setAttribute(BaseMessageConstant.ERROR_CODE,errorCode);
@@ -123,8 +128,7 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         num.addAndGet(1);
         request.getSession().setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
 
-        int checkNum = new Integer(failNum).intValue();
-        if(checkNum >5){
+        if(num.intValue() > failNum){
             request.getSession().setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
         }
 

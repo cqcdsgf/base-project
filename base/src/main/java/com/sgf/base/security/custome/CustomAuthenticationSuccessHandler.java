@@ -1,11 +1,14 @@
 package com.sgf.base.security.custome;
 
+import com.sgf.base.constant.LoginConstant;
+import com.sgf.base.constant.SessionConstant;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -18,10 +21,20 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                                         Authentication authentication)
             throws IOException, ServletException {
 
-        //移除验证码
-        request.getSession().removeAttribute("session_verifyObj");
-        request.getSession().removeAttribute("session_verifyObjTime");
+        String imageCodeType=request.getParameter(SessionConstant.SESSION_IMAGECODE);
+        String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
+
+        HttpSession session = request.getSession(false);
+        String sessionId = session.getId();
+
         response.setStatus(HttpServletResponse.SC_OK);
+
+        //移除验证码
+        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
+        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME );
+
+        request.getSession().removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
+        request.getSession().removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);

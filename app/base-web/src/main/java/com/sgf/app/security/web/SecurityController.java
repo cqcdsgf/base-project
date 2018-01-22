@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,7 +29,7 @@ public class SecurityController {
 
     @RequestMapping(value = "/backLogin")
     public ModelAndView backLogin(HttpServletRequest request,String username, String password, String imageCode){
-        boolean loginFailFlag = (boolean) request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
         Map<String, Object> model = Maps.newHashMap();
         model.put(LoginConstant.LOGIN_USERNAME,username);
@@ -39,10 +40,25 @@ public class SecurityController {
         return new ModelAndView("/security/login",model);
     }
 
-    @RequestMapping(value = "/login")
-    public ModelAndView toLogin(String username,String password){
+    @ResponseBody
+    @GetMapping("/checkUsername")
+    public  Map<String, Object> checkUsername(HttpServletRequest request,String username){
+        Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
-        return new ModelAndView("/security/login");
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("result", loginFailFlag);
+
+        return result;
+
+    }
+
+    @RequestMapping(value = "/login")
+    public ModelAndView toLogin(HttpServletRequest request,String username,String password){
+        Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+
+        Map<String, Object> model = Maps.newHashMap();
+        model.put(LoginConstant.LOGIN_FAIL_FLAG,loginFailFlag);
+        return new ModelAndView("/security/login",model);
     }
 
     @RequestMapping("/")

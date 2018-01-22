@@ -54,7 +54,7 @@
                 <input type="password" id="password" class="form-control" name="password" th:value="${password}" placeholder="密码" />
             </div>
 
-            <div class="inTxt">
+            <div id="imageCodeArea">
                 <input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-prompt-position="inline" data-prompt-target="authCodeErrorMsg"  data-validation-engine="validate[required]" placeholder="请输入随机验证码" />
                 <input type="hidden" name="imageCodeType" value="personLogin"/>
                 <img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime() />
@@ -70,16 +70,56 @@
 
 <script type="text/javascript"  th:inline="javascript">
     $( document ).ready( function () {
-        /*var errorCode = [[${errorCode}]];*/
+        initFoucus();
 
         var loginFailFlag = [[${loginFailFlag}]];
-        alert(loginFailFlag);
-
-        $("#changeCodeBtn").click(function () {
-            $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
-        });
-
+        displayImageCode(loginFailFlag);
     } );
+
+    $("#username").blur(function(){
+        var username =$("#username").val();
+        if(null == username || username=="" || username=='账号'){
+            return
+        };
+
+        var loginFailFlag = true;
+        $.ajaxSettings.async = false;
+        $.get( "/security/checkUsername", {
+            username: username
+        }, function( data ) {
+            loginFailFlag = data.result;
+        },'json' );
+
+        displayImageCode(loginFailFlag);
+    });
+
+    function displayImageCode(flag) {
+        if (flag) {
+            $("#imageCodeArea").show();
+            $("#changeCodeBtn").click(function () {
+                $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
+            });
+        }else{
+            $("#imageCodeArea").hide();
+        };
+        
+    }
+    
+    function initFoucus() {
+        var errorCode = [[${errorCode}]];
+        $("#username")[0].focus();
+
+        if(errorCode == 'BadCredentialsException'){
+            $("#password")[0].focus();
+            $("#password").val();
+        }
+        if(errorCode == 'ImageCodeException'){
+            $("#imageCode")[0].focus();
+            $("#imageCode").val();
+        }
+    }
+
+
 </script>
 
 

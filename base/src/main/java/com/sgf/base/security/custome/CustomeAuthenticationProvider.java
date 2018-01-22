@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * Created by sgf on 2018\1\18 0018.
@@ -58,12 +59,6 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
 
     protected void additionalAuthenticationChecks(UserDetails userDetails,UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
-
-        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
-        String imageCode = details.getImageCode();
-        String session_imageCode = details.getSession_imageCode();
-        long session_imageTime = details.getSession_imageTime();
-
         Object salt = null;
 
         if (this.saltSource != null) {
@@ -88,6 +83,15 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
             throw new BadCredentialsException(messages.getMessage(
                     "AbstractUserDetailsAuthenticationProvider.badCredentials",tip));
         }
+
+        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
+        String session_imageCode = details.getSession_imageCode();
+        if(StringUtils.isEmpty(session_imageCode)){
+            return;
+        }
+
+        String imageCode = details.getImageCode();
+        long session_imageTime = details.getSession_imageTime();
 
         if(imageCode == null || session_imageCode == null) {
             String tip = userDetails.getUsername() +  " 验证码错误！";

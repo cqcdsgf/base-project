@@ -1,6 +1,7 @@
 package com.sgf.base.security.custome;
 
 import com.sgf.base.constant.ImageCodeConstant;
+import com.sgf.base.constant.LoginConstant;
 import com.sgf.base.constant.SessionConstant;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
@@ -23,16 +24,25 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
     public CustomWebAuthenticationDetails(HttpServletRequest request) {
         super(request);
-        this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
-        this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
 
-        String sessionId = request.getSession().getId();
-        this.session_imageCode = (String)request.getSession().getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
-        String session_verifyTime = (String)request.getSession().getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
-        if(session_verifyTime == null) {
-            this.session_imageTime= 0L;
-        } else {
-            this.session_imageTime= Long.parseLong(session_verifyTime);
+        String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
+        Object checkFlag = request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+
+        if(checkFlag!=null && (boolean)checkFlag){
+            this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
+            this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
+
+            String sessionId = request.getSession().getId();
+            this.session_imageCode = (String)request.getSession().getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
+            String session_verifyTime = (String)request.getSession().getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
+            if(session_verifyTime == null) {
+                this.session_imageTime= 0L;
+            } else {
+                this.session_imageTime= Long.parseLong(session_verifyTime);
+            }
+        }else{
+            request.getSession().removeAttribute("session_verifyObj");
+            request.getSession().removeAttribute("session_verifyObjTime");
         }
     }
 
