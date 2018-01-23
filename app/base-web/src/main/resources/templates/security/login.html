@@ -44,7 +44,7 @@
         <p th:if="${param.error}" class="bg-danger" th:text="${errorMessage}">有错误，请重试</p>
 
         <h2>使用账号密码登录</h2>
-        <form name="form" th:action="@{/security/login}" action="/security/login" method="POST">
+        <form id="loginForm" name="loginForm" th:action="@{/security/login}" action="/security/login" method="POST">
             <div class="form-group">
                 <label for="username">账号</label>
                 <input type="text" id="username"  class="form-control" name="username" value="" th:value="${username}" placeholder="账号" />
@@ -68,6 +68,51 @@
 
         var loginFailFlag = [[${loginFailFlag}]];
         displayImageCode(loginFailFlag);
+
+        $( "#loginForm" ).validate( {
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                password: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                }
+            },
+            messages: {
+                username: {
+                    required: "请输入登录名",
+                    minlength: "登录名至少3个字符",
+                    maxlength: "登录名最多20个字符"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码至少3个字符",
+                    maxlength: "密码最多20个字符"
+                }
+            },
+            errorElement: "em",
+            errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "help-block" );
+
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+            },
+            highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+            }
+        });
+
     } );
 
     $("#username").blur(function(){
@@ -88,18 +133,18 @@
 
     function displayImageCode(flag) {
         //当前登录名需要图形校验，且图形校验区域未设置时
-        if (flag) {
-            if($("#imageCodeArea").length<=0) {
-                var html = '<div id="imageCodeArea">';
-                html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
-                html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
-                html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime() />';
-                html += '</div>';
-                $('#passwordArea').after(html);
-                $("#changeCodeBtn").click(function () {
-                    $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
-                });
-            }
+        if (flag && $("#imageCodeArea").length<=0) {
+            var html = '<div id="imageCodeArea">';
+            html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
+            html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
+            html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime() />';
+            html += '</div>';
+            $('#passwordArea').after(html);
+            $("#changeCodeBtn").click(function () {
+                $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
+            });
+
+            $("#imageCode").rules("add",{required:true,messages:{ required:"请输入验证码"}});
         }
         
     }
