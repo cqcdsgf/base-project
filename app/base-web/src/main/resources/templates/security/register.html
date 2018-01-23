@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>注册页面</title>
     <link rel="stylesheet" href="../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}" />
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
     <style type="text/css">
         body {
             padding-top: 50px;
@@ -35,20 +38,88 @@
         <p th:if="${errorMessage}" class="bg-warning" th:text="${errorMessage}"></p>
 
         <h2>注册</h2>
-        <form name="form" th:action="@{/security/register}" action="/security/register" method="POST">
+        <form id="registerForm" name="form" th:action="@{/security/register}" action="/security/register" method="POST">
             <div class="form-group">
-                <label for="username">账号</label>
+                <label  class="col-sm-4 control-label" for="username">账号</label>
                 <input type="text" id="username" class="form-control" name="username" value="" th:value="${username}" placeholder="账号" />
             </div>
             <div class="form-group">
-                <label for="password">密码</label>
+                <label class="col-sm-4 control-label" for="password">密码</label>
                 <input type="password" id="password" class="form-control" name="password" placeholder="密码" />
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="confirm_password">确认密码</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="请确认密码" />
+                </div>
             </div>
             <input type="submit" id="register" value="register" class="btn btn-primary" />
         </form>
     </div>
 
 </div>
+
+
+<script type="text/javascript"  th:inline="javascript">
+    $( document ).ready( function () {
+
+        $( "#registerForm" ).validate( {
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                password: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    equalTo: "#password"
+                },
+            },
+            messages: {
+                username: {
+                    required: "请输入登录名",
+                    minlength: "登录名至少3个字符",
+                    maxlength: "登录名最多20个字符"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码至少3个字符",
+                    maxlength: "密码最多20个字符"
+                },
+                confirm_password: {
+                    required: "请再次输入密码",
+                    minlength: "密码至少3个字符",
+                    maxlength: "密码最多20个字符",
+                    equalTo: "与原输入密码不相符"
+                }
+            },
+            errorElement: "em",
+            errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "help-block" );
+
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+            },
+            highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+            }
+        });
+    })
+</script>
 
 </body>
 </html>
