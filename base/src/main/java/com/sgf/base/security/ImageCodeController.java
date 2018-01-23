@@ -40,7 +40,7 @@ public class ImageCodeController {
             'Y', 'Z', '2', '3', '4', '5', '6', '7', '8', '9' };
 
     @RequestMapping( value = "/getCode" )
-    public void getCode(HttpServletRequest req, HttpServletResponse resp,String username ) {
+    public void getCode(HttpServletRequest req, HttpServletResponse resp) {
         String imageCodeType = req.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
         // 长
         String w = WebUtils.findParameterValue( req, "w" );

@@ -119,17 +119,20 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
             return;
         }
 
+        HttpSession session = request.getSession(false);
+
+
         AtomicInteger num = new AtomicInteger(0);
-        AtomicInteger oldNum = (AtomicInteger)request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
+        AtomicInteger oldNum = (AtomicInteger)session.getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
         if(oldNum != null){
             num = oldNum;
         }
 
         num.addAndGet(1);
-        request.getSession(false).setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
+        session.setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
 
         if(num.intValue() > failNum){
-            request.getSession(false).setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
+            session.setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
         }
 
     }
