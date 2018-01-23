@@ -6,6 +6,7 @@ import com.sgf.base.constant.SessionConstant;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by sgf on 2018\1\19 0019.
@@ -27,22 +28,21 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
         String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
         Object checkFlag = request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
-        if(checkFlag!=null && (boolean)checkFlag){
+        HttpSession session = request.getSession(false);
+        String sessionId = session.getId();
+        //当需要校验图形验证码时，获取页面传递的图验证码，及session中保存的对应数据。
+        //if(checkFlag!=null && (boolean)checkFlag){
             this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
             this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
 
-            String sessionId = request.getSession(false).getId();
-            this.session_imageCode = (String)request.getSession(false).getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
-            String session_verifyTime = (String)request.getSession(false).getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
+            this.session_imageCode = (String)session.getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
+            String session_verifyTime = (String)session.getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
             if(session_verifyTime == null) {
                 this.session_imageTime= 0L;
             } else {
                 this.session_imageTime= Long.parseLong(session_verifyTime);
             }
-        }else{
-            request.getSession(false).removeAttribute("session_verifyObj");
-            request.getSession(false).removeAttribute("session_verifyObjTime");
-        }
+        //}
     }
 
     public String getImageCode(){

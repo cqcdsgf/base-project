@@ -89,6 +89,7 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
 
         CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
         String session_imageCode = details.getSession_imageCode();
+        //session中保存的图形验证码为空，说明不需要校验图形验证码。
         if(StringUtils.isEmpty(session_imageCode)){
             return;
         }
