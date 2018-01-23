@@ -68,11 +68,10 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
         Authentication authentication =  this.getAuthenticationManager().authenticate(authRequest);
 
+        //移除验证码
         HttpSession session = request.getSession(false);
         String sessionId = session.getId();
-
         String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
-        //移除验证码
         session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
         session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME );
 

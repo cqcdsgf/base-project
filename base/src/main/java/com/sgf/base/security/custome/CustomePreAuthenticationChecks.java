@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsChecker;
 
 /**
  * Created by sgf on 2018\1\18 0018.
+ * 自定义错误信息
  */
 public class CustomePreAuthenticationChecks implements UserDetailsChecker {
     private static final Logger logger = LoggerFactory.getLogger(CustomePreAuthenticationChecks.class);

@@ -54,9 +54,12 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         setPasswordEncoder(new PlaintextPasswordEncoder());
     }
 
-    // ~ Methods
-    // ========================================================================================================
-
+    /**
+     * 自定义登录匹配规则
+     * @param userDetails
+     * @param authentication
+     * @throws AuthenticationException
+     */
     protected void additionalAuthenticationChecks(UserDetails userDetails,UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
         Object salt = null;

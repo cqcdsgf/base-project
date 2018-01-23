@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * Created by sgf on 2018\1\19 0019.
+ * 暂时无用
  */
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 

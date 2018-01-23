@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by sgf on 2018\1\19 0019.
+ * 自定义传输数据
  */
 public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
@@ -19,8 +20,6 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
     private String session_imageCode;
 
     private long session_imageTime;
-
-
 
     public CustomWebAuthenticationDetails(HttpServletRequest request) {
         super(request);

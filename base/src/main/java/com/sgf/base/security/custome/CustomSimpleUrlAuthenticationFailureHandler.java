@@ -1,7 +1,9 @@
 package com.sgf.base.security.custome;
 
 import com.sgf.base.constant.BaseMessageConstant;
+import com.sgf.base.constant.ImageCodeConstant;
 import com.sgf.base.constant.LoginConstant;
+import com.sgf.base.constant.SessionConstant;
 import com.sgf.base.exception.ImageCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,8 +63,11 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
             throws IOException, ServletException {
 
         //移除验证码
-/*        request.getSession(false).removeAttribute("session_imgeCode");
-        request.getSession(false).removeAttribute("session_imageTime");*/
+        HttpSession session = request.getSession(false);
+        String sessionId = session.getId();
+        String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
+        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
+        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME );
 
         if (defaultFailureUrl == null) {
             logger.debug("No failure URL set, sending 401 Unauthorized error");
