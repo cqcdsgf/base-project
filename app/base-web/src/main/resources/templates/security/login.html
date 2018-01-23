@@ -94,10 +94,11 @@
     });
 
     function displayImageCode(flag) {
+        var username = $('#username').val();
         if (flag) {
             $("#imageCodeArea").show();
             $("#changeCodeBtn").click(function () {
-                $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
+                $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin&username=" + username + new Date().getTime());
             });
         }else{
             $("#imageCodeArea").hide();

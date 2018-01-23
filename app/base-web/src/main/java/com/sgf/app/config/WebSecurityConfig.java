@@ -1,10 +1,7 @@
 package com.sgf.app.config;
 
 import com.sgf.app.security.service.CustomUserDetailsService;
-import com.sgf.base.security.custome.CustomAuthenticationDetailsSource;
-import com.sgf.base.security.custome.CustomSimpleUrlAuthenticationFailureHandler;
-import com.sgf.base.security.custome.CustomeAuthenticationProvider;
-import com.sgf.base.security.custome.CustomePreAuthenticationChecks;
+import com.sgf.base.security.custome.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -73,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/security/login")
                 .failureHandler(customSimpleUrlAuthenticationFailureHandler())
+                .successHandler(new CustomAuthenticationSuccessHandler())
                 .authenticationDetailsSource(authenticationDetailsSource())
                 .permitAll()
                 .and()

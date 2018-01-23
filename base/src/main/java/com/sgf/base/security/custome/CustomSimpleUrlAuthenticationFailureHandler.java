@@ -61,8 +61,8 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
             throws IOException, ServletException {
 
         //移除验证码
-/*        request.getSession().removeAttribute("session_imgeCode");
-        request.getSession().removeAttribute("session_imageTime");*/
+/*        request.getSession(false).removeAttribute("session_imgeCode");
+        request.getSession(false).removeAttribute("session_imageTime");*/
 
         if (defaultFailureUrl == null) {
             logger.debug("No failure URL set, sending 401 Unauthorized error");
@@ -107,9 +107,9 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         } else {
             HttpSession session = request.getSession(false);
             if (session != null || allowSessionCreation) {
-                request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
-                request.getSession().setAttribute(BaseMessageConstant.ERROR_CODE,errorCode);
-                request.getSession().setAttribute(BaseMessageConstant.ERROR_MESSAGE,exception.getMessage());
+                request.getSession(false).setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
+                request.getSession(false).setAttribute(BaseMessageConstant.ERROR_CODE,errorCode);
+                request.getSession(false).setAttribute(BaseMessageConstant.ERROR_MESSAGE,exception.getMessage());
             }
         }
     }
@@ -120,16 +120,16 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         }
 
         AtomicInteger num = new AtomicInteger(0);
-        AtomicInteger oldNum = (AtomicInteger)request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
+        AtomicInteger oldNum = (AtomicInteger)request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
         if(oldNum != null){
             num = oldNum;
         }
 
         num.addAndGet(1);
-        request.getSession().setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
+        request.getSession(false).setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
 
         if(num.intValue() > failNum){
-            request.getSession().setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
+            request.getSession(false).setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
         }
 
     }

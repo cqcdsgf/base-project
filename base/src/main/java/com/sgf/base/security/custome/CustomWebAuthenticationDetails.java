@@ -26,23 +26,23 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
         super(request);
 
         String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
-        Object checkFlag = request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        Object checkFlag = request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
         if(checkFlag!=null && (boolean)checkFlag){
             this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
             this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
 
-            String sessionId = request.getSession().getId();
-            this.session_imageCode = (String)request.getSession().getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
-            String session_verifyTime = (String)request.getSession().getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
+            String sessionId = request.getSession(false).getId();
+            this.session_imageCode = (String)request.getSession(false).getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
+            String session_verifyTime = (String)request.getSession(false).getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
             if(session_verifyTime == null) {
                 this.session_imageTime= 0L;
             } else {
                 this.session_imageTime= Long.parseLong(session_verifyTime);
             }
         }else{
-            request.getSession().removeAttribute("session_verifyObj");
-            request.getSession().removeAttribute("session_verifyObjTime");
+            request.getSession(false).removeAttribute("session_verifyObj");
+            request.getSession(false).removeAttribute("session_verifyObjTime");
         }
     }
 

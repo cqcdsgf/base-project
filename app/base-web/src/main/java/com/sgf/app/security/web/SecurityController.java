@@ -29,7 +29,7 @@ public class SecurityController {
 
     @RequestMapping(value = "/backLogin")
     public ModelAndView backLogin(HttpServletRequest request,String username, String password, String imageCode){
-        Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        Object loginFailFlag =  request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
         Map<String, Object> model = Maps.newHashMap();
         model.put(LoginConstant.LOGIN_USERNAME,username);
@@ -53,7 +53,7 @@ public class SecurityController {
     }
 
     @RequestMapping(value = "/login")
-    public ModelAndView toLogin(HttpServletRequest request,String username,String password){
+    public ModelAndView toLogin(HttpServletRequest request,String username){
         Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
         Map<String, Object> model = Maps.newHashMap();

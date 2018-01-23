@@ -40,7 +40,7 @@ public class ImageCodeController {
             'Y', 'Z', '2', '3', '4', '5', '6', '7', '8', '9' };
 
     @RequestMapping( value = "/getCode" )
-    public void getCode(HttpServletRequest req, HttpServletResponse resp ) {
+    public void getCode(HttpServletRequest req, HttpServletResponse resp,String username ) {
         String imageCodeType = req.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
         // 长
         String w = WebUtils.findParameterValue( req, "w" );
@@ -102,7 +102,7 @@ public class ImageCodeController {
             randomCode.append( code );
         }
         // 将四位数字的验证码保存到Session中。
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
 
         String sessionId = session.getId();
 

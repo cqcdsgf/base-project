@@ -1,5 +1,6 @@
 package com.sgf.base.security.custome;
 
+import com.sgf.base.constant.ImageCodeConstant;
 import com.sgf.base.constant.LoginConstant;
 import com.sgf.base.constant.SessionConstant;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                                         Authentication authentication)
             throws IOException, ServletException {
 
-        String imageCodeType=request.getParameter(SessionConstant.SESSION_IMAGECODE);
+        String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
         String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
 
         HttpSession session = request.getSession(false);
@@ -33,8 +34,8 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
         session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME );
 
-        request.getSession().removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
-        request.getSession().removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        request.getSession(false).removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
+        request.getSession(false).removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
 
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
