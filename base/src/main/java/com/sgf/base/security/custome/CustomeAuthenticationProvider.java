@@ -88,9 +88,11 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         }
 
         CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
+        boolean checkFlag = details.isCheckFlag();
         String session_imageCode = details.getSession_imageCode();
-        //session中保存的图形验证码为空，说明不需要校验图形验证码。
-        if(StringUtils.isEmpty(session_imageCode)){
+
+        //针对登录名的login_fail_flag为假，且session中保存的图形验证为空时，不需要进行验证的校验。
+        if(StringUtils.isEmpty(session_imageCode) && !checkFlag){
             return;
         }
 

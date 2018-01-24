@@ -126,11 +126,10 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
 
         HttpSession session = request.getSession(false);
 
-
         AtomicInteger num = new AtomicInteger(0);
-        AtomicInteger oldNum = (AtomicInteger)session.getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
+        Object oldNum = session.getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
         if(oldNum != null){
-            num = oldNum;
+            num = (AtomicInteger)oldNum;
         }
 
         num.addAndGet(1);
@@ -139,7 +138,6 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         if(num.intValue() > failNum){
             session.setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
         }
-
     }
 
     private String getErrorCode(AuthenticationException exception) {

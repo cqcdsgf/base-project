@@ -3,6 +3,7 @@ package com.sgf.base.security.custome;
 import com.sgf.base.constant.ImageCodeConstant;
 import com.sgf.base.constant.LoginConstant;
 import com.sgf.base.constant.SessionConstant;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,27 +23,40 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
     private long session_imageTime;
 
+    private boolean checkFlag = true;
+
     public CustomWebAuthenticationDetails(HttpServletRequest request) {
         super(request);
 
-        String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
-        Object checkFlag = request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
-
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         String sessionId = session.getId();
-        //当需要校验图形验证码时，获取页面传递的图验证码，及session中保存的对应数据。
-        //if(checkFlag!=null && (boolean)checkFlag){
-            this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
-            this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
 
-            this.session_imageCode = (String)session.getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
-            String session_verifyTime = (String)session.getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
-            if(session_verifyTime == null) {
-                this.session_imageTime= 0L;
-            } else {
-                this.session_imageTime= Long.parseLong(session_verifyTime);
-            }
-        //}
+        String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
+        Object flag  = session.getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+
+        if(null != flag){
+            checkFlag = (Boolean)flag;
+        }
+
+        this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
+        this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
+
+        String session_verifyTime;
+        if(StringUtils.isNotEmpty(imageCodeType)) {
+            this.session_imageCode = (String) session.getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
+            session_verifyTime = (String) session.getAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME);
+        }else{
+            //todo 登录时，添加了新的验证码校验类型时，需要更改此部分程序
+            this.session_imageCode = (String) session.getAttribute(sessionId + "_" + ImageCodeConstant.IMAGE_CODE_TYPE_PERSONLOGIN + "_" + SessionConstant.SESSION_IMAGECODE);
+            session_verifyTime = (String) session.getAttribute(sessionId + "_" + ImageCodeConstant.IMAGE_CODE_TYPE_PERSONLOGIN + "_" + SessionConstant.SESSION_IMAGETIME);
+        }
+
+        if(session_verifyTime == null) {
+            this.session_imageTime= 0L;
+        } else {
+            this.session_imageTime= Long.parseLong(session_verifyTime);
+        }
+
     }
 
     public String getImageCode(){
@@ -59,5 +73,9 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
     public String getImageCodeType() {
         return imageCodeType;
+    }
+
+    public boolean isCheckFlag() {
+        return checkFlag;
     }
 }
