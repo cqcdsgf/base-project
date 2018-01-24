@@ -47,7 +47,7 @@
         <form id="loginForm" name="loginForm" th:action="@{/security/login}" action="/security/login" method="POST">
             <div class="form-group">
                 <label for="username">账号</label>
-                <input type="text" id="username"  class="form-control" name="username" value="" th:value="${username}" placeholder="账号" />
+                <input type="text" id="username"  class="form-control" name="username" value="" th:value="${username}"  placeholder="账号" />
             </div>
             <div id="passwordArea" class="form-group">
                 <label for="password">密码</label>
@@ -64,11 +64,16 @@
 
 <script type="text/javascript"  th:inline="javascript">
     $( document ).ready( function () {
-        initFoucus();
-
         var loginFailFlag = [[${loginFailFlag}]];
+
         displayImageCode(loginFailFlag);
 
+        initFoucus();
+
+        addCheck();
+    } );
+
+    function addCheck() {
         $( "#loginForm" ).validate( {
             rules: {
                 username: {
@@ -113,11 +118,14 @@
             }
         });
 
-    } );
+        if ($("#imageCodeArea").length > 0) {
+            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码"}});
+        }
+    }
 
     $("#username").blur(function(){
         var username =$("#username").val();
-        if(null == username || username=="" || username=='账号'){
+        if(null == username || username==""){
             return
         };
 
@@ -127,45 +135,55 @@
             username: username
         }, function( data ) {
             loginFailFlag = data.result;
+            alert("loginFailFlag==="+loginFailFlag);
         },'json' );
         displayImageCode(loginFailFlag);
+        addRule();
     });
 
     function displayImageCode(flag) {
+        alert(1);
         //当前登录名需要图形校验，且图形校验区域未设置时
         if (flag && $("#imageCodeArea").length<=0) {
+            alert(2);
             var html = '<div id="imageCodeArea">';
             html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
             html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
             html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime() />';
             html += '</div>';
             $('#passwordArea').after(html);
+
+            alert(3);
             $("#changeCodeBtn").click(function () {
                 $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
             });
-
-            $("#imageCode").rules("add",{required:true,messages:{ required:"请输入验证码"}});
+            alert(4);
         }
-        
     }
-    
+
     function initFoucus() {
         var errorCode = [[${errorCode}]];
-        $("#username")[0].focus();
 
         if(errorCode == 'BadCredentialsException'){
+            $("#username")[0].focus();
+            $("#username").val();
+        }else if(errorCode == 'BadCredentialsException'){
             $("#password")[0].focus();
             $("#password").val();
-        }
-        if(errorCode == 'ImageCodeException'){
+        }else if(errorCode == 'ImageCodeException'){
             $("#imageCode")[0].focus();
             $("#imageCode").val();
+        }else {
+            $("#username")[0].focus();
         }
     }
 
-
+    function addRule() {
+        if ($("#imageCodeArea").length > 0) {
+            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码"}});
+        }
+    }
 </script>
-
 
 </body>
 </html>
