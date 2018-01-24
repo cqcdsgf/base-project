@@ -135,17 +135,14 @@
             username: username
         }, function( data ) {
             loginFailFlag = data.result;
-            alert("loginFailFlag==="+loginFailFlag);
         },'json' );
         displayImageCode(loginFailFlag);
         addRule();
     });
 
     function displayImageCode(flag) {
-        alert(1);
         //当前登录名需要图形校验，且图形校验区域未设置时
         if (flag && $("#imageCodeArea").length<=0) {
-            alert(2);
             var html = '<div id="imageCodeArea">';
             html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
             html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
@@ -153,11 +150,9 @@
             html += '</div>';
             $('#passwordArea').after(html);
 
-            alert(3);
             $("#changeCodeBtn").click(function () {
                 $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
             });
-            alert(4);
         }
     }
 
