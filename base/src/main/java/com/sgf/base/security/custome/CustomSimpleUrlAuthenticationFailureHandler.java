@@ -1,13 +1,12 @@
 package com.sgf.base.security.custome;
 
-import com.sgf.base.constant.BaseMessageConstant;
-import com.sgf.base.constant.ImageCodeConstant;
-import com.sgf.base.constant.LoginConstant;
-import com.sgf.base.constant.SessionConstant;
+import com.sgf.base.constant.*;
 import com.sgf.base.exception.ImageCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +16,6 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,11 +31,17 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         AuthenticationFailureHandler {
     private static final Logger logger = LoggerFactory.getLogger(CustomSimpleUrlAuthenticationFailureHandler.class);
 
-    @Value("${base.security.login.checkImageCode}")
+    @Value("${security.login.checkImageCode}")
     private boolean checkImageCode;
 
-    @Value("${base.security.login.failnum}")
-    private int failNum;
+    @Value("${security.login.user.failnum}")
+    private int userFailNum;
+
+    @Value("${security.login.session.failnum}")
+    private int sessionFailNum;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     private String defaultFailureUrl;
     private boolean forwardToDestination = false;
@@ -64,10 +68,8 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
 
         //移除验证码
         HttpSession session = request.getSession(false);
-        String sessionId = session.getId();
         String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
-        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
-        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME );
+        session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
 
         if (defaultFailureUrl == null) {
             logger.debug("No failure URL set, sending 401 Unauthorized error");
@@ -120,24 +122,38 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
     }
 
     private void checkFailNum(String username, HttpServletRequest request) {
-        if(StringUtils.isEmpty(username)){
-            return;
-        }
+        Assert.notNull(username,"用户名不能为空!");
 
         HttpSession session = request.getSession(false);
+        String sessionId = session.getId();
 
-        AtomicInteger num = new AtomicInteger(0);
-        Object oldNum = session.getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
-        if(oldNum != null){
-            num = (AtomicInteger)oldNum;
+        AtomicInteger userFailnum = new AtomicInteger(0);
+        AtomicInteger sessionFailnum = new AtomicInteger(0);
+        Object oldUserFailNum = stringRedisTemplate.opsForHash().get(RedisConstant.LOGIN_FAIL_NUM_HASH,username);
+        Object oldSessionFailNum =stringRedisTemplate.opsForHash().get(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId);
+
+        if(null != oldUserFailNum){
+            userFailnum = (AtomicInteger)oldUserFailNum;
+        }
+        if(null != oldSessionFailNum){
+            sessionFailnum = (AtomicInteger)oldSessionFailNum;
+        }
+        userFailnum.addAndGet(1);
+        sessionFailnum.addAndGet(1);
+
+        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,username,userFailnum);
+        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId,sessionFailnum);
+
+        if(userFailnum.intValue() > userFailNum){
+            stringRedisTemplate.opsForSet().add(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
+        }
+        if(sessionFailnum.intValue() > sessionFailNum){
+            stringRedisTemplate.opsForSet().add(RedisConstant.LOGIN_FAIL_LOCK_SET,sessionId);
         }
 
-        num.addAndGet(1);
-        session.setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM,num);
-
-        if(num.intValue() > failNum){
-            session.setAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG,true);
-        }
+        //移除验证码
+        String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
+        session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
     }
 
     private String getErrorCode(AuthenticationException exception) {

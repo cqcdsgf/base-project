@@ -70,13 +70,11 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
         //移除验证码
         HttpSession session = request.getSession(false);
-        String sessionId = session.getId();
         String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
-        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
-        session.removeAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME );
+        session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
 
-        session.removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_NUM);
-        session.removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        session.removeAttribute(username + "_" + LoginConstant.LOGIN_USER_FAIL_NUM);
+/*        session.removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);*/
 
         return authentication;
     }

@@ -25,8 +25,11 @@ public class LoginConstant {
     public static final String LOGIN_IMAGECODE ="imageCode";
 
     //同一登录名，登录失败次数
-    public static final String LOGIN_FAIL_NUM ="loginFailNum";
+    public static final String LOGIN_USER_FAIL_NUM ="loginUserFailNum";
     //登录失败标志（为true时，需要进行图形验证码校验）
+    public static final String LOGIN_USER_FAIL_FLAG ="loginUserFailFlag";
+
+
     public static final String LOGIN_FAIL_FLAG ="loginFailFlag";
 
 }

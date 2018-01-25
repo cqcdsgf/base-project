@@ -4,7 +4,9 @@ import com.google.common.collect.Maps;
 import com.sgf.app.security.domain.SysUser;
 import com.sgf.app.security.service.UserService;
 import com.sgf.base.constant.LoginConstant;
+import com.sgf.base.constant.RedisConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -25,11 +28,34 @@ import java.util.Map;
 public class SecurityController {
 
     @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
     UserService userService;
+
+    private boolean getLoginFailFlag(String username,HttpServletRequest request){
+        boolean userCheck = false;
+        boolean sessionCheck = false;
+
+        if(null != username) {
+            userCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
+        }
+
+        HttpSession session = request.getSession(false);
+        if(null != session) {
+            sessionCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,session.getId());
+        }
+
+        if(!userCheck && !sessionCheck){
+            return  false;
+        }else{
+            return true;
+        }
+    }
 
     @RequestMapping(value = "/backLogin")
     public ModelAndView backLogin(HttpServletRequest request,String username, String password, String imageCode){
-        Object loginFailFlag =  request.getSession(false).getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        boolean loginFailFlag = getLoginFailFlag(username,request);
 
         Map<String, Object> model = Maps.newHashMap();
         model.put(LoginConstant.LOGIN_USERNAME,username);
@@ -43,7 +69,7 @@ public class SecurityController {
     @ResponseBody
     @GetMapping("/checkUsername")
     public  Map<String, Object> checkUsername(HttpServletRequest request,String username){
-        Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        boolean loginFailFlag = getLoginFailFlag(username,request);
 
         Map<String, Object> result = Maps.newHashMap();
         result.put("result", loginFailFlag);
@@ -54,7 +80,7 @@ public class SecurityController {
 
     @RequestMapping(value = "/login")
     public ModelAndView toLogin(HttpServletRequest request,String username){
-        Object loginFailFlag =  request.getSession().getAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);
+        boolean loginFailFlag = getLoginFailFlag(username,request);
 
         Map<String, Object> model = Maps.newHashMap();
         model.put(LoginConstant.LOGIN_FAIL_FLAG,loginFailFlag);

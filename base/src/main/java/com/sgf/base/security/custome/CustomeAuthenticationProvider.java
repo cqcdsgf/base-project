@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * Created by sgf on 2018\1\18 0018.
@@ -88,34 +87,25 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         }
 
         CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
-        boolean checkFlag = details.isCheckFlag();
-        String session_imageCode = details.getSession_imageCode();
 
-        //针对登录名的login_fail_flag为假，且session中保存的图形验证为空时，不需要进行验证的校验。
-        if(StringUtils.isEmpty(session_imageCode) && !checkFlag){
+        boolean checkFlag = details.isImageCodeFlag();
+
+        if(!checkFlag){
             return;
         }
 
+        String session_imageCode = details.getSession_imageCode();
         String imageCode = details.getImageCode();
-        long session_imageTime = details.getSession_imageTime();
 
         if(imageCode == null || session_imageCode == null) {
             String tip = userDetails.getUsername() +  " 验证码错误！";
             logger.debug(tip);
-
             throw new ImageCodeException(tip);
         }
         if(!imageCode.equalsIgnoreCase(session_imageCode)) {
             String tip = userDetails.getUsername() +  " 验证码错误！";
             logger.debug(tip);
             throw new ImageCodeException(tip);
-        }else{
-            long nowTime = System.currentTimeMillis();
-            if((nowTime - session_imageTime)/1000 > 120) { //大于120s,超时
-                String tip = userDetails.getUsername() +  " 验证码已超时！";
-                logger.debug(tip);
-                throw new ImageCodeException(tip);
-            }
         }
     }
 

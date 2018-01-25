@@ -103,12 +103,7 @@ public class ImageCodeController {
         }
         // 将四位数字的验证码保存到Session中。
         HttpSession session = req.getSession(false);
-
-        String sessionId = session.getId();
-
-        session.setAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE, randomCode.toString() );
-        session.setAttribute(sessionId + "_" + imageCodeType + "_" + SessionConstant.SESSION_IMAGETIME,new Long(System.currentTimeMillis()).toString());
-
+        session.setAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE, randomCode.toString() );
 
         // 禁止图像缓存。
         resp.setHeader( "Pragma", "no-cache" );

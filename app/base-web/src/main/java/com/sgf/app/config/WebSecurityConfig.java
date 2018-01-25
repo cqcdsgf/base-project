@@ -4,15 +4,12 @@ import com.sgf.app.security.service.CustomUserDetailsService;
 import com.sgf.base.security.custome.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
 
 /**
  * Created by sgf on 2017\12\26 0026.
@@ -43,19 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return failureHandler;
     }
 
-    //配置封装 customUsernamePasswordAuthenticationFilter 的过滤器
-    CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
-        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter();
-        //为过滤器添加认证器
-        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager);
-
-        customUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(customSimpleUrlAuthenticationFailureHandler());
-        //customUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
-        customUsernamePasswordAuthenticationFilter.setAuthenticationDetailsSource(new CustomAuthenticationDetailsSource());
-
-        return customUsernamePasswordAuthenticationFilter;
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // auth.userDetailsService(customUserDetailsService()).passwordEncoder(new BCryptPasswordEncoder());
@@ -65,40 +49,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //注册customUsernamePasswordAuthenticationFilter  注意放置的顺序 这很关键
-        http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
-
         http.authorizeRequests()
                 .antMatchers("/security/**").permitAll()
                 .antMatchers("/imageCode/getCode").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .csrf().ignoringAntMatchers("/security/login")
+                .formLogin()
+                .loginPage("/security/login")
+                .failureHandler(customSimpleUrlAuthenticationFailureHandler())
+                .successHandler(new CustomAuthenticationSuccessHandler())
+                .authenticationDetailsSource(new CustomAuthenticationDetailsSource())
+                .permitAll()
                 .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/security/login"))
+                .logout().permitAll()
                 .and()
-                .logout()
-                .logoutSuccessUrl("/security/login?logout")
-                .permitAll();
-
-
-
- /*       http.authorizeRequests()
-                .antMatchers("/security*//**").permitAll()
-         .antMatchers("/imageCode/getCode").permitAll()
-         .anyRequest().authenticated()
-         .and()
-         .formLogin()
-         .loginPage("/security/login")
-         .failureHandler(customSimpleUrlAuthenticationFailureHandler())
-         .authenticationDetailsSource(new CustomAuthenticationDetailsSource())
-         .permitAll()
-         .and()
-         .logout().permitAll()
-         .and()
-         .csrf().ignoringAntMatchers("/security/login");*/
-
+                .csrf().ignoringAntMatchers("/security/login");
 
     }
 
