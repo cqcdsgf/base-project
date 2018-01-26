@@ -4,12 +4,15 @@ import com.sgf.app.security.service.CustomUserDetailsService;
 import com.sgf.base.security.custome.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
 
 /**
  * Created by sgf on 2017\12\26 0026.
@@ -41,17 +44,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     //配置封装 customUsernamePasswordAuthenticationFilter 的过滤器
-/*    CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
+    CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
         CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter();
         //为过滤器添加认证器
         customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager);
 
         customUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(customSimpleUrlAuthenticationFailureHandler());
-        customUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
+        //customUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
         customUsernamePasswordAuthenticationFilter.setAuthenticationDetailsSource(new CustomAuthenticationDetailsSource());
 
         return customUsernamePasswordAuthenticationFilter;
-    }*/
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -63,8 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
-                .antMatchers("/security/**").permitAll()
+/*        http.authorizeRequests()
+                .antMatchers("/security*//**").permitAll()
                 .antMatchers("/imageCode/getCode").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -77,14 +80,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll()
                 .and()
-                .csrf().ignoringAntMatchers("/security/login");
+                .csrf().ignoringAntMatchers("/security/login");*/
 
 
         //注册customUsernamePasswordAuthenticationFilter  注意放置的顺序 这很关键
-/*        http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);*/
+        http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
 
-/*        http.authorizeRequests()
-                .antMatchers("/security*//**").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/security/**").permitAll()
                 .antMatchers("/imageCode/getCode").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -95,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/security/login?logout")
-                .permitAll();*/
+                .permitAll();
 
 
 

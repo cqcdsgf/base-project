@@ -95,7 +95,10 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         }
 
         CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
-        boolean checkFlag = getCheckFlag(userDetails, details);
+        String username = userDetails.getUsername();
+        String sessionId = details.getSessionId();
+
+        boolean checkFlag = getCheckFlag(username, sessionId);
         if(!checkFlag){
             return;
         }
@@ -116,20 +119,17 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
     }
 
     /**
-     * //只有当用户名没有被锁定，且session没有被锁定时，才不需要进行验证码的校验
-     * @param userDetails
-     * @param details
+     * 只有当用户名没有被锁定，且session没有被锁定时，才不需要进行验证码的校验
+     * @param username
+     * @param sessionId
      * @return
      */
-    private boolean getCheckFlag(UserDetails userDetails, CustomWebAuthenticationDetails details) {
+    private boolean getCheckFlag(String username, String sessionId) {
         //是否需要校验验证码
         boolean checkFlag;
 
         boolean userCheck = false;
         boolean sessionCheck = false;
-
-        String username = userDetails.getUsername();
-        String sessionId = details.getSessionId();
 
         if(null == stringRedisTemplate){
             stringRedisTemplate = SpringContextUtil.getBean("stringRedisTemplate");

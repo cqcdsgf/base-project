@@ -1,8 +1,11 @@
 package com.sgf.base.security.custome;
 
 import com.sgf.base.constant.ImageCodeConstant;
-import com.sgf.base.constant.LoginConstant;
+import com.sgf.base.constant.RedisConstant;
 import com.sgf.base.constant.SessionConstant;
+import com.sgf.base.utils.SpringContextUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +23,9 @@ import javax.servlet.http.HttpSession;
  */
 public class CustomUsernamePasswordAuthenticationFilter extends
         AbstractAuthenticationProcessingFilter {
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
     // ~ Static fields/initializers
     // =====================================================================================
 
@@ -68,13 +74,20 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
         Authentication authentication =  this.getAuthenticationManager().authenticate(authRequest);
 
-        //移除验证码
         HttpSession session = request.getSession(false);
+        String sessionId = session.getId();
+
+        if(null == stringRedisTemplate){
+            stringRedisTemplate = SpringContextUtil.getBean("stringRedisTemplate");
+        }
+        stringRedisTemplate.opsForHash().delete(RedisConstant.LOGIN_FAIL_NUM_HASH,username);
+        stringRedisTemplate.opsForHash().delete(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId);
+        stringRedisTemplate.opsForSet().remove(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
+        stringRedisTemplate.opsForSet().remove(RedisConstant.LOGIN_FAIL_LOCK_SET,sessionId);
+
+        //移除验证码
         String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
         session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
-
-        session.removeAttribute(username + "_" + LoginConstant.LOGIN_USER_FAIL_NUM);
-/*        session.removeAttribute(username + "_" + LoginConstant.LOGIN_FAIL_FLAG);*/
 
         return authentication;
     }
