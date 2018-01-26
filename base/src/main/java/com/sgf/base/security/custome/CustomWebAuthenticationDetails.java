@@ -2,7 +2,6 @@ package com.sgf.base.security.custome;
 
 import com.sgf.base.constant.ImageCodeConstant;
 import com.sgf.base.constant.LoginConstant;
-import com.sgf.base.constant.RedisConstant;
 import com.sgf.base.constant.SessionConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,7 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
     private String session_imageCode;
 
-    //是否需要校验验证码
-    private boolean imageCodeFlag=true;
+    private String sessionId;
 
     public CustomWebAuthenticationDetails(HttpServletRequest request) {
         super(request);
@@ -37,7 +35,7 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
         String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
         Assert.notNull(username,"用户名不能为空！");
         HttpSession session = request.getSession();
-        String sessionId = session.getId();
+        sessionId = session.getId();
 
         this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);
         this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
@@ -49,22 +47,7 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
             this.session_imageCode = (String) session.getAttribute(sessionId + "_" + ImageCodeConstant.IMAGE_CODE_TYPE_PERSONLOGIN + "_" + SessionConstant.SESSION_IMAGECODE);
         }
 
-        //只有当用户名没有被锁定，且session没有被锁定时，才不需要进行验证码的校验
-        boolean userCheck = false;
-        boolean sessionCheck = false;
 
-        if(null != username) {
-            userCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
-        }
-        if(null != session) {
-            sessionCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,session.getId());
-        }
-
-        if(!userCheck && !sessionCheck){
-            imageCodeFlag =  false;
-        }else{
-            imageCodeFlag = true;
-        }
     }
 
     public String getImageCode(){
@@ -79,7 +62,8 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
         return imageCodeType;
     }
 
-    public boolean isImageCodeFlag() {
-        return imageCodeFlag;
+    @Override
+    public String getSessionId() {
+        return sessionId;
     }
 }

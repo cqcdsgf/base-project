@@ -133,16 +133,16 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
         Object oldSessionFailNum =stringRedisTemplate.opsForHash().get(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId);
 
         if(null != oldUserFailNum){
-            userFailnum = (AtomicInteger)oldUserFailNum;
+            userFailnum =   new AtomicInteger(new Integer((String)(oldUserFailNum)));
         }
         if(null != oldSessionFailNum){
-            sessionFailnum = (AtomicInteger)oldSessionFailNum;
+            sessionFailnum = new AtomicInteger(new Integer((String)(oldSessionFailNum)));
         }
         userFailnum.addAndGet(1);
         sessionFailnum.addAndGet(1);
 
-        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,username,userFailnum);
-        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId,sessionFailnum);
+        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,username,userFailnum.toString());
+        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId,sessionFailnum.toString());
 
         if(userFailnum.intValue() > userFailNum){
             stringRedisTemplate.opsForSet().add(RedisConstant.LOGIN_FAIL_LOCK_SET,username);

@@ -1,8 +1,12 @@
 package com.sgf.base.security.custome;
 
+import com.sgf.base.constant.RedisConstant;
 import com.sgf.base.exception.ImageCodeException;
+import com.sgf.base.utils.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +25,10 @@ import org.springframework.util.Assert;
  */
 public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     private static final Logger logger = LoggerFactory.getLogger(CustomeAuthenticationProvider.class);
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     // ~ Static fields/initializers
     // =====================================================================================
 
@@ -79,7 +87,7 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
 
         if (!passwordEncoder.isPasswordValid(userDetails.getPassword(),
                 presentedPassword, salt)) {
-            String tip = userDetails.getUsername() + " 凭证有错！";
+            String tip = userDetails.getUsername() + " 凭证出错！";
             logger.debug(tip);
 
             throw new BadCredentialsException(messages.getMessage(
@@ -87,9 +95,7 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         }
 
         CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();
-
-        boolean checkFlag = details.isImageCodeFlag();
-
+        boolean checkFlag = getCheckFlag(userDetails, details);
         if(!checkFlag){
             return;
         }
@@ -107,6 +113,41 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
             logger.debug(tip);
             throw new ImageCodeException(tip);
         }
+    }
+
+    /**
+     * //只有当用户名没有被锁定，且session没有被锁定时，才不需要进行验证码的校验
+     * @param userDetails
+     * @param details
+     * @return
+     */
+    private boolean getCheckFlag(UserDetails userDetails, CustomWebAuthenticationDetails details) {
+        //是否需要校验验证码
+        boolean checkFlag;
+
+        boolean userCheck = false;
+        boolean sessionCheck = false;
+
+        String username = userDetails.getUsername();
+        String sessionId = details.getSessionId();
+
+        if(null == stringRedisTemplate){
+            stringRedisTemplate = SpringContextUtil.getBean("stringRedisTemplate");
+        }
+
+        if(null != username) {
+            userCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
+        }
+        if(null != sessionId) {
+            sessionCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,sessionId);
+        }
+
+        if(!userCheck && !sessionCheck){
+            checkFlag =  false;
+        }else{
+            checkFlag = true;
+        }
+        return checkFlag;
     }
 
     protected void doAfterPropertiesSet() throws Exception {
