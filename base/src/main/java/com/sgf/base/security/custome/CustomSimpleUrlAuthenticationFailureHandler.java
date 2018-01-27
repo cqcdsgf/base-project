@@ -2,6 +2,7 @@ package com.sgf.base.security.custome;
 
 import com.sgf.base.constant.*;
 import com.sgf.base.exception.ImageCodeException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -34,11 +36,18 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
     @Value("${security.login.checkImageCode}")
     private boolean checkImageCode;
 
-    @Value("${security.login.user.failnum}")
+    @Value("${security.login.userFailNum}")
     private int userFailNum;
 
-    @Value("${security.login.session.failnum}")
+    @Value("${security.login.sessionFailNum}")
     private int sessionFailNum;
+
+
+    @Value("${security.login.userLockTime}")
+    private long userLockTime;
+
+    @Value("${security.login.sessionLockTime}")
+    private long sessionLockTime;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -65,11 +74,6 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
-
-        //移除验证码
-        HttpSession session = request.getSession(false);
-        String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
-        session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
 
         if (defaultFailureUrl == null) {
             logger.debug("No failure URL set, sending 401 Unauthorized error");
@@ -129,31 +133,34 @@ public class CustomSimpleUrlAuthenticationFailureHandler implements
 
         AtomicInteger userFailnum = new AtomicInteger(0);
         AtomicInteger sessionFailnum = new AtomicInteger(0);
-        Object oldUserFailNum = stringRedisTemplate.opsForHash().get(RedisConstant.LOGIN_FAIL_NUM_HASH,username);
-        Object oldSessionFailNum =stringRedisTemplate.opsForHash().get(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId);
+
+        String oldUserFailNum = stringRedisTemplate.opsForValue().get(username + RedisConstant.LOGIN_FAIL_NUM_USER);
+        String oldSessionFailNum = stringRedisTemplate.opsForValue().get(sessionId + RedisConstant.LOGIN_FAIL_NUM_SESSION);
 
         if(null != oldUserFailNum){
-            userFailnum =   new AtomicInteger(new Integer((String)(oldUserFailNum)));
+            userFailnum =   new AtomicInteger(new Integer(oldUserFailNum));
         }
         if(null != oldSessionFailNum){
-            sessionFailnum = new AtomicInteger(new Integer((String)(oldSessionFailNum)));
+            sessionFailnum = new AtomicInteger(new Integer(oldSessionFailNum));
         }
         userFailnum.addAndGet(1);
         sessionFailnum.addAndGet(1);
-
-        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,username,userFailnum.toString());
-        stringRedisTemplate.opsForHash().put(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId,sessionFailnum.toString());
-
+        stringRedisTemplate.opsForValue().set(username + RedisConstant.LOGIN_FAIL_NUM_USER,userFailnum.toString(),userLockTime, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(sessionId + RedisConstant.LOGIN_FAIL_NUM_SESSION,sessionFailnum.toString(),sessionLockTime,TimeUnit.MINUTES);
         if(userFailnum.intValue() > userFailNum){
-            stringRedisTemplate.opsForSet().add(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
+            stringRedisTemplate.opsForValue().set(username + RedisConstant.LOGIN_FAIL_LOCK_USER,RedisConstant.LOGIN_FAIL_LOCK_FLAG,userLockTime, TimeUnit.MINUTES);
         }
         if(sessionFailnum.intValue() > sessionFailNum){
-            stringRedisTemplate.opsForSet().add(RedisConstant.LOGIN_FAIL_LOCK_SET,sessionId);
+            stringRedisTemplate.opsForValue().set(sessionId + RedisConstant.LOGIN_FAIL_LOCK_SESSION,RedisConstant.LOGIN_FAIL_LOCK_FLAG,sessionLockTime, TimeUnit.MINUTES);
         }
 
         //移除验证码
         String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
-        session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
+        if(StringUtils.isNotEmpty(imageCodeType)){
+            session.removeAttribute(imageCodeType + SessionConstant.SESSION_IMAGECODE );
+        }else{
+            session.removeAttribute(ImageCodeConstant.IMAGE_CODE_TYPE_PERSONLOGIN + SessionConstant.SESSION_IMAGECODE );
+        }
     }
 
     private String getErrorCode(AuthenticationException exception) {

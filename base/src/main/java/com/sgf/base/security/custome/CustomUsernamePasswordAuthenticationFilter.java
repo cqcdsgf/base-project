@@ -80,14 +80,14 @@ public class CustomUsernamePasswordAuthenticationFilter extends
         if(null == stringRedisTemplate){
             stringRedisTemplate = SpringContextUtil.getBean("stringRedisTemplate");
         }
-        stringRedisTemplate.opsForHash().delete(RedisConstant.LOGIN_FAIL_NUM_HASH,username);
-        stringRedisTemplate.opsForHash().delete(RedisConstant.LOGIN_FAIL_NUM_HASH,sessionId);
-        stringRedisTemplate.opsForSet().remove(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
-        stringRedisTemplate.opsForSet().remove(RedisConstant.LOGIN_FAIL_LOCK_SET,sessionId);
+        stringRedisTemplate.delete(username + RedisConstant.LOGIN_FAIL_NUM_USER);
+        stringRedisTemplate.delete(sessionId + RedisConstant.LOGIN_FAIL_NUM_SESSION);
+        stringRedisTemplate.delete(username + RedisConstant.LOGIN_FAIL_LOCK_USER);
+        stringRedisTemplate.delete(sessionId + RedisConstant.LOGIN_FAIL_LOCK_SESSION);
 
         //移除验证码
         String imageCodeType=request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
-        session.removeAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE );
+        session.removeAttribute(imageCodeType + SessionConstant.SESSION_IMAGECODE );
 
         return authentication;
     }

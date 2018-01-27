@@ -136,10 +136,20 @@ public class CustomeAuthenticationProvider extends AbstractUserDetailsAuthentica
         }
 
         if(null != username) {
-            userCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
+            String userLockFlag = stringRedisTemplate.opsForValue().get(username + RedisConstant.LOGIN_FAIL_LOCK_USER);
+            if(null != userLockFlag){
+                userCheck = true;
+            }else{
+                userCheck = false;
+            }
         }
         if(null != sessionId) {
-            sessionCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,sessionId);
+            String sessionLockFlag = stringRedisTemplate.opsForValue().get(sessionId + RedisConstant.LOGIN_FAIL_LOCK_SESSION);
+            if(null != sessionLockFlag){
+                sessionCheck = true;
+            }else{
+                sessionCheck = false;
+            }
         }
 
         if(!userCheck && !sessionCheck){

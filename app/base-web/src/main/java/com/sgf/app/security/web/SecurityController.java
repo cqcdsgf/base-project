@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -37,13 +36,23 @@ public class SecurityController {
         boolean userCheck = false;
         boolean sessionCheck = false;
 
-        if(null != username) {
-            userCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,username);
-        }
+        String sessionId = request.getSession().getId();
 
-        HttpSession session = request.getSession(false);
-        if(null != session) {
-            sessionCheck = stringRedisTemplate.opsForSet().isMember(RedisConstant.LOGIN_FAIL_LOCK_SET,session.getId());
+        if(null != username) {
+            String userLockFlag = stringRedisTemplate.opsForValue().get(username + RedisConstant.LOGIN_FAIL_LOCK_USER);
+            if(null != userLockFlag){
+                userCheck = true;
+            }else{
+                userCheck = false;
+            }
+        }
+        if(null != sessionId) {
+            String sessionLockFlag = stringRedisTemplate.opsForValue().get(sessionId + RedisConstant.LOGIN_FAIL_LOCK_SESSION);
+            if(null != sessionLockFlag){
+                sessionCheck = true;
+            }else{
+                sessionCheck = false;
+            }
         }
 
         if(!userCheck && !sessionCheck){

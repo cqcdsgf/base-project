@@ -5,9 +5,19 @@ package com.sgf.base.constant;
  */
 public class RedisConstant {
 
-    public static final String LOGIN_FAIL_LOCK_SET ="login_fail_lock_set";
+    //锁定用户的 key = %username%_login_fail_lock_user
+    public static final String LOGIN_FAIL_LOCK_USER = "_login_fail_lock";
+    //锁定session的 key = %sessionId%_login_fail_lock_session
+    public static final String LOGIN_FAIL_LOCK_SESSION ="_login_fail_lock";
+    //登录失败多少次后，才锁定用户的 key = %username%_login_fail_num_user
+    public static final String LOGIN_FAIL_NUM_USER ="_login_fail_num";
+    //登录失败多少次后，才锁定session的 key = %username%_login_fail_num_session
+    public static final String LOGIN_FAIL_NUM_SESSION ="_login_fail_num";
+    //锁定标志
+    public static final String LOGIN_FAIL_LOCK_FLAG ="lock";
 
-    public static final String LOGIN_FAIL_NUM_HASH ="login_fail_num_hash";
+
+
 
 
 }

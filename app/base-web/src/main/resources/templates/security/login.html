@@ -141,20 +141,26 @@
     });
 
     function displayImageCode(flag) {
-        //当前登录名需要图形校验，且图形校验区域未设置时
-        if (flag && $("#imageCodeArea").length<=0) {
-            var html = '<div id="imageCodeArea">';
-            html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
-            html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
-            html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张" src="/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime() />';
-            html += '</div>';
-            $('#passwordArea').after(html);
-
-            $("#changeCodeBtn").click(function () {
-                $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin" + new Date().getTime());
-            });
+        //需要图形验证码校验
+        if (flag) {
+            //没有添加图形验证码区域
+            if ($("#imageCodeArea").length<=0) {
+                var html = '<div id="imageCodeArea">';
+                html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
+                html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
+                html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张"/>';
+                html += '</div>';
+                $('#passwordArea').after(html);
+                $("#changeCodeBtn").click(function () {
+                    $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin&date" + new Date().getTime());
+                });
+            }
+            //自动获取图形验证码
+            $('#changeCodeBtn').trigger("click");
         }
     }
+
+
 
     function initFoucus() {
         var errorCode = [[${errorCode}]];

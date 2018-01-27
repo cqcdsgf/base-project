@@ -41,10 +41,10 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
         this.imageCodeType = request.getParameter(ImageCodeConstant.IMAGE_CODE_TYPE);
 
         if(StringUtils.isNotEmpty(imageCodeType)) {
-            this.session_imageCode = (String) session.getAttribute(imageCodeType + "_" + SessionConstant.SESSION_IMAGECODE);
+            this.session_imageCode = (String) session.getAttribute(imageCodeType + SessionConstant.SESSION_IMAGECODE);
         }else{
             //todo 登录时，添加了新的验证码校验类型时，需要更改此部分程序
-            this.session_imageCode = (String) session.getAttribute(sessionId + "_" + ImageCodeConstant.IMAGE_CODE_TYPE_PERSONLOGIN + "_" + SessionConstant.SESSION_IMAGECODE);
+            this.session_imageCode = (String) session.getAttribute(ImageCodeConstant.IMAGE_CODE_TYPE_PERSONLOGIN + SessionConstant.SESSION_IMAGECODE);
         }
 
 
