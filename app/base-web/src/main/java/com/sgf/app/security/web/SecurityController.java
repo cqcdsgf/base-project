@@ -1,8 +1,8 @@
 package com.sgf.app.security.web;
 
 import com.google.common.collect.Maps;
-import com.sgf.app.security.domain.SysUser;
-import com.sgf.app.security.service.UserService;
+import com.sgf.base.security.domain.SysUser;
+import com.sgf.base.security.service.UserService;
 import com.sgf.base.constant.LoginConstant;
 import com.sgf.base.constant.RedisConstant;
 import org.springframework.beans.factory.annotation.Autowired;

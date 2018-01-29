@@ -1,6 +1,6 @@
-package com.sgf.app.security.dao;
+package com.sgf.base.security.dao;
 
-import com.sgf.app.security.domain.SysUser;
+import com.sgf.base.security.domain.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

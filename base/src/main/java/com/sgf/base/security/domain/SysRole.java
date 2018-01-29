@@ -1,4 +1,4 @@
-package com.sgf.app.security.domain;
+package com.sgf.base.security.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.sgf.app.security.domain;
+package com.sgf.base.security.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

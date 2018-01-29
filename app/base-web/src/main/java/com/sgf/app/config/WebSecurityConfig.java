@@ -1,7 +1,7 @@
 package com.sgf.app.config;
 
-import com.sgf.app.security.service.CustomUserDetailsService;
-import com.sgf.base.security.custome.*;
+import com.sgf.base.security.service.CustomUserDetailsService;
+import com.sgf.base.security.custom.filter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

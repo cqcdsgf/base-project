@@ -1,4 +1,4 @@
-package com.sgf.base.security.custome;
+package com.sgf.base.security.custom.filter;
 
 import com.sgf.base.constant.ImageCodeConstant;
 import com.sgf.base.constant.LoginConstant;

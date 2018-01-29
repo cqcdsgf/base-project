@@ -1,4 +1,4 @@
-package com.sgf.base.security.custome;
+package com.sgf.base.security.custom.filter;
 
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;

@@ -1,4 +1,4 @@
-package com.sgf.base.security;
+package com.sgf.base.web.imagecode;
 
 import com.google.common.base.Optional;
 import com.sgf.base.constant.SessionConstant;

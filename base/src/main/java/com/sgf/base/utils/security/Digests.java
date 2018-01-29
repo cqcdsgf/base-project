@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  *******************************************************************************/
-package com.sgf.base.security;
+package com.sgf.base.utils.security;
 
 import org.apache.commons.lang3.Validate;
 import com.sgf.base.exception.Exceptions;

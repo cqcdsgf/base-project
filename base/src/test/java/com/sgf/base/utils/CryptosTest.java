@@ -5,7 +5,7 @@
  *******************************************************************************/
 package com.sgf.base.utils;
 
-import com.sgf.base.security.Cryptos;
+import com.sgf.base.utils.security.Cryptos;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

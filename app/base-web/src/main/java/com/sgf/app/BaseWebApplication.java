@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.sgf.base,com.sgf.app")
+@ComponentScan(basePackages = {"com.sgf.base", "com.sgf.app"})
 public class BaseWebApplication {
 
 	/*@Bean
-	public MessageRepository messageRepository() {
+    public MessageRepository messageRepository() {
 		return new InMemoryMessageRepository();
 	}
 
@@ -23,7 +23,7 @@ public class BaseWebApplication {
 		};
 	}*/
 
-	public static void main(String[] args) {
-		SpringApplication.run(BaseWebApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BaseWebApplication.class, args);
+    }
 }

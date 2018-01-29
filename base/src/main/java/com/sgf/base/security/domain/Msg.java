@@ -1,4 +1,4 @@
-package com.sgf.app.security.domain;
+package com.sgf.base.security.domain;
 
 /**
  * Created by sgf on 2017\12\26 0026.
