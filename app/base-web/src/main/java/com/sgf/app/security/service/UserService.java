@@ -1,7 +1,7 @@
 package com.sgf.app.security.service;
 
-import com.sgf.app.security.dao.SysUserRepository;
-import com.sgf.app.security.domain.SysUser;
+import com.sgf.base.security.dao.SysUserRepository;
+import com.sgf.base.security.domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,6 @@ public class UserService {
     }
 
     public SysUser findByUsername(String username){
-
         return userRepository.findByUsername(username);
     }
 
