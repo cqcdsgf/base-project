@@ -1,4 +1,4 @@
-package com.sgf.base.utils.plupload;
+package com.sgf.base.util.upload.plupload;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

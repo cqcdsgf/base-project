@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected CustomSimpleUrlAuthenticationFailureHandler customSimpleUrlAuthenticationFailureHandler() {
-        CustomSimpleUrlAuthenticationFailureHandler failureHandler = new CustomSimpleUrlAuthenticationFailureHandler("/security/backLogin?error=true");
+        CustomSimpleUrlAuthenticationFailureHandler failureHandler = new CustomSimpleUrlAuthenticationFailureHandler("/login/backLogin?error=true");
         failureHandler.setUseForward(true);
         return failureHandler;
     }
@@ -87,17 +87,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/security/**").permitAll()
-                .antMatchers("/imageCode/getCode").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/register/**").permitAll()
+                .antMatchers("/upload/**").permitAll()
+                .antMatchers("/imageCode/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .csrf().ignoringAntMatchers("/security/login")
+                .csrf().ignoringAntMatchers("/login/login")
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/security/login"))
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/login"))
                 .and()
                 .logout()
-                .logoutSuccessUrl("/security/login?logout")
+                .logoutSuccessUrl("/login/login?logout")
                 .permitAll();
 
 

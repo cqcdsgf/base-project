@@ -40,7 +40,7 @@
 </head>
 
 <body>
-<div th:replace="demo/fragments :: navbar('/demo/localUpload')"></div>
+<div th:replace="demo/fragments :: navbar('/upload/upload')"></div>
 <div class="container">
     <br>
     <div class="row">
@@ -94,7 +94,7 @@
 
     var uploader = new plupload.Uploader( { //实例化一个plupload上传对象
         browse_button: 'uploadBtn',
-        url: '/demo/localUpload',
+        url: '/upload/upload',
         multipart: true,
         runtimes: 'html5,html4,flash,silverlight',
         flash_swf_url: '/plugin/plupload/Moxie.swf',
@@ -162,7 +162,7 @@
             $("#uploader").pluploadQueue({
                 // General settings
                 runtimes : 'flash,html5,gears,browserplus,silverlight,html4',
-                url : "/demo/localUpload",
+                url : "/upload/upload",
                 //unique_names: true,
                 chunk_size : '1mb',
                 //rename : true,

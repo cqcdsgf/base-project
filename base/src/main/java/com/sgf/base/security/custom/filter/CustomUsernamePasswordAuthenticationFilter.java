@@ -40,7 +40,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends
     // ===================================================================================================
 
     public CustomUsernamePasswordAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/security/login", "POST"));
+        super(new AntPathRequestMatcher("/login/login", "POST"));
     }
 
     // ~ Methods

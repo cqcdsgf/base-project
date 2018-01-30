@@ -34,7 +34,7 @@ public class CustomWebAuthenticationDetails extends WebAuthenticationDetails {
 
         String username = request.getParameter(LoginConstant.LOGIN_USERNAME);
         Assert.notNull(username,"用户名不能为空！");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         sessionId = session.getId();
 
         this.imageCode = request.getParameter(ImageCodeConstant.IMAGE_CODE);

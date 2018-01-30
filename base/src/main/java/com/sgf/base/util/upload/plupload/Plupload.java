@@ -1,4 +1,4 @@
-package com.sgf.base.utils.plupload;
+package com.sgf.base.util.upload.plupload;
 
 import javax.servlet.http.HttpServletRequest;
 
