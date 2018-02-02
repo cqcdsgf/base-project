@@ -1,16 +1,23 @@
 package com.sgf.app.config;
 
-import com.sgf.base.security.service.CustomUserDetailsService;
 import com.sgf.base.security.custom.filter.*;
+import com.sgf.base.security.custom.interceptor.CustomAccessDecisionManager;
+import com.sgf.base.security.custom.interceptor.CustomFilterSecurityInterceptor;
+import com.sgf.base.security.custom.interceptor.CustomSecurityMetadataSource;
+import com.sgf.base.security.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
 
@@ -19,6 +26,30 @@ import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    public FilterInvocationSecurityMetadataSource customSecurityMetadataSource() {
+        CustomSecurityMetadataSource securityMetadataSource = new CustomSecurityMetadataSource();
+        return securityMetadataSource;
+    }
+
+    @Bean
+    public AccessDecisionManager customAccessDecisionManager() {
+        return new CustomAccessDecisionManager();
+    }
+
+
+    @Bean
+    CustomFilterSecurityInterceptor customFilterSecurityInterceptor(){
+        CustomFilterSecurityInterceptor customFilterSecurityInterceptor = new CustomFilterSecurityInterceptor();
+
+       customFilterSecurityInterceptor.setSecurityMetadataSource(customSecurityMetadataSource());
+        customFilterSecurityInterceptor.setAccessDecisionManager( new CustomAccessDecisionManager());
+
+        return customFilterSecurityInterceptor;
+    }
+
+
 
     @Bean
     UserDetailsService customUserDetailsService() {
@@ -86,12 +117,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //注册customUsernamePasswordAuthenticationFilter  注意放置的顺序 这很关键
         http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
 
-        http.authorizeRequests()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/upload/**").permitAll()
-                .antMatchers("/imageCode/**").permitAll()
+
+/*        http.authorizeRequests()
                 .anyRequest().authenticated()
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    public <O extends FilterSecurityInterceptor> O postProcess(
+                            O fsi) {
+                        fsi.setSecurityMetadataSource(customSecurityMetadataSource());
+                        fsi.setAccessDecisionManager(customAccessDecisionManager());
+                        return fsi;
+                    }
+                })
                 .and()
                 .csrf().ignoringAntMatchers("/login/login")
                 .and()
@@ -100,7 +136,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login/login?logout")
+                .permitAll();*/
+
+
+        http.authorizeRequests()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/login/login").permitAll()
+                .antMatchers("/login/logout").permitAll()
+                .antMatchers("/login/login?logout").permitAll()
+/*                .antMatchers("/register*//**").permitAll()
+                .antMatchers("/upload*//**").permitAll()
+                .antMatchers("/imageCode*//**").permitAll()*/
+                .anyRequest().authenticated()
+/*                 .and()
+               .csrf().ignoringAntMatchers("/login/login")*/
+                .and()
+                .exceptionHandling()
+                //.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/login"))
+                .and()
+                .logout()
+               // .logoutSuccessUrl("/login/login?logout")
                 .permitAll();
+
+        http.addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
 
 
 

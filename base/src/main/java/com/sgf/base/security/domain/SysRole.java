@@ -3,12 +3,13 @@ package com.sgf.base.security.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * Created by sgf on 2017\12\26 0026.
  */
 @Entity
-public class SysRole {
+public class SysRole implements Serializable{
 
     @Id
     @GeneratedValue
