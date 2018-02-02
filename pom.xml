@@ -16,9 +16,9 @@
     </properties>
 
     <modules>
+        <module>parent</module>
         <module>base</module>
         <module>app</module>
-        <module>parent</module>
     </modules>
 
 </project>
