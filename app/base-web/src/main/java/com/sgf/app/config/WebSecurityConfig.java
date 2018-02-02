@@ -117,17 +117,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //注册customUsernamePasswordAuthenticationFilter  注意放置的顺序 这很关键
         http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
 
-
-/*        http.authorizeRequests()
+        http.authorizeRequests()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/register/**").permitAll()
+                .antMatchers("/upload/**").permitAll()
+                .antMatchers("/imageCode/**").permitAll()
                 .anyRequest().authenticated()
-                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    public <O extends FilterSecurityInterceptor> O postProcess(
-                            O fsi) {
-                        fsi.setSecurityMetadataSource(customSecurityMetadataSource());
-                        fsi.setAccessDecisionManager(customAccessDecisionManager());
-                        return fsi;
-                    }
-                })
                 .and()
                 .csrf().ignoringAntMatchers("/login/login")
                 .and()
@@ -136,26 +131,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login/login?logout")
-                .permitAll();*/
-
-
-        http.authorizeRequests()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/login/login").permitAll()
-                .antMatchers("/login/logout").permitAll()
-                .antMatchers("/login/login?logout").permitAll()
-/*                .antMatchers("/register*//**").permitAll()
-                .antMatchers("/upload*//**").permitAll()
-                .antMatchers("/imageCode*//**").permitAll()*/
-                .anyRequest().authenticated()
-/*                 .and()
-               .csrf().ignoringAntMatchers("/login/login")*/
-                .and()
-                .exceptionHandling()
-                //.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/login"))
-                .and()
-                .logout()
-               // .logoutSuccessUrl("/login/login?logout")
                 .permitAll();
 
         http.addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
