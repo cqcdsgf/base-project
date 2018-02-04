@@ -26,7 +26,7 @@ public class ImageCodeController {
 
     private int width = 120;
 
-    private int height = 42;
+    private int height = 34;
 
     private int codeCount = 4;
 
@@ -34,7 +34,7 @@ public class ImageCodeController {
 
     private int fontHeight = 25;
 
-    private int codeY = 30;
+    private int codeY = 28;
 
     private char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
             'Y', 'Z', '2', '3', '4', '5', '6', '7', '8', '9'};

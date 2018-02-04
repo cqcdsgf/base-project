@@ -8,58 +8,66 @@
 
     <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
     <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
     <style type="text/css">
-        body {
-            padding-top: 50px;
-        }
         .starter-template {
-            padding: 40px 15px;
+            padding: 30px 15px;
             text-align: center;
         }
+        .logo img{ height: 50px; display: inline-block;}
     </style>
 
 
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><a th:href="@{/register/toRegister}"> 注册 </a></li>
+<div style="background:lightseagreen url('../../../images/0201.jpg') center no-repeat; height: 300px; width: 100%; position: fixed; top: 0; z-index: 0;"></div>
+<div class="container" style="margin: 50px 0 0 0;">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="starter-template logo text-left"><img src="../../static/images/logo.png" th:src="@{/images/logo.png}"/></div>
+            <div class="panel panel-default">
+                <div class="panel-body starter-template">
+                    <div class="starter-template col-md-6 carousel slide " style="" id="carousel" data-ride="carousel" data-interval="3000">
+                        <!-- 轮播（Carousel）项目 -->
+                        <div class="carousel-inner hidden-xs">
+                            <div class="item active">
+                                <img src="../../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
+                            </div>
+                            <div class="item">
+                                <img src="../../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    <h3>使用账号密码登录</h3>
+                    <form id="loginForm" name="loginForm" class="text-left" th:action="@{/login/login}" action="/login/login" method="POST">
+                        <div class="form-group">
+                            <!--<label for="username">账号</label>-->
+                            <input type="text" id="username"  class="form-control" name="username" value="" th:value="${username}"  placeholder="账号" />
+                        </div>
+                        <div id="passwordArea" class="form-group">
+                            <!--<label for="password">密码</label>-->
+                            <input type="password" id="password" class="form-control" name="password" th:value="${password}" placeholder="密码" />
+                        </div>
+                        <p th:if="${param.logout}" class="bg-warning">已成功注销</p>
 
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</nav>
-<div class="container">
+                        <small th:if="${message}"><span class="badge alert-danger pull-left">!</span><p class="text-danger" th:text="${message}"></p></small>
 
-    <div class="starter-template">
-        <p th:if="${param.logout}" class="bg-warning">已成功注销</p>
+                        <small th:if="${param.error}"><span class="badge alert-danger pull-left">!</span><p class="text-danger" th:text="${errorCode}">有错误，请重试</p></small>
 
-        <p th:if="${message}" class="bg-warning" th:text="${message}"></p>
-
-        <p th:if="${param.error}" class="bg-danger" th:text="${errorCode}">有错误，请重试</p>
-
-        <p th:if="${param.error}" class="bg-danger" th:text="${errorMessage}">有错误，请重试</p>
-
-        <h2>使用账号密码登录</h2>
-        <form id="loginForm" name="loginForm" th:action="@{/login/login}" action="/login/login" method="POST">
-            <div class="form-group">
-                <label for="username">账号</label>
-                <input type="text" id="username"  class="form-control" name="username" value="" th:value="${username}"  placeholder="账号" />
+                        <small th:if="${param.error}"><span class="badge alert-danger pull-left">!</span><p class="text-danger" th:text="${errorMessage}">有错误，请重试</p></small>
+                        <div class="form-group">
+                            <input type="submit" id="login" value="Login" class="btn btn-primary btn-block" />
+                        </div>
+                        <div class="text-right">还没有账号，<a th:href="@{/register/toRegister}">立即注册&nbsp;<span class="glyphicon glyphicon glyphicon-log-in" aria-hidden="true"></span></a></div>
+                    </form>
+                    </div>
+                </div>
             </div>
-            <div id="passwordArea" class="form-group">
-                <label for="password">密码</label>
-                <input type="password" id="password" class="form-control" name="password" th:value="${password}" placeholder="密码" />
-            </div>
-
-            <input type="submit" id="login" value="Login" class="btn btn-primary" />
-        </form>
+        </div>
     </div>
-
 </div>
-
 
 
 <script type="text/javascript"  th:inline="javascript">
@@ -99,7 +107,7 @@
                     maxlength: "密码最多20个字符"
                 }
             },
-            errorElement: "em",
+            errorElement: "small",
             errorPlacement: function ( error, element ) {
                 // Add the `help-block` class to the error element
                 error.addClass( "help-block" );
@@ -119,7 +127,7 @@
         });
 
         if ($("#imageCodeArea").length > 0) {
-            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码"}});
+            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码2"}});
         }
     }
 
@@ -145,10 +153,12 @@
         if (flag) {
             //没有添加图形验证码区域
             if ($("#imageCodeArea").length<=0) {
-                var html = '<div id="imageCodeArea">';
-                html += '<input type="text" maxlength="4" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
+                var html = '<div id="imageCodeArea" class="input-group">';
+                html += '<input type="text" maxlength="4" class="form-control" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
                 html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
+                html +='<div class="input-group-btn">';
                 html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张"/>';
+                html +='</div>';
                 html += '</div>';
                 $('#passwordArea').after(html);
                 $("#changeCodeBtn").click(function () {
@@ -181,7 +191,7 @@
 
     function addRule() {
         if ($("#imageCodeArea").length > 0) {
-            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码"}});
+            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码1"}});
         }
     }
 </script>
