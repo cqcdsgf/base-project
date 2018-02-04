@@ -18,8 +18,7 @@ public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor
     private static final Logger logger = LoggerFactory.getLogger(CustomFilterSecurityInterceptor.class);
 
 
-
-        private FilterInvocationSecurityMetadataSource securityMetadataSource;
+    private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
     public FilterInvocationSecurityMetadataSource getSecurityMetadataSource() {
         return this.securityMetadataSource;
@@ -56,7 +55,6 @@ public class CustomFilterSecurityInterceptor extends AbstractSecurityInterceptor
         }
 
     }
-
 
 
     public void setSecurityMetadataSource(
