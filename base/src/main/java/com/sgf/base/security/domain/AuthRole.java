@@ -16,8 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "permissions")
-@ToString(exclude = "permissions")
+@EqualsAndHashCode(exclude = {"permissions","users"})
+@ToString(exclude = {"permissions","users"})
 public class AuthRole extends BaseEntity {
     private static final long serialVersionUID = 8632534750238058622L;
 
@@ -39,7 +39,8 @@ public class AuthRole extends BaseEntity {
             inverseJoinColumns={@JoinColumn(name="permission_id")})
     private Set<AuthPermission> permissions = new HashSet<AuthPermission>();
 
-
+    @ManyToMany(mappedBy = "roles")
+    private Set<AuthUser> users = new HashSet<AuthUser>();
 
 
 }

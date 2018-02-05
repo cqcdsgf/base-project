@@ -5,17 +5,19 @@ import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by sgf on 2018\2\5 0005.
  */
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "roles")
+@ToString(exclude = "roles")
 public class AuthUser extends BaseEntity {
     private static final long serialVersionUID = 6712090898187767157L;
 
@@ -33,6 +35,12 @@ public class AuthUser extends BaseEntity {
     private String phone;
     //电子邮箱
     private String email;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinTable(name = "auth_user_role",
+            joinColumns ={@JoinColumn(name ="user_id")},
+            inverseJoinColumns={@JoinColumn(name="role_id")})
+    private Set<AuthRole> roles = new HashSet<AuthRole>();
 
 
 

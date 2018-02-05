@@ -76,10 +76,10 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
     }
 
     @Transactional(readOnly = false)
-    public void save(Iterable<T> entities) {
+    public List<T> save(Iterable<T> entities) {
         Validate.notNull(entities, "save操作时，entities不能为空");
 
-        this.dao.save(entities);
+        return this.dao.save(entities);
     }
 
     @Transactional(readOnly = false)
@@ -87,7 +87,6 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
         Validate.notNull(entity, "delete操作时，entity不能为空");
 
         this.dao.delete(entity);
-
     }
 
     @Transactional(readOnly = false)
@@ -102,7 +101,13 @@ public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
         Validate.notNull(entities, "delete操作时，entities不能为空");
 
         this.dao.delete(entities);
+    }
 
+    @Transactional(readOnly = false)
+    public void deleteAll(){
+        logger.warn("{}:注意，将要删除全表数据！",this.dao.toString());
+
+        this.dao.deleteAll();
     }
 
     @Transactional(readOnly = true)
