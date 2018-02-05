@@ -30,21 +30,11 @@ public class AuthRoleService extends BaseService<AuthRole,Long>{
     @Transactional
     public void updateAndRemove(){
 
-        AuthRole authRole = authRoleDao.findOne(2L);
-  /*      authRole.setSummary("sgf");
-
-        authRole.getPermissions().clear();
+        AuthRole authRole = authRoleDao.findOne(1L);
 
         Long[] ids = new Long[2];
         ids[0] = 1L;
         ids[1] = 2L;
-        List<AuthPermission> authPermissions = authPermissionDao.findAll(Arrays.asList(ids));
-
-        authRole.getPermissions().addAll(authPermissions);*/
-
-        Long[] ids = new Long[2];
-        ids[0] = 4L;
-        ids[1] = 5L;
         List<AuthPermission> authPermissions = authPermissionDao.findAll(Arrays.asList(ids));
 
 
