@@ -6,20 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by sgf on 2018\2\5 0005.
  */
 @Entity
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class AuthUser extends BaseEntity {
     private static final long serialVersionUID = 6712090898187767157L;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthUser.class);
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
 
     //用户名
     private String username;

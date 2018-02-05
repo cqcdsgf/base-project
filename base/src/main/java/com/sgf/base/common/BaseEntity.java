@@ -23,13 +23,7 @@ import java.util.Date;
  */
 // JPA 基类的标识
 @MappedSuperclass
-@NoArgsConstructor
-@Data
 public abstract class BaseEntity implements Serializable{
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Long id;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -38,14 +32,6 @@ public abstract class BaseEntity implements Serializable{
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date modifyTime;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Date getCreateTime() {
 		return createTime;
