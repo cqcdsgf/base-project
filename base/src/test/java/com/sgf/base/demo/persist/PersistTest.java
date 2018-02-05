@@ -28,7 +28,7 @@ public class PersistTest {
      * 仅将被维护方对象添加进维护方对象Set中
      * 保存维护方对象
      */
-    @Test
+    //@Test
     public void 多对多插入1(){
         Student s = new Student();
         s.setSName("一一一");
@@ -48,7 +48,7 @@ public class PersistTest {
      * 仅将维护方对象添加进被维护方对象Set中
      * 保存被维护方对象
      */
-    @Test
+    //@Test
    //@Transactional
     public void 多对多插入2(){
         Student s1 = new Student();
@@ -94,7 +94,7 @@ public class PersistTest {
     /**
      * 删除维护方对象
      */
-    @Test
+    //@Test
     public void 删除维护方对象(){
         Student s = studentService.findByName("三三三");
         Student s1 = studentService.findByName("五五五");
