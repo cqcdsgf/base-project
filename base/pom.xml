@@ -23,7 +23,7 @@
         <hibernate-validator.version>5.0.3.Final</hibernate-validator.version>
    <!--     <jackson.version>2.4.0</jackson.version>-->
         <slf4j.version>1.7.7</slf4j.version>
-        <logback.version>1.1.2</logback.version>
+ <!--       <logback.version>1.1.2</logback.version>-->
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-io.version>2.4</commons-io.version>
         <guava.version>17.0</guava.version>
@@ -142,11 +142,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
-        </dependency>
+        </dependency>-->
         <!-- LOGGING end -->
 
         <!-- TEST begin -->
