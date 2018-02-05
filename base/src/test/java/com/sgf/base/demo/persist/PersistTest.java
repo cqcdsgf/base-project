@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BaseApplication.class)
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 public class PersistTest {
 
     @Autowired
@@ -29,11 +33,8 @@ public class PersistTest {
         Student s = new Student();
         s.setSName("一一一");
 
-
         Course c = new Course();
         c.setCName("语文");
-        //c = courseService.save(c);
-
         Course c1 = new Course();
         c1.setCName("dddd");
 
@@ -41,32 +42,32 @@ public class PersistTest {
         s.getCourses().add(c1);
         studentService.save(s);
 
-
-        Student s1 = new Student();
-        s1.setSName("二二二");
-
-//        Course c2 =  courseService.findByName("dddd");
-//        Course c3 =  courseService.findByName("语文");
-
-        s1.getCourses().add(c);
-        s1.getCourses().add(c1);
-        studentService.save(s1);
-
     }
 
     /**
      * 仅将维护方对象添加进被维护方对象Set中
      * 保存被维护方对象
      */
-    //@Test
+    @Test
+   //@Transactional
     public void 多对多插入2(){
-        Student s = new Student();
-        s.setSName("二二二");
-        Course c = new Course();
-        c.setCName("数学 ");
+        Student s1 = new Student();
+        s1.setSName("四四四");
 
-        c.getStudents().add(s);
-        courseService.save(c);
+        Student s2 = new Student();
+        s2.setSName("五五五");
+
+        Course c1 =  courseService.findByName("dddd");
+        Course c2 =  courseService.findByName("语文");
+
+        s1.getCourses().add(c1);
+        s1.getCourses().add(c2);
+
+        s2.getCourses().add(c1);
+        s2.getCourses().add(c2);
+
+       studentService.save(s1);
+        studentService.save(s2);
     }
 
     /**
@@ -93,13 +94,13 @@ public class PersistTest {
     /**
      * 删除维护方对象
      */
-    //@Test
+    @Test
     public void 删除维护方对象(){
-        Student s = studentService.findByName("一一一");
+        Student s = studentService.findByName("三三三");
+        Student s1 = studentService.findByName("五五五");
 
         studentService.delete(s);
-
-
+        studentService.delete(s1);
     }
 
 
