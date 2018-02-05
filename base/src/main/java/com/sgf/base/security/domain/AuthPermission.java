@@ -1,8 +1,7 @@
 package com.sgf.base.security.domain;
 
 import com.sgf.base.common.BaseEntity;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,10 @@ import java.util.Set;
  */
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "roles")
+@ToString(exclude = "roles")
 public class AuthPermission extends BaseEntity {
     private static final long serialVersionUID = 8433686206665788172L;
 
@@ -33,13 +35,8 @@ public class AuthPermission extends BaseEntity {
 
     private String summary;
 
-/*
-    @ManyToMany
-    @JoinTable(name = "auth_role_permission",
-            joinColumns ={@JoinColumn(name ="permission_id")},
-            inverseJoinColumns={@JoinColumn(name="role_id")})
+    @ManyToMany(mappedBy = "permissions")
     private Set<AuthRole> roles = new HashSet<AuthRole>();
-*/
 
 
 

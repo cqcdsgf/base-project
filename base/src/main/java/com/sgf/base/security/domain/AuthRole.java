@@ -1,8 +1,7 @@
 package com.sgf.base.security.domain;
 
 import com.sgf.base.common.BaseEntity;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,10 @@ import java.util.Set;
  */
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = "permissions")
+@ToString(exclude = "permissions")
 public class AuthRole extends BaseEntity {
     private static final long serialVersionUID = 8632534750238058622L;
 
