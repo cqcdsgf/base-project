@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.sgf.app.demo.crud.web;
+package com.sgf.base.demo.crud.web;
 
-import com.sgf.app.demo.crud.domain.Message;
-import com.sgf.app.demo.crud.dao.MessageRepository;
+import com.sgf.base.demo.crud.domain.Message;
+import com.sgf.base.demo.crud.dao.MessageRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

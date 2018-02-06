@@ -1,4 +1,4 @@
-package com.sgf.app.demo.web;
+package com.sgf.base.demo.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
