@@ -1,8 +1,8 @@
-package com.sgf.app.config;
+package com.sgf.base.config;
 
 import com.sgf.base.demo.crud.dao.InMemoryMessageRepository;
-import com.sgf.base.demo.crud.domain.Message;
 import com.sgf.base.demo.crud.dao.MessageRepository;
+import com.sgf.base.demo.crud.domain.Message;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册页面</title>
+    <link rel="stylesheet" href="../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css" th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}" />
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <style type="text/css">
+        .starter-template {
+            padding: 30px 15px;
+            text-align: center;
+        }
+        .logo img{ height: 50px; display: inline-block;}
+    </style>
+</head>
+<body>
+<div style="background:lightseagreen url('../../../images/0201.jpg') center no-repeat; height: 300px; width: 100%; position: fixed; top: 0; z-index: 0;"></div>
+<div class="container" style="margin: 50px 0 0 0;">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="starter-template logo text-left"><img src="../../static/images/logo.png" th:src="@{/images/logo.png}"/></div>
+            <div class="panel panel-default">
+                <div class="panel-body starter-template">
+                    <div class="starter-template col-md-6 carousel slide " style="" id="carousel" data-ride="carousel" data-interval="3000">
+                        <!-- 轮播（Carousel）项目 -->
+                        <div class="carousel-inner hidden-xs">
+                            <div class="item active">
+                                <img src="../../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
+                            </div>
+                            <div class="item">
+                                <img src="../../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <h3 class="text-left">注册<i class="text-muted">&nbsp;|&nbsp;</i><small>欢迎注册</small></h3>
+                        <p th:if="${errorMessage}" class="bg-warning" th:text="${errorMessage}"></p>
+                        <form id="registerForm" class="text-left" name="form" th:action="@{/register/register}" action="/register/register" method="POST">
+                            <div class="form-group">
+                                <input type="text" id="username" class="form-control" name="username" value="" th:value="${username}" placeholder="请输入用户名" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="password" class="form-control" name="password" placeholder="请输入密码" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="请确认密码" />
+                            </div>
+                            <h6 class="text-left text-muted">注册代表你同意<a href="#">《注册服务协议》</a></h6>
+                            <div class="form-group">
+                            <input type="submit" id="register" value="register" class="btn btn-primary btn-block" />
+                            </div>
+                        </form>
+                        <div class="text-right">已有账号，<a th:href="@{/login/login}">直接登录&nbsp;<span class="glyphicon glyphicon glyphicon-log-in" aria-hidden="true"></span></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center text-muted">
+            <small>Copyright © 1998-2018Tencent All Rights Reserved</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript"  th:inline="javascript">
+    $( document ).ready( function () {
+        $("#username")[0].focus();
+
+        $( "#registerForm" ).validate( {
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                password: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20,
+                    equalTo: "#password"
+                },
+            },
+            messages: {
+                username: {
+                    required: "请输入登录名",
+                    minlength: "登录名至少3个字符",
+                    maxlength: "登录名最多20个字符"
+                },
+                password: {
+                    required: "请输入密码",
+                    minlength: "密码至少3个字符",
+                    maxlength: "密码最多20个字符"
+                },
+                confirm_password: {
+                    required: "请再次输入密码",
+                    minlength: "密码至少3个字符",
+                    maxlength: "密码最多20个字符",
+                    equalTo: "与原输入密码不相符"
+                }
+            },
+            errorElement: "small",
+            errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "help-block" );
+
+                if ( element.prop( "type" ) === "checkbox" ) {
+                    error.insertAfter( element.parent( "label" ) );
+                } else {
+                    error.insertAfter( element );
+                }
+            },
+            highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

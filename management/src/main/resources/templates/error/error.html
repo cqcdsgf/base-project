@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>统一异常处理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+
+<body>
+<h2>路径：</h2>
+<p th:text="${path}"></p>
+
+<h2>响应码：</h2>
+<p th:text="${status}"></p>
+
+<h2>错误码：</h2>
+<p th:text="${errorCode}"></p>
+
+<h2>基本信息：</h2>
+<p th:text="${message}"></p>
+
+<h2>错误详情：</h2>
+<p th:text="${trace}"></p>
+
+</body>
+</html>
