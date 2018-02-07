@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-<div style="background:lightseagreen url('../../../images/0201.jpg') center no-repeat; height: 300px; width: 100%; position: fixed; top: 0; z-index: 0;"></div>
+<div style="background:lightseagreen url('../../../images/0201.jpg') center no-repeat; height: 360px; width: 100%; position: fixed; top: 0; z-index: 0;"></div>
 <div class="modal show" style="margin: 50px 0 0 0;">
     <div class="modal-dialog">
             <div class="starter-template logo text-left"><img src="../../static/images/logo.png" th:src="@{/images/logo.png}"/></div>
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 ">
-                        <h3 class="text-left">注册<i class="text-muted">&nbsp;|&nbsp;</i><small>欢迎注册</small></h3>
+                        <div class="modal-header row" style="border: none;"><h3 class="text-left">注册<i class="text-muted">&nbsp;|&nbsp;</i><small>欢迎注册</small></h3></div>
                         <p th:if="${errorMessage}" class="bg-warning" th:text="${errorMessage}"></p>
                         <form id="registerForm" class="text-left" name="form" th:action="@{/register/register}" action="/register/register" method="POST">
                             <div class="form-group">
