@@ -27,20 +27,20 @@
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="http://localhost:8080/demo/template">Template</a></li>
+				<ul class="nav navbar-nav" id="navId">
+					<li class=""><a href="/demo/template">Template</a></li>
 					<li><a href="/demo/crud/list">msgList</a></li>
-					<li><a href="http://localhost:8080/demo/demoValidate">DemoValidate</a></li>
-					<li><a href="http://localhost:8080/demo/demoDate">DemoDate</a></li>
+					<li><a href="/demo/demoValidate">DemoValidate</a></li>
+					<li><a href="/demo/demoDate">DemoDate</a></li>
 					<!--<li><a href="http://localhost:8080/demoPostDate">DemoPostDate</a></li>-->
-					<li><a href="http://localhost:8080/demo/demoRichText">DemoRichText</a></li>
-					<li><a href="http://localhost:8080/demo/demoCity">DemoCity</a></li>
-					<li><a href="http://localhost:8080/demo/demoUpload">DemoUpload</a></li>
+					<li><a href="/demo/demoRichText">DemoRichText</a></li>
+					<li><a href="/demo/demoCity">DemoCity</a></li>
+					<li><a href="/demo/demoUpload">DemoUpload</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li>
+					<li style="padding-top: 8px;">
 						<form th:action="@{/logout}" method="post">
-							<input type="submit" class="btn btn-primary" value="注销"/><!-- 5 -->
+							<input type="submit" class="btn btn-primary" value="注销"/>
 						</form>
 					</li>
 				</ul>
@@ -77,18 +77,15 @@
 	<a href="#carousel" data-slide="next" class="carousel-control right hidden-xs">
 		<span class="glyphicon glyphicon-chevron-right"></span>
 	</a>
-
-
-	选中模块的路径 ： <p id="path" th:text="${path}"></p>
+	<!--选中模块的路径 ：<p id="path" th:text="${path}"></p> -->
 	<script type="text/javascript">
-
-		var path = $('#path').text();
-
-
-
+        $(function() {
+            $('#navId a').each(function(){
+                if($($(this))[0].href==String(window.location))
+                    $(this).parent().addClass('active');
+            });
+        })
 	</script>
-
-
 </div>
 <div th:fragment="bottom" class="container-fluid">
 	<hr>
@@ -99,10 +96,5 @@
 	<br>
 
 </div>
-
-
-
-
-
 </body>
 </html>
