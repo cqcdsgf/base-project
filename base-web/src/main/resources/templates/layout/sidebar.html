@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"  th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/customized.css" th:href="@{/css/customized.css}"/>
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
+</head>
+
+<body>
+<div th:fragment="sidebar" id="sidebar">
+
+    <dl class="nav">
+        <dd>
+            <a href="http://localhost:8080/demo/template">Template</a>
+        </dd>
+        <dd>
+            <li><a href="/demo/crud/list">msgList</a></li>
+        </dd>
+        <dd>
+            <a href="http://localhost:8080/demo/demoValidate">DemoValidate</a>
+        </dd>
+        <dd>
+            <a href="http://localhost:8080/demo/demoDate">DemoDate</a>
+        </dd>
+        <dd>
+            <a href="http://localhost:8080/demo/demoRichText">DemoRichText</a>
+        </dd>
+        <dd>
+            <a href="http://localhost:8080/demo/demoCity">DemoCity</a>
+        </dd>
+        <dd>
+            <a href="http://localhost:8080/demo/demoUpload">DemoUpload</a>
+        </dd>
+    </dl>
+    <dl class="nav">
+        <dd>
+            <a href="">测试1</a>
+        </dd>
+        <dd>
+            <a href="">测试2</a>
+        </dd>
+    </dl>
+
+
+
+
+</div>
+
+
+</body>
+</html>
