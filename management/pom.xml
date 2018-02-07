@@ -21,6 +21,7 @@
 	<properties>
 		<thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
+		<start-class>com.sgf.app.ManagementApplication</start-class>
 	</properties>
 
 	<dependencies>

@@ -48,6 +48,15 @@
         </profile>
     </profiles>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
     <!--定义snapshots库和releases库的nexus地址-->
     <distributionManagement>
         <repository>

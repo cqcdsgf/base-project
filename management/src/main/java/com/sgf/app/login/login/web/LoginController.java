@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by sgf on 2018\1\30 0030.
  */
 @Controller
-@RequestMapping("/login")
+//@RequestMapping("/login")
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -58,7 +58,7 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/backLogin")
+    @RequestMapping(value = "/login/backLogin")
     public ModelAndView backLogin(HttpServletRequest request, String username, String password, String imageCode){
         boolean loginFailFlag = getLoginFailFlag(username,request);
 
@@ -72,7 +72,7 @@ public class LoginController {
     }
 
     @ResponseBody
-    @GetMapping("/checkUsername")
+    @GetMapping("/login/checkUsername")
     public  Map<String, Object> checkUsername(HttpServletRequest request,String username){
         boolean loginFailFlag = getLoginFailFlag(username,request);
 
@@ -83,7 +83,7 @@ public class LoginController {
 
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login/login")
     public ModelAndView toLogin(HttpServletRequest request,String username){
         boolean loginFailFlag = getLoginFailFlag(username,request);
 

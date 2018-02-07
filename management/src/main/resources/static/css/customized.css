@@ -1,0 +1,13 @@
+.x-margin0{ margin: 0;}
+
+/*特殊处理导航  在小于767（根据bootstrap）的情况下去除两边间距*/
+.x-navbar{position: absolute;z-index: 99; left: 15px; right: 15px; top: 10px;}
+@media screen and (max-width:767px){
+    .x-navbar{ position: inherit; left: 0; right:0; top:0; margin-bottom:0;}
+}
+/*模块标题*/
+.x-mod-title{position: relative;}
+.x-mod-title span{position: absolute;top: -48px;left: 0;background: #fff;color: blue;}
+
+/*多余内容隐藏，三个点结尾 PS 只能一行*/
+.x-text-ellipsis{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
