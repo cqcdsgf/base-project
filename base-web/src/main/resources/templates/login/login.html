@@ -27,7 +27,7 @@
         <div class="starter-template logo text-left"><img src="../../static/images/logo.png" th:src="@{/images/logo.png}"/></div>
         <div class="panel panel-default">
                 <div class="panel-body starter-template">
-                    <div class="starter-template col-md-6 carousel slide hidden-xs" style="" id="carousel" data-ride="carousel" data-interval="3000">
+                    <div class="starter-template col-md-6 carousel slide hidden-xs hidden-sm" style="" id="carousel" data-ride="carousel" data-interval="3000">
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-xs-12">
                         <div class="modal-header row" style="border: none;"><h3>使用账号密码登录</h3></div>
                         <form id="loginForm" name="loginForm" class="text-left" th:action="@{/login/login}" action="/login/login" method="POST">
                             <div class="form-group">
