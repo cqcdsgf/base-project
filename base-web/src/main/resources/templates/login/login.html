@@ -21,13 +21,13 @@
 </head>
 <body>
 
-<div style="background:lightseagreen url('../../../images/0201.jpg') center no-repeat; height: 300px; width: 100%; position: fixed; top: 0; z-index: 0;"></div>
+<div style="background:lightseagreen url('../../../images/0201.jpg') center no-repeat; height: 360px; width: 100%; position: fixed; top: 0; z-index: 0;"></div>
 <div class="modal show" style="margin: 50px 0 0 0;">
     <div class="modal-dialog">
         <div class="starter-template logo text-left"><img src="../../static/images/logo.png" th:src="@{/images/logo.png}"/></div>
         <div class="panel panel-default">
                 <div class="panel-body starter-template">
-                    <div class="starter-template col-md-6 carousel slide hidden-xs" style="" id="carousel" data-ride="carousel" data-interval="3000">
+                    <div class="starter-template col-md-6 carousel slide hidden-xs hidden-sm" style="" id="carousel" data-ride="carousel" data-interval="3000">
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
@@ -38,16 +38,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <h3>使用账号密码登录</h3>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="modal-header row" style="border: none;"><h3>使用账号密码登录</h3></div>
                         <form id="loginForm" name="loginForm" class="text-left" th:action="@{/login/login}" action="/login/login" method="POST">
                             <div class="form-group">
                                 <!--<label for="username">账号</label>-->
-                                <input type="text" id="username"  class="form-control input-lg" name="username" value="" th:value="${username}"  placeholder="账号" />
+                                <input type="text" id="username"  class="form-control input-lg" name="username" value="" th:value="${username}"  placeholder="请输入账号" />
                             </div>
                             <div id="passwordArea" class="form-group">
                                 <!--<label for="password">密码</label>-->
-                                <input type="password" id="password" class="form-control input-lg" name="password" th:value="${password}" placeholder="密码" />
+                                <input type="password" id="password" class="form-control input-lg" name="password" th:value="${password}" placeholder="请输入密码" />
                             </div>
                             <p th:if="${param.logout}" class="text-primary sr-only">已成功注销</p>
 
