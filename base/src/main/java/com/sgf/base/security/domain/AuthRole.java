@@ -33,6 +33,9 @@ public class AuthRole extends BaseEntity {
     //摘要
     private String summary;
 
+    @Transient
+    private boolean isSelected;
+
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "auth_role_permission",
             joinColumns ={@JoinColumn(name ="role_id")},
