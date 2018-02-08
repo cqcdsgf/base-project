@@ -1,5 +1,6 @@
-package com.sgf.base.security.domain;
+package com.sgf.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sgf.base.common.BaseEntity;
 import lombok.*;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ public class AuthRole extends BaseEntity {
             inverseJoinColumns={@JoinColumn(name="permission_id")})
     private Set<AuthPermission> permissions = new HashSet<AuthPermission>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<AuthUser> users = new HashSet<AuthUser>();
 

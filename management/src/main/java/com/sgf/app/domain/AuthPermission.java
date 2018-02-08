@@ -1,5 +1,6 @@
-package com.sgf.base.security.domain;
+package com.sgf.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sgf.base.common.BaseEntity;
 import lombok.*;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ public class AuthPermission extends BaseEntity {
 
     private String summary;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "permissions")
     private Set<AuthRole> roles = new HashSet<AuthRole>();
 

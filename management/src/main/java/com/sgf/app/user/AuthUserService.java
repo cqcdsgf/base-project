@@ -1,7 +1,7 @@
-package com.sgf.base.security.service;
+package com.sgf.app.user;
 
+import com.sgf.app.domain.AuthUser;
 import com.sgf.base.common.BaseService;
-import com.sgf.base.security.domain.AuthUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

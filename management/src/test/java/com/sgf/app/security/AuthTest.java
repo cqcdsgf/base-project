@@ -1,14 +1,13 @@
-package com.sgf.base.security;
+package com.sgf.app.security;
 
+import com.sgf.app.domain.AuthPermission;
+import com.sgf.app.domain.AuthRole;
+import com.sgf.app.domain.AuthUser;
+import com.sgf.app.permission.AuthPermissionService;
+import com.sgf.app.role.AuthRoleService;
+import com.sgf.app.user.AuthUserService;
 import com.sgf.base.BaseApplication;
-import com.sgf.base.security.domain.AuthPermission;
-import com.sgf.base.security.domain.AuthRole;
-import com.sgf.base.security.domain.AuthUser;
-import com.sgf.base.security.service.AuthPermissionService;
-import com.sgf.base.security.service.AuthRoleService;
-import com.sgf.base.security.service.AuthUserService;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

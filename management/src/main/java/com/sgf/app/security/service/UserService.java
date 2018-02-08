@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by sgf on 2018/1/16.
  */
-@Service
+@Service(value = "securityService")
 public class UserService {
     @Autowired
     SysUserRepository userRepository;

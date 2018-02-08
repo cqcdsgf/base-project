@@ -15,6 +15,7 @@
             th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
 </head>
 <body>
+
 <div class="container">
     <div class="row">
         <form id="userUpdateForm" method="post" class="form-horizontal" th:action="@{/user/update}">
@@ -55,46 +56,11 @@
                         <tbody>
 
                         </tbody>
-   <!--                     <thead class="panel-heading">
-                        <tr>
-                            <th>ID</th>
-                            <th>序号</th>
-                            <th>角色名称</th>
-                            <th>摘要</th>
-                        </tr>
-                        </thead>-->
-
-<!--                        <tr >
-                            <input type="text"  name="roles[0].id" th:value="${authUser.roles[0].id}"  />
-                            <input type="text"  name="roles[0].name" th:value="${authUser.roles[0].name}"  />
-                            <input type="text"  name="roles[0].summary" th:value="${authUser.roles[0].summary}"  />
-
-                        <tr >
-                            <input type="text"  name="roles[1].id" th:value="${authUser.roles[1].id}"  />
-                            <input type="text"  name="roles[1].name" th:value="${authUser.roles[1].name}"  />
-                            <input type="text"  name="roles[1].summary" th:value="${authUser.roles[1].summary}"  />-->
-
-
-
-<!--                        <tr  th:each="authRole,stat : ${authUser.roles}">
-                            <td name="dddd" th:text="${authRole.id}">id</td>
-                            <td th:text="${stat.index}">index</td>
-                            <td th:text="${authRole.name}">name</td>
-                            <td name="summary" th:text="${authRole.summary}">summary</td>
-                            <input type="hidden"  name="roles[${stat.index}].id" th:value="${authRole.id}"  />
-                            <input type="hidden"  name="roles[${stat.index}].summary" th:value="${authRole.summary}"  />
-
-
-                            <input name='"+v+"' value='"+k+"' type='text'>")-->
                     </table>
                 </div>
             </div>
         </form>
-
-
     </div>
-
-
 </div>
 
 
@@ -102,12 +68,10 @@
     $(function(){
         $( '#userUpdateForm tbody' ).empty();
         var roles = [[${authUser.roles}]];
-
-
+        alert(roles);
 
         $( roles ).each( function( i, n ) {
             var el = '<tr>';
-            var temp ="roles[" + i + "].id";
             if( n.selected ) {
                 el += '<td><input type="checkbox" name="roles[' + i + '].id" checked="checked" value="' + n.id +'" /></td>';
             } else {
@@ -121,46 +85,10 @@
             el += '<input type="hidden" name="roles[' + i + '].summary" value="' + n.summary + '" />';
 
             el += '</tr>';
-            alert(el);
             $( '#userUpdateForm tbody' ).append( el );
         } );
-
-
-
-/*
-        $( '#userUpdateForm tbody' ).html( $("#thymeleafTBody").html() )*/
-
-
-/*            var html = '<tr">';
-            if( n.selected ) {
-                html += '<th><input type="checkbox" name="roleIds" checked="checked" value="' + n.id +
-                    '" /></th>';
-            } else {
-                html += '<th><input type="checkbox" name="roleIds" value="' + n.id + '" /></th>';
-            }
-    
-            html += '<td>' + n.name + '</td>';
-            html += '</tr>';
-    
-            $( '#updateFrm tbody' ).append( html );*/
-
     });
-
-
 </script>
 
-
-<!--<script type="text/html" id="thymeleafTBody">
-
-    <tr  th:each="authRole,stat : ${authUser.roles}" th:class="${stat.odd}?'odd':'even'">
-        <td name="dddd" th:text="${authRole.id}">id</td>
-        <td th:text="${stat.index}">index</td>
-        <td th:text="${authRole.name}">name</td>
-        <td name="summary" th:text="${authRole.summary}">summary</td>
-        var temp = "roles[" + ${stat.index} + "].id";
-        alert(temp);
-        <input  name="roles[' + ${stat.index} + '].id" th:value="${authRole.id}"  />
-
-</script>-->
 </body>
 </html>

@@ -1,5 +1,6 @@
-package com.sgf.base.security.domain;
+package com.sgf.app.domain;
 
+import com.google.common.collect.Sets;
 import com.sgf.base.common.BaseEntity;
 import lombok.*;
 import org.slf4j.Logger;
@@ -7,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +42,7 @@ public class AuthUser extends BaseEntity {
     @JoinTable(name = "auth_user_role",
             joinColumns ={@JoinColumn(name ="user_id")},
             inverseJoinColumns={@JoinColumn(name="role_id")})
-    public List<AuthRole> roles = new ArrayList<>();
+    public Set<AuthRole> roles = Sets.newHashSet();
 
 
 
