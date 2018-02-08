@@ -16,7 +16,7 @@
 <body>
 
 
-<div th:replace="demo/fragments :: navbar('/demo/demoValidate')"></div>
+<div th:replace="demo/fragments :: navbar"></div>
 <div class="container">
     <div class="row" th:fragment="demoValidate">
         <br>
@@ -93,10 +93,6 @@
     </div>
 </div>
 <script type="text/javascript">
-/*    var path = [[${path}]];
-    console.log(path);
-    alert(path);*/
-
     $.validator.setDefaults({
         submitHandler:function () {
             alert("submitted!");
