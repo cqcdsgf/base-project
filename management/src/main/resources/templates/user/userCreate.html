@@ -59,7 +59,6 @@
                 </div>
             </div>
 
-            <input type="hidden" id="authRoles" th:value="${authUser.roles}" />
             <div class="form-group">
                 <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
                     <button type="submit" class="btn btn-primary" name="signup" th:value="确认">&nbsp;&nbsp;确&nbsp;认&nbsp;&nbsp;</button>
@@ -73,16 +72,15 @@
     $(function () {
        $( '#userCreateForm tbody' ).empty();
         var roles = [[${authUser.roles}]];
-        alert(roles);
 
-/*        $( roles ).each( function( i, n ) {
+        $( roles ).each( function( i, n ) {
             var el = '<tr>';
-            el += '<td><input type="checkbox" name="roleIds" checked="checked" value="' + n.id +'" /></td>';
+            el += '<td><input type="checkbox" name="roleIds" value="' + n.id +'" /></td>';
             el += '<td>' + n.name + '</td>';
             el += '<td>' + n.summary + '</td>';
             el += '</tr>';
             $( '#userCreateForm tbody' ).append( el );
-        } );*/
+        } );
     })
 
 
