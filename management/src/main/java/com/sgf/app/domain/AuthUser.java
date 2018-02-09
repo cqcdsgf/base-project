@@ -45,6 +45,10 @@ public class AuthUser extends BaseEntity {
     public Set<AuthRole> roles = Sets.newHashSet();
 
 
+    //上次登录时间
+
+    //上次登录IP
+
 
 
 
