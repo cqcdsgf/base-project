@@ -13,8 +13,7 @@
 
 <body>
 <div th:fragment="sidebar" id="sidebar">
-
-    <dl class="nav">
+ <!--   <dl class="nav">
         <dd>
             <a href="http://localhost:8080/demo/template">Template</a>
         </dd>
@@ -36,13 +35,17 @@
         <dd>
             <a href="http://localhost:8080/demo/demoUpload">DemoUpload</a>
         </dd>
-    </dl>
+    </dl>-->
+    <br/>
     <dl class="nav">
         <dd>
-            <a href="">测试1</a>
+            <a th:href="@{/user/toQueryList}">用户管理</a>
         </dd>
         <dd>
-            <a href="">测试2</a>
+            <a th:href="@{/role/toQueryList}">角色管理</a>
+        </dd>
+        <dd>
+            <a th:href="@{/permission/toQueryList}">权限管理</a>
         </dd>
     </dl>
 

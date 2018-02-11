@@ -52,8 +52,25 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>角色名</th>
+                            <th>摘要</th>
+                        </tr>
+                        </thead>
                         <tbody>
+                        <tr th:each="role,roleStat:${authUser.roles}">
+                            <td th:if="${role.isSelected()}">
+                                <input type="checkbox" checked th:name="roleIds" th:value="${role.id}"/>
+                            </td>
+                            <td th:unless="${role.isSelected()}">
+                                <input type="checkbox" th:name="roleIds" th:value="${role.id}"/>
+                            </td>
 
+                            <td th:text="${role.name}"></td>
+                            <td th:text="${role.summary}"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -67,43 +84,5 @@
         </form>
     </div>
 </div>
-
-<script th:inline="javascript">
-    $(function () {
-       $( '#userCreateForm tbody' ).empty();
-        var roles = [[${authUser.roles}]];
-
-        $( roles ).each( function( i, n ) {
-            var el = '<tr>';
-            el += '<td><input type="checkbox" name="roleIds" value="' + n.id +'" /></td>';
-            el += '<td>' + n.name + '</td>';
-            el += '<td>' + n.summary + '</td>';
-            el += '</tr>';
-            $( '#userCreateForm tbody' ).append( el );
-        } );
-    })
-
-
-</script>
-
-
-
-<!--<script type="text/javascript"  th:inline="javascript">
-    $(function(){
-        $( '#userCreateForm tbody' ).empty();
-        var roles = [[${authUser.roles}]];
-        alert(roles);
-
-        $( roles ).each( function( i, n ) {
-           var el = '<tr>';
-           el += '<td><input type="checkbox" name="roleIds" checked="checked" value="' + n.id +'" /></td>';
-           el += '<td>' + n.name + '</td>';
-           el += '<td>' + n.summary + '</td>';
-           el += '</tr>';
-           $( '#userCreateForm tbody' ).append( el );
-        } );
-    });
-</script>-->
-
 </body>
 </html>
