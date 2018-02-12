@@ -27,13 +27,13 @@ public class AuthPermission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
+    //权限名称
     private String name;
-
+    //url
     private String url;
-
+    //权限值
     private String value;
-
+    //摘要
     private String summary;
 
     @JsonIgnore

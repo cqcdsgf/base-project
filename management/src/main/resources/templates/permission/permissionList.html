@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>权限列表</title>
+    <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"
+          th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+
+    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
+            th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js"
+            th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js"
+            th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
+
+</head>
+<body>
+<div class="container">
+    <div th:replace="/layout/header :: header"></div>
+    <div th:replace="/layout/sidebar :: sidebar"></div>
+
+    <br/>
+    <div class="row">
+        <button id="permissionCreate" onclick="createTr()" type="button">创建权限</button>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <table class="table table-striped table-hover">
+                <thead class="panel-heading">
+                <tr>
+                    <th>ID</th>
+                    <th>权限名称</th>
+                    <th>权限值</th>
+                    <th>url</th>
+                    <th>摘要说明</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="permission,stat:${permissions}">
+                    <td th:name="permission.id" th:text="${permission.id}"></td>
+                    <td>
+                        <input type="text" th:name="permission.name" th:value="${permission.name}">
+                    </td>
+                    <td>
+                        <input type="text" th:name="permission.value" th:value="${permission.value}">
+                    </td>
+                    <td>
+                        <input type="text" th:name="permission.url" th:value="${permission.url}">
+                    </td>
+                    <td>
+                        <input type="text" th:name="permission.summary" th:value="${permission.summary}">
+                    </td>
+                    <td>
+                        <button  onclick="update(this)"  th:text="修改"></button>
+                        <button  onclick="del(this)" th:text="删除"/>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript" th:inline="javascript">
+
+    function update(obj) {
+        var csrfValue = [[${_csrf.token}]];
+
+        var temp = $(obj).parent().parent();
+        var id = temp.find("[name='permission.id']").text();
+        var name = temp.find("[name='permission.name']").val();
+        var value = temp.find("[name='permission.value']").val();
+        var url = temp.find("[name='permission.url']").val();
+        var summary = temp.find("[name='permission.summary']").val();
+        $.post({
+            url: '/permission/update',
+            async:false,
+            data: { _csrf: csrfValue,id:id,name:name,value:value,url:url,summary:summary },
+            //dataType: "json",
+            success:function (data) {
+                location.reload();
+            },
+            error:function (data) {
+                console.log("修改权限出错!")
+            }
+        })
+    }
+
+    function del(obj) {
+        var csrfValue = [[${_csrf.token}]];
+
+        var temp = $(obj).parent().parent();
+        var id = temp.find("[name='permission.id']").text();
+
+        $.post({
+            url: '/permission/delete',
+            data: { _csrf: csrfValue,id:id },
+            //dataType: "json",
+            success:function (data) {
+                location.reload();
+            },
+            error:function (data) {
+                console.log("删除权限出错!")
+            }
+        })
+    }
+
+    function create(obj) {
+        var csrfValue = [[${_csrf.token}]];
+
+        var temp = $(obj).parent().parent();
+        var name = temp.find("[name='permission.name']").val();
+        var value = temp.find("[name='permission.value']").val();
+        var url = temp.find("[name='permission.url']").val();
+        var summary = temp.find("[name='permission.summary']").val();
+
+        $.post({
+            url: '/permission/create',
+            async:false,
+            data: { _csrf: csrfValue,name:name,value:value,url:url,summary:summary },
+            success:function (data) {
+                location.reload();
+            },
+            error:function (data) {
+                console.log("新增权限出错!")
+            }
+        })
+    }
+
+    function createTr() {
+        var el = '<tr>';
+        el += '<td></td>';
+        el += '<td>';
+        el += '<input type="text" name="permission.name" placeholder="权限名称">';
+        el += '</td>';
+        el += '<td>';
+        el += '<input type="text" name="permission.value">';
+        el += '</td>';
+        el += '<td>';
+        el += '<input type="text" name="permission.url">';
+        el += '</td>';
+        el += '<td>';
+        el += '<input type="text" name="permission.summary">';
+        el += '</td>';
+        el += '<td>';
+        el += '<button  onclick="create(this)">新增</button>';
+        el += '</td>';
+        el += '</tr>';
+
+        var temp = $('.table tbody:last');
+        temp.append(el);
+    }
+
+
+
+</script>
+
+</body>
+</html>

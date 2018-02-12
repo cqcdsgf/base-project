@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="user,userState:${users}">
+                        <tr th:each="user,userStat:${users}">
                             <td th:name="userId" th:text="${user.id}"></td>
                             <td th:text="${user.username}"></td>
                             <td th:text="${user.phone}"></td>
@@ -94,6 +94,8 @@
             }
         }, 'json' );
     }
+
+
 
 </script>
 
