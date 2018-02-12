@@ -75,28 +75,21 @@
                 </div>
             </div>
         </form>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
-                    <button type="submit" class="btn btn-primary" th:text="确认修改" onclick="$('#userUpdateForm').submit();"></button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <form id="userDeleteForm" method="post" class="form-horizontal" th:action="@{/user/delete}">
-                    <input type="hidden" th:name="id" th:value="${authUser.id}"/>
-                    <button type="submit" th:text="删除用记" onclick="$('#userDeleteForm').submit();"/>
-                </form>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
+                <button type="submit" class="btn btn-primary" th:text="确认修改" onclick="$('#userUpdateForm').submit();"></button>
             </div>
         </div>
-
-
-
-
-
+        <div class="col-md-6">
+            <form id="userDeleteForm" method="post" class="form-horizontal" th:action="@{/user/delete}">
+                <input type="hidden" th:name="id" th:value="${authUser.id}"/>
+                <button type="submit" th:text="删除用记" onclick="$('#userDeleteForm').submit();"/>
+            </form>
+        </div>
+    </div>
 </div>
-
-
 
 </body>
 </html>

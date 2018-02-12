@@ -36,13 +36,11 @@ public class AuthPermission extends BaseEntity {
     //摘要
     private String summary;
 
+    @Transient
+    private boolean isSelected;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "permissions")
     private Set<AuthRole> roles = new HashSet<AuthRole>();
-
-
-
-
-
 
 }
