@@ -17,65 +17,64 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <form id="userCreateForm" method="post" class="form-horizontal" th:action="@{/role/create}">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <lable class="col-sm-3 col-md-4 control-label">权限Id</lable>
-                    <div class="col-sm-9 col-md-8">
-                        <input type="text" class="form-control" id="id" name="id" th:value="${authRole.id}"
-                               placeholder="权限Id"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <lable class="col-sm-3 col-md-4 control-label">角色名</lable>
-                    <div class="col-sm-9 col-md-8">
-                        <input type="text" class="form-control" id="name" name="name"
-                               th:value="${authRole.name}" placeholder="角色名"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <lable class="col-sm-3 col-md-4 control-label">摘要说明</lable>
-                    <div class="col-sm-9 col-md-8">
-                        <input type="text" class="form-control" id="summary" name="summary" th:value="${authRole.summary}"
-                               placeholder="摘要说明"/>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>权限名称</th>
-                            <th>摘要</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="permission,permissionStat:${authRole.permissions}">
-                            <td th:if="${permission.isSelected()}">
-                                <input type="checkbox" checked th:name="permissionIds" th:value="${permission.id}"/>
-                            </td>
-                            <td th:unless="${permission.isSelected()}">
-                                <input type="checkbox" th:name="permissionIds" th:value="${permission.id}"/>
-                            </td>
-
-                            <td th:text="${permission.name}"></td>
-                            <td th:text="${permission.summary}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+    <div th:replace="/layout/header :: header"></div>
+    <form id="userCreateForm" method="post" class="form-horizontal" th:action="@{/role/create}">
+        <div class="col-md-6">
             <div class="form-group">
-                <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
-                    <button type="submit" class="btn btn-primary" name="signup" th:value="确认">&nbsp;&nbsp;确&nbsp;认&nbsp;&nbsp;</button>
+                <lable class="col-sm-3 col-md-4 control-label">权限Id</lable>
+                <div class="col-sm-9 col-md-8">
+                    <input type="text" class="form-control" id="id" name="id" th:value="${authRole.id}"
+                           placeholder="权限Id"/>
                 </div>
             </div>
-        </form>
-    </div>
+            <div class="form-group">
+                <lable class="col-sm-3 col-md-4 control-label">角色名</lable>
+                <div class="col-sm-9 col-md-8">
+                    <input type="text" class="form-control" id="name" name="name"
+                           th:value="${authRole.name}" placeholder="角色名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <lable class="col-sm-3 col-md-4 control-label">摘要说明</lable>
+                <div class="col-sm-9 col-md-8">
+                    <input type="text" class="form-control" id="summary" name="summary" th:value="${authRole.summary}"
+                           placeholder="摘要说明"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>权限名称</th>
+                        <th>摘要</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="permission,permissionStat:${authRole.permissions}">
+                        <td th:if="${permission.isSelected()}">
+                            <input type="checkbox" checked th:name="permissionIds" th:value="${permission.id}"/>
+                        </td>
+                        <td th:unless="${permission.isSelected()}">
+                            <input type="checkbox" th:name="permissionIds" th:value="${permission.id}"/>
+                        </td>
+
+                        <td th:text="${permission.name}"></td>
+                        <td th:text="${permission.summary}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
+                <button type="submit" class="btn btn-primary" name="signup" th:value="确认">&nbsp;&nbsp;确&nbsp;认&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
 
 </div>
 </body>
