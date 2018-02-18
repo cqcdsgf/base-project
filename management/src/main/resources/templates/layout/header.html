@@ -50,12 +50,12 @@
                     </ul>
                 </li>
             </ul>
+
+            <form th:action="@{/logout}" method="post" class="navbar-form navbar-right">
+                <input type="submit" class="btn btn-primary" value="注销"/><!-- 5 -->
+            </form>
         </div><!-- /.navbar-collapse -->
 
-        <form th:action="@{/logout}" method="post" class="pull-right">
-            <input type="submit" class="btn btn-primary" value="注销"/><!-- 5 -->
-        </form>
-    </div><!-- /.container-fluid -->
 
     <script type="text/javascript">
         $(function() {
