@@ -84,7 +84,7 @@
         <div class="col-md-6">
             <form id="userDeleteForm" method="post" class="form-horizontal" th:action="@{/user/delete}">
                 <input type="hidden" th:name="id" th:value="${authUser.id}"/>
-                <button type="submit" th:text="删除用记" onclick="$('#userDeleteForm').submit();"/>
+                <button type="submit" th:text="删除用户" onclick="$('#userDeleteForm').submit();"/>
             </form>
         </div>
     </div>

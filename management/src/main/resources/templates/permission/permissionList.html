@@ -19,50 +19,45 @@
 <div class="container">
     <div th:replace="/layout/header :: header"></div>
 
-    <br/>
-    <div class="row">
-        <button id="permissionCreate" onclick="createTr()" type="button">创建权限</button>
-    </div>
+    <div class="panel panel-default">
+        <button id="permissionCreate" class="pull-right" onclick="createTr()" type="button">创建权限</button>
+        <div class="panel-heading">权限列表</div>
+        <table class="table table-hover table-responsive text-nowrap">
+            <thead class="panel-heading">
+            <tr>
+                <th>ID</th>
+                <th>权限名称</th>
+                <th>权限值</th>
+                <th>url</th>
+                <th>摘要说明</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
 
-    <div class="row">
-        <div class="panel panel-default">
-            <table class="table table-striped table-hover">
-                <thead class="panel-heading">
-                <tr>
-                    <th>ID</th>
-                    <th>权限名称</th>
-                    <th>权限值</th>
-                    <th>url</th>
-                    <th>摘要说明</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr th:each="permission,stat:${permissions}">
-                    <td th:name="permission.id" th:text="${permission.id}"></td>
-                    <td>
-                        <input type="text" th:name="permission.name" th:value="${permission.name}">
-                    </td>
-                    <td>
-                        <input type="text" th:name="permission.value" th:value="${permission.value}">
-                    </td>
-                    <td>
-                        <input type="text" th:name="permission.url" th:value="${permission.url}">
-                    </td>
-                    <td>
-                        <input type="text" th:name="permission.summary" th:value="${permission.summary}">
-                    </td>
-                    <td>
-                        <button  onclick="update(this)"  th:text="修改"></button>
-                        <button  onclick="del(this)" th:text="删除"/>
-                    </td>
-                </tr>
+            <tr th:each="permission,stat:${permissions}">
+                <td th:name="permission.id" th:text="${permission.id}"></td>
+                <td>
+                    <input type="text" th:name="permission.name" th:value="${permission.name}">
+                </td>
+                <td>
+                    <input type="text" th:name="permission.value" th:value="${permission.value}">
+                </td>
+                <td>
+                    <input type="text" th:name="permission.url" th:value="${permission.url}">
+                </td>
+                <td>
+                    <input type="text" th:name="permission.summary" th:value="${permission.summary}">
+                </td>
+                <td>
+                    <button  onclick="update(this)"  th:text="修改"></button>
+                    <button  onclick="del(this)" th:text="删除"/>
+                </td>
+            </tr>
 
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
 
 </div>
