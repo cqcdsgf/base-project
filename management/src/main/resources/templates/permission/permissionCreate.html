@@ -23,7 +23,7 @@
     </ol>
 
     <form id="permissionCreateForm" method="post" class="form-horizontal" th:action="@{/permission/create}">
-        <div class="form-group">
+        <div class="form-group hidden">
             <lable class="col-md-2 control-label">权限Id</lable>
             <div class="col-md-10">
                 <input type="text" class="form-control" id="id" name="id" th:value="${permission.id}"
@@ -75,5 +75,23 @@
 
 <script src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.min.js"
         th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+
+
+<script type="text/javascript">
+    $( document ).ready( function () {
+        $( "#permissionCreateForm" ).validate( {
+            rules: {
+                name: "required",
+                value: "required",
+                url: "required"
+            },
+            messages: {
+                name: "请输入权限名称",
+                value: "请输入权限值",
+                url: "请输入URL"
+            }
+        } );
+    } );
+</script>
 </body>
 </html>

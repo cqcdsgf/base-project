@@ -8,13 +8,6 @@
           th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../../static/css/custome.css"
           th:href="@{/css/custome.css}">
-
-    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
-            th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
-    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js"
-            th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
-    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js"
-            th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
 </head>
 <body>
 
@@ -31,7 +24,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">用户基本信息</div>
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <lable class="col-md-3 control-label">用户Id</lable>
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="id" name="id" th:value="${authUser.id}"
@@ -93,5 +86,27 @@
 
     <div th:replace="/layout/footer :: footer"></div>
 </div>
+
+<script src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
+        th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+
+<script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js"
+        th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+
+<script src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.min.js"
+        th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+    $().ready( function () {
+        $( "#userCreateForm" ).validate( {
+            rules: {
+                username: "required"
+            },
+            messages: {
+                username: "请输入权限名称"
+            }
+        } );
+    } );
+</script>
 </body>
 </html>
