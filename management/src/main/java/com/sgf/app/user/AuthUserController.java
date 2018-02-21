@@ -103,6 +103,7 @@ public class AuthUserController {
 
     @PostMapping("/user/update")
     public String update(AuthUser authUser, @RequestParam(value = "roleIds",required = false) List<Long> roleIds,RedirectAttributes redirectAttributes) {
+        AuthUser oldUser = authUserService.findOne(authUser.getId());
         if(!CollectionUtils.isEmpty(roleIds)) {
             authUser.getRoles().clear();
 
@@ -110,6 +111,7 @@ public class AuthUserController {
 
             authUser.getRoles().addAll(authRoles);
         }
+        authUser.setPassword(oldUser.getPassword());
         authUserService.save(authUser);
 
         redirectAttributes.addFlashAttribute(BaseMessageConstant.MESSAGE, "用户修改成功！");

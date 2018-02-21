@@ -29,6 +29,7 @@ public class AuthRole extends BaseEntity {
     protected Long id;
 
     //角色名称
+    @Column(unique = true)
     private String name;
 
     //摘要

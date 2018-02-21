@@ -1,5 +1,8 @@
 package com.sgf.app.config;
 
+import com.sgf.app.security.service.ManagementAccessDecisionManager;
+import com.sgf.app.security.service.ManagementSecurityMetadataSource;
+import com.sgf.app.security.service.ManagementUserDetailService;
 import com.sgf.base.security.custom.filter.*;
 import com.sgf.base.security.custom.interceptor.CustomAccessDecisionManager;
 import com.sgf.base.security.custom.interceptor.CustomFilterSecurityInterceptor;
@@ -29,22 +32,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public FilterInvocationSecurityMetadataSource customSecurityMetadataSource() {
-        CustomSecurityMetadataSource securityMetadataSource = new CustomSecurityMetadataSource();
+        ManagementSecurityMetadataSource securityMetadataSource = new ManagementSecurityMetadataSource();
         return securityMetadataSource;
     }
-
-    @Bean
-    public AccessDecisionManager customAccessDecisionManager() {
-        return new CustomAccessDecisionManager();
-    }
-
 
     @Bean
     CustomFilterSecurityInterceptor customFilterSecurityInterceptor(){
         CustomFilterSecurityInterceptor customFilterSecurityInterceptor = new CustomFilterSecurityInterceptor();
 
        customFilterSecurityInterceptor.setSecurityMetadataSource(customSecurityMetadataSource());
-        customFilterSecurityInterceptor.setAccessDecisionManager( new CustomAccessDecisionManager());
+        customFilterSecurityInterceptor.setAccessDecisionManager( new ManagementAccessDecisionManager());
 
         return customFilterSecurityInterceptor;
     }
@@ -53,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     UserDetailsService customUserDetailsService() {
-        return new CustomUserDetailsService();
+        return new ManagementUserDetailService();
     }
 
     @Bean
@@ -97,23 +94,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-/*        http.authorizeRequests()
-                .antMatchers("/security*//**").permitAll()
-                .antMatchers("/imageCode/getCode").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/security/login")
-                .failureHandler(customSimpleUrlAuthenticationFailureHandler())
-                .successHandler(new CustomAuthenticationSuccessHandler())
-                .authenticationDetailsSource(new CustomAuthenticationDetailsSource())
-                .permitAll()
-                .and()
-                .logout().permitAll()
-                .and()
-                .csrf().ignoringAntMatchers("/security/login");*/
-
-
         //注册customUsernamePasswordAuthenticationFilter  注意放置的顺序 这很关键
         http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
 
@@ -134,24 +114,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
         http.addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
-
-
-
- /*       http.authorizeRequests()
-                .antMatchers("/security*//**").permitAll()
-         .antMatchers("/imageCode/getCode").permitAll()
-         .anyRequest().authenticated()
-         .and()
-         .formLogin()
-         .loginPage("/security/login")
-         .failureHandler(customSimpleUrlAuthenticationFailureHandler())
-         .authenticationDetailsSource(new CustomAuthenticationDetailsSource())
-         .permitAll()
-         .and()
-         .logout().permitAll()
-         .and()
-         .csrf().ignoringAntMatchers("/security/login");*/
-
 
     }
 

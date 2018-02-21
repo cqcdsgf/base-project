@@ -30,6 +30,7 @@ public class AuthPermission extends BaseEntity {
     //权限名称
     private String name;
     //url
+    @Column(unique = true)
     private String url;
     //权限值
     private String value;
@@ -40,7 +41,7 @@ public class AuthPermission extends BaseEntity {
     private boolean isSelected;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions",fetch = FetchType.EAGER)
     private Set<AuthRole> roles = new HashSet<AuthRole>();
 
 }

@@ -1,4 +1,4 @@
-package com.sgf.base.security.custom.interceptor;
+package com.sgf.app.security.service;
 
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 /**
  * Created by sgf on 2018\1\31 0031.
  */
-public class CustomAccessDecisionManager implements AccessDecisionManager {
+public class ManagementAccessDecisionManager implements AccessDecisionManager {
 
     @Override
     public void decide(Authentication authentication, Object object,
@@ -24,21 +24,26 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
         if (CollectionUtils.isEmpty(configAttributes)) {
             throw new AccessDeniedException("无操作权限！");
         }
-        Iterator<ConfigAttribute> ite = configAttributes.iterator();
 
+        Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
+
+        Iterator<ConfigAttribute> ite = configAttributes.iterator();
         while (ite.hasNext()) {
             ConfigAttribute ca = ite.next();
-            String needRole = ((org.springframework.security.access.SecurityConfig) ca).getAttribute();
-            for (GrantedAuthority ga : authentication.getAuthorities()) {
-                if(ga.getAuthority().equals(needRole)){
-                    //匹配到有对应角色,则允许通过
+            String needRoles = ca.getAttribute();
+            for (GrantedAuthority grantedAuthority:grantedAuthorities){
+                String hasRole = grantedAuthority.getAuthority();
+                int flag =  needRoles.indexOf(hasRole);
+                if(-1 != flag){
                     return;
                 }
             }
         }
+
         //该url有配置权限,但是当然登录用户没有匹配到对应权限,则禁止访问
         throw new AccessDeniedException("无操作权限！");
     }
+
     @Override
     public boolean supports(ConfigAttribute attribute) {
         return true;

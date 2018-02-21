@@ -1,6 +1,8 @@
 package com.sgf.app.login.register.web;
 
+import com.sgf.app.domain.AuthUser;
 import com.sgf.app.security.service.UserService;
+import com.sgf.app.user.AuthUserService;
 import com.sgf.base.security.domain.SysUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +18,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Created by sgf on 2018\1\30 0030.
  */
 @Controller
-@RequestMapping("/register")
+//@RequestMapping("/register")
 public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/toRegister")
+    @Autowired
+    AuthUserService authUserService;
+
+    @GetMapping("/register/toRegister")
     public String toRegister(){
 
         return "/register/register";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register/register")
     public String register(String username,String password,RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute( "username", username);
 
@@ -43,16 +48,16 @@ public class RegisterController {
             return "redirect:/register/toRegister";
         }
 
-        SysUser sysUser = userService.findByUsername(username);
+        AuthUser authUser = authUserService.findByUsername(username);
 
-        if (null == sysUser) {
-            sysUser = new SysUser();
-            sysUser.setUsername(username);
+        if (null == authUser) {
+            authUser = new AuthUser();
+            authUser.setUsername(username);
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            sysUser.setPassword(encoder.encode(password));
+            authUser.setPassword(encoder.encode(password));
 
-            userService.registerUser(sysUser);
+            authUserService.save(authUser);
 
             redirectAttributes.addFlashAttribute( "message", "注册成功！");
 

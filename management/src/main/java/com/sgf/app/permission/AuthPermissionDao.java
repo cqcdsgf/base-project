@@ -8,5 +8,5 @@ import com.sgf.base.common.BaseDao;
  */
 public interface AuthPermissionDao extends BaseDao<AuthPermission,Long> {
 
-
+    AuthPermission findByUrl(String url);
 }

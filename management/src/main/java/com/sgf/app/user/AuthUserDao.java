@@ -8,5 +8,5 @@ import com.sgf.base.common.BaseDao;
  */
 public interface AuthUserDao extends BaseDao<AuthUser,Long> {
 
-
+    AuthUser findByUsername(String username);
 }

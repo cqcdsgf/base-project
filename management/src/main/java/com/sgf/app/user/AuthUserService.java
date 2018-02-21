@@ -4,6 +4,7 @@ import com.sgf.app.domain.AuthUser;
 import com.sgf.base.common.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,5 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthUserService extends BaseService<AuthUser,Long>{
     private static final Logger logger = LoggerFactory.getLogger(AuthUserService.class);
+    @Autowired
+    AuthUserDao authUserDao;
+
+    public AuthUser findByUsername(String username){
+
+        return authUserDao.findByUsername(username);
+    }
 
 }
