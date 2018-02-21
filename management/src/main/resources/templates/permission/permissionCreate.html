@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="UTF-8">
+    <meta name="description" content="创建权限"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <title>创建权限</title>
+
+    <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"
+          th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/custome.css"
+          th:href="@{/css/custome.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="/layout/header :: header"></div>
+
+    <ol class="breadcrumb">
+        <li><a th:href="@{/permission/toQueryList}">权限管理</a></li>
+        <li class="active">新增权限</li>
+    </ol>
+
+    <form id="permissionCreateForm" method="post" class="form-horizontal" th:action="@{/permission/create}">
+        <div class="form-group">
+            <lable class="col-md-2 control-label">权限Id</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="id" name="id" th:value="${permission.id}"
+                       placeholder="权限Id"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-md-2 control-label">权限名称</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="name" name="name"
+                       th:value="${permission.name}" placeholder="权限名称"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-md-2 control-label">权限值</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="value" name="value" th:value="${permission.value}"
+                       placeholder="权限值"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-md-2 control-label">url</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="url" name="url" th:value="${permission.url}"
+                       placeholder="url"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <lable class="col-md-2 control-label">摘要说明</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="summary" name="summary" th:value="${permission.summary}"
+                       placeholder="摘要说明"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
+                <button type="submit" class="btn btn-primary btn-sm" th:value="确认">&nbsp;&nbsp;确&nbsp;认&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
+        th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+
+<script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js"
+        th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+
+<script src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.min.js"
+        th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

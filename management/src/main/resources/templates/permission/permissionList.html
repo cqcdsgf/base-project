@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>权限列表</title>
+
     <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"
           th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/custome.css"
+        th:href="@{/css/custome.css}">
 
     <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
             th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
@@ -19,11 +22,13 @@
 <div class="container">
     <div th:replace="/layout/header :: header"></div>
 
+    <ol class="breadcrumb">
+        <li class="active">权限管理</li>
+    </ol>
     <div class="panel panel-default">
-        <button id="permissionCreate" class="pull-right" onclick="createTr()" type="button">创建权限</button>
-        <div class="panel-heading">权限列表</div>
-        <table class="table table-hover table-responsive text-nowrap">
-            <thead class="panel-heading">
+        <a th:href="@{/permission/toCreate}" class="pull-right">创建权限</a>
+        <div class="panel-heading" th:text="权限列表"></div>
+        <table class="table table-hover table-bordered table-responsive text-nowrap">
             <tr>
                 <th>ID</th>
                 <th>权限名称</th>
@@ -32,31 +37,17 @@
                 <th>摘要说明</th>
                 <th>操作</th>
             </tr>
-            </thead>
-            <tbody>
-
             <tr th:each="permission,stat:${permissions}">
                 <td th:name="permission.id" th:text="${permission.id}"></td>
+                <td th:text="${permission.name}"></td>
+                <td th:text="${permission.value}"></td>
+                <td th:text="${permission.url}"></td>
+                <td th:text="${permission.summary}"></td>
                 <td>
-                    <input type="text" th:name="permission.name" th:value="${permission.name}">
-                </td>
-                <td>
-                    <input type="text" th:name="permission.value" th:value="${permission.value}">
-                </td>
-                <td>
-                    <input type="text" th:name="permission.url" th:value="${permission.url}">
-                </td>
-                <td>
-                    <input type="text" th:name="permission.summary" th:value="${permission.summary}">
-                </td>
-                <td>
-                    <button  onclick="update(this)"  th:text="修改"></button>
-                    <button  onclick="del(this)" th:text="删除"/>
+                    <a class="btn btn-primary btn-sm"  th:href="@{/permission/toUpdate(id=${permission.id})}">修改</a>
+                    <a class="btn btn-danger btn-sm" onclick="del(this)">删除</a>
                 </td>
             </tr>
-
-
-            </tbody>
         </table>
     </div>
 
@@ -64,8 +55,31 @@
 
 
 <script type="text/javascript" th:inline="javascript">
+    function del(obj) {
+        var csrfValue = [[${_csrf.token}]];
 
-    function update(obj) {
+        var temp = $(obj).parent().parent();
+        var id = temp.find("[name='permission.id']").text();
+
+        $.post({
+            url: '/permission/deleteByAjax',
+            data: { _csrf: csrfValue,id:id },
+            //dataType: "json",
+            success:function (data) {
+                if(data.errorMessage){
+                    alert(data.errorMessage);
+                }else {
+                    location.reload();
+                }
+            },
+            error:function (data) {
+                alert(id + "_删除权限出错!");
+                console.log(id + "_删除权限出错!")
+            }
+        })
+    }
+
+    /*function update(obj) {
         var csrfValue = [[${_csrf.token}]];
 
         var temp = $(obj).parent().parent();
@@ -87,26 +101,6 @@
             }
         })
     }
-
-    function del(obj) {
-        var csrfValue = [[${_csrf.token}]];
-
-        var temp = $(obj).parent().parent();
-        var id = temp.find("[name='permission.id']").text();
-
-        $.post({
-            url: '/permission/delete',
-            data: { _csrf: csrfValue,id:id },
-            //dataType: "json",
-            success:function (data) {
-                location.reload();
-            },
-            error:function (data) {
-                console.log("删除权限出错!")
-            }
-        })
-    }
-
     function create(obj) {
         var csrfValue = [[${_csrf.token}]];
 
@@ -151,9 +145,7 @@
 
         var temp = $('.table tbody:last');
         temp.append(el);
-    }
-
-
+    }*/
 
 </script>
 
