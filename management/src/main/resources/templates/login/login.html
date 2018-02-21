@@ -31,10 +31,10 @@
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img src="../../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
+                                <img src="../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
                             </div>
                             <div class="item">
-                                <img src="../../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
+                                <img src="../../static/images/register-ad.png" th:src="@{/images/register-ad.png}" />
                             </div>
                         </div>
                     </div>
@@ -57,9 +57,9 @@
 
                             <small th:if="${param.error}"><span class="badge alert-danger pull-left">!</span><p class="text-danger" th:text="${errorMessage}">有错误，请重试</p></small>
                             <div class="form-group">
-                                <input type="submit" id="login" value="Login" class="btn btn-primary btn-block input-lg" />
+                                <button type="submit" id="login" th:text="登录" class="btn btn-primary btn-block" />
                             </div>
-                            <div class="text-right">还没有账号，<a th:href="@{/register/toRegister}">立即注册&nbsp;<span class="glyphicon glyphicon glyphicon-log-in" aria-hidden="true"></span></a></div>
+                            <div class="text-right">还没有账号，<a th:href="@{/register/toRegister}">立即注册&nbsp;<span class="glyphicon glyphicon glyphicon-log-in"></span></a></div>
                         </form>
                     </div>
                 </div>
@@ -189,7 +189,7 @@
 
     function addRule() {
         if ($("#imageCodeArea").length > 0) {
-            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码1"}});
+            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码!"}});
         }
     }
 </script>

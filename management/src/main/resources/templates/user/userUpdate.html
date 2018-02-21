@@ -90,13 +90,13 @@
         </form>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <div class="col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-4 text-center">
-                <button type="submit" class="btn btn-primary" th:text="确认修改" onclick="$('#userUpdateForm').submit();"></button>
-                <button type="submit" class="btn btn-danger btn-sm" th:text="删除用户" onclick="$('#userDeleteForm').submit();"/>
-            </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-sm" th:text="修改用户" onclick="$('#userUpdateForm').submit();"></button>
+            <button type="submit" class="btn btn-danger btn-sm" th:text="删除用户" onclick="$('#userDeleteForm').submit();"/>
         </div>
     </div>
+
+    <div th:replace="/layout/footer :: footer"></div>
 </div>
 
 </body>
