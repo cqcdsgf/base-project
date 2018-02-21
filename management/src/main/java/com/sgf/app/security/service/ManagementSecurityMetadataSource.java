@@ -12,10 +12,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.util.AntPathMatcher;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by sgf on 2018\1\31 0031.
@@ -44,17 +41,29 @@ public class ManagementSecurityMetadataSource implements FilterInvocationSecurit
         FilterInvocation fi = (FilterInvocation) object;
         String url = fi.getRequestUrl();
 
-        if(null == authPermissionDao) {
-            authPermissionDao = SpringContextUtil.getBean("authPermissionDao");
+        boolean flag = false;
+        String matchePath = "";
+        List<AuthPermission> permissions = authPermissionDao.findAll();
+        for(AuthPermission authPermission:permissions){
+            String path = authPermission.getUrl();
+            if(antPathMatcher.match(path,url)){
+                flag=true;
+                matchePath = path;
+            break;
+            }
+        }
+
+        if(!flag){
+            //没有匹配到
+            return null;
         }
 
         Set<ConfigAttribute> configAttributes = Sets.newHashSet();
         String tempRole = "";
 
-        AuthPermission authPermission = authPermissionDao.findByUrl(url);
+        AuthPermission authPermission = authPermissionDao.findByUrl(matchePath);
         if(null == authPermission){
-            //没有匹配到
-            return null;
+
         }else{
             Set<AuthRole> roles = authPermission.getRoles();
             if(roles.size()==0){

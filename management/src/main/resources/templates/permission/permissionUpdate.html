@@ -22,7 +22,7 @@
         <li class="active">修改权限</li>
     </ol>
 
-    <div th:unless="${errorMessage==''}" class="col-md-8 col-md-offset-4 alert alert-warning" >
+    <div th:unless="${errorMessage==''}" class="col-md-10 col-md-offset-2 alert alert-danger" >
         <span class="close" data-dismiss="alert">&times;</span>
         <p class="" th:text="${errorMessage}"></p>
     </div>

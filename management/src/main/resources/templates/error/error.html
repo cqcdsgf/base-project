@@ -21,23 +21,28 @@
         <div class="panel-heading">统一异常处理</div>
 
         <ul class="list-group">
-            <li class="list-group-item list-group-item-heading">
-                <label>出错路径</label>
-                <p th:text="${path}"></p>
-            </li>
-            <li class="list-group-item list-group-item-warning">
+            <li class="alert alert-warning">
+                <span class="close" data-dismiss="alert">&times;</span>
                 <label>响应码：</label>
                 <p th:text="${status}"></p>
             </li>
-            <li class="list-group-item list-group-item-info">
-                <label>错误码：</label>
-                <p th:text="${errorCode}"></p>
-            </li>
-            <li class="list-group-item list-group-item-danger">
+            <li class="alert alert-danger">
+                <span class="close" data-dismiss="alert">&times;</span>
                 <label>基本信息：</label>
                 <p th:text="${message}"></p>
             </li>
-            <li class="list-group-item list-group-item-text">
+            <li class="alert alert-warning">
+                <span class="close" data-dismiss="alert">&times;</span>
+                <label>出错路径</label>
+                <p class="" th:text="${path}"></p>
+            </li>
+            <li class="alert alert-warning">
+                <span class="close" data-dismiss="alert">&times;</span>
+                <label>错误码：</label>
+                <p th:text="${errorCode}"></p>
+            </li>
+            <li class="alert alert-danger">
+                <span class="close" data-dismiss="alert">&times;</span>
                 <label>错误详情：</label>
                 <p th:text="${trace}"></p>
             </li>
