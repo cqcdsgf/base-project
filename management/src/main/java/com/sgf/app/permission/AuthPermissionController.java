@@ -3,12 +3,14 @@ package com.sgf.app.permission;
 import com.google.common.collect.Maps;
 import com.sgf.app.domain.AuthPermission;
 import com.sgf.base.constant.BaseMessageConstant;
+import com.sgf.base.constant.PageConstant;
 import com.sgf.base.persistence.DynamicSpecifications;
 import com.sgf.base.persistence.SearchFilter;
 import com.sgf.base.web.Servlets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,8 +38,8 @@ public class AuthPermissionController {
     private AuthPermissionService authPermissionService;
 
     @GetMapping("/permission/toQueryList")
-    public ModelAndView toQueryList(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-                                    @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize,
+    public ModelAndView toQueryList(@RequestParam(value = "pageNumber", defaultValue = PageConstant.PAGENUMBER) Integer pageNumber,
+                                    @RequestParam(value = "pageSize", defaultValue = PageConstant.PAGESIZE) Integer pageSize,
                                     HttpServletRequest request) {
         Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
         Sort sort = new Sort(Sort.Direction.DESC, "modifyTime");

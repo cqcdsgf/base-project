@@ -1,14 +1,23 @@
 package com.sgf.app.role;
 
+import com.google.common.collect.Maps;
 import com.sgf.app.domain.AuthPermission;
 import com.sgf.app.domain.AuthRole;
 import com.sgf.app.domain.AuthUser;
 import com.sgf.app.permission.AuthPermissionService;
 import com.sgf.base.constant.BaseMessageConstant;
+import com.sgf.base.constant.PageConstant;
+import com.sgf.base.persistence.DynamicSpecifications;
+import com.sgf.base.persistence.SearchFilter;
+import com.sgf.base.web.Servlets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,10 +46,27 @@ public class AuthRoleController {
     private AuthPermissionService authPermissionService;
 
     @GetMapping("/role/toQueryList")
-    public ModelAndView toQueryList() {
-        List<AuthRole> roles = authRoleService.findAll(new Sort(Sort.Direction.DESC,"modifyTime"));
+    public ModelAndView toQueryList(@RequestParam(value = "pageNumber", defaultValue = PageConstant.PAGENUMBER) Integer pageNumber,
+                                    @RequestParam(value = "pageSize", defaultValue = PageConstant.PAGESIZE) Integer pageSize,
+                                    HttpServletRequest request) {
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        Sort sort = new Sort(Sort.Direction.DESC, "modifyTime");
+        Pageable pageable = new PageRequest(pageNumber, pageSize, sort);
 
-        return new ModelAndView("/role/roleList","roles",roles);
+        Map<String,SearchFilter> filters = SearchFilter.parse(searchParams);
+        Specification<AuthRole> spec = DynamicSpecifications.bySearchFilter(filters.values(),AuthRole.class);
+
+        Page<AuthRole> roles = authRoleService.findAll(spec,pageable);
+
+        Map<String,Object> model = Maps.newHashMap();
+        model.put("page",roles);
+
+        // 将搜索条件编码成字符串，用于排序，分页的URL
+        String parames =  Servlets.encodeParameterStringWithPrefix(searchParams, "search_");
+        String path = request.getServletPath();
+        model.put("searchParams",path.concat("?".concat(parames)));
+
+        return new ModelAndView("/role/roleList","model",model);
     }
 
     @ResponseBody

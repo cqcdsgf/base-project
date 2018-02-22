@@ -30,6 +30,15 @@
         <p th:text="${message}"></p>
     </div>
 
+    <form class="form-inline" th:action="@{/user/toQueryList}" th:method="get">
+        <div class="form-group">
+            <label for="username">用户名称</label>
+            <input type="text" class="form-control" name="search_LIKE_username" id="username" placeholder="用户名称" th:value="${param.search_LIKE_username}">
+        </div>
+        <span >
+            <button type="submit" class="btn btn-primary btn-sm">查询</button>
+        </span>
+    </form>
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -45,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="user,userStat:${users}">
+                        <tr th:each="user,userStat:${model.page}">
                             <td th:name="userId" th:text="${user.id}"></td>
                             <td th:text="${user.username}"></td>
                             <td th:text="${user.phone}"></td>
@@ -56,6 +65,7 @@
                     </tbody>
                 </table>
             </div>
+            <div th:replace="/layout/pagination :: pagination"></div>
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">

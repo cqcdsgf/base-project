@@ -26,6 +26,17 @@
     <ol class="breadcrumb">
         <li class="active">用户管理</li>
     </ol>
+
+    <form class="form-inline" th:action="@{/role/toQueryList}" th:method="get">
+        <div class="form-group">
+            <label for="name">角色名称</label>
+            <input type="text" class="form-control" name="search_LIKE_name" id="name" placeholder="角色名称" th:value="${param.search_LIKE_name}">
+        </div>
+        <span >
+            <button type="submit" class="btn btn-primary btn-sm">查询</button>
+        </span>
+    </form>
+
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -41,7 +52,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="role,roleStat:${roles}">
+                    <tr th:each="role,roleStat:${model.page}">
                         <td th:name="roleId" th:text="${role.id}"></td>
                         <td th:text="${role.name}"></td>
                         <td th:text="${role.summary}"></td>
@@ -52,6 +63,7 @@
                     </tbody>
                 </table>
             </div>
+            <div th:replace="/layout/pagination :: pagination"></div>
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">
