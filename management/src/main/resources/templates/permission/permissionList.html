@@ -10,12 +10,17 @@
     <link rel="stylesheet" href="../../static/css/custome.css"
         th:href="@{/css/custome.css}">
 
-    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
-            th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
-    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js"
-            th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
-    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js"
-            th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
+    <style type="text/css">
+        .table tr th,.table tr td{
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .table{
+            table-layout:fixed;
+        }
+    </style>
+
 
 </head>
 <body>
@@ -28,32 +33,43 @@
     <div class="panel panel-default">
         <a th:href="@{/permission/toCreate}" class="pull-right">创建权限</a>
         <div class="panel-heading" th:text="权限列表"></div>
-        <table class="table table-hover table-bordered table-responsive text-nowrap">
+        <table class="table table-hover table-bordered text-nowrap">
+            <thead>
             <tr>
-                <th>ID</th>
-                <th>权限名称</th>
-                <th>权限值</th>
-                <th>url</th>
-                <th>摘要说明</th>
-                <th>操作</th>
+                <th class="hidden">ID</th>
+                <th class="col-md-3">权限名称</th>
+                <th class="col-md-2">权限值</th>
+                <th class="col-md-2">url</th>
+                <th class="col-md-3">摘要说明</th>
+                <th class="col-md-2">操作</th>
             </tr>
+            </thead>
+            <tbody>
             <tr th:each="permission,stat:${permissions}">
-                <td th:name="permission.id" th:text="${permission.id}"></td>
-                <td th:text="${permission.name}"></td>
-                <td th:text="${permission.value}"></td>
-                <td th:text="${permission.url}"></td>
-                <td th:text="${permission.summary}"></td>
+                <td class="hidden" th:name="permission.id" th:text="${permission.id}"></td>
+                <td th:title="${permission.name}" th:text="${permission.name}"></td>
+                <td th:title="${permission.value}" th:text="${permission.value}"></td>
+                <td th:title="${permission.url}" th:text="${permission.url}"></td>
+                <td th:title="${permission.summary}" th:text="${permission.summary}"></td>
                 <td>
                     <a class="btn btn-primary btn-sm"  th:href="@{/permission/toUpdate(id=${permission.id})}">修改</a>
                     <a class="btn btn-danger btn-sm" onclick="del(this)">删除</a>
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 
     <div th:replace="/layout/footer :: footer"></div>
 </div>
 
+
+<script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
+        th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+<script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js"
+        th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+<script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js"
+        th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     function del(obj) {
