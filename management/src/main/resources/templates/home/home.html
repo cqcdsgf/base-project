@@ -8,22 +8,24 @@
     <link rel="stylesheet" href="../../static/css/custome.css"
           th:href="@{/css/custome.css}">
 
-    <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
-    <script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
-    <script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
-
 </head>
 <body>
 
-<div class="container" >
-    <div th:replace="/layout/header :: header"></div>
+<div th:replace="/layout/header :: header"></div>
+
+<div class="container main" >
 
 
 
-    <div th:replace="/layout/footer :: footer"></div>
+
 </div>
 
+<div th:replace="/layout/footer :: footer"></div>
 
+
+<script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js" th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+<script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.js" th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.js}"></script>
+<script type="text/javascript" src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.js" th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
 
 </body>
 </html>

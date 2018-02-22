@@ -1,2 +1,6 @@
 body { padding-top: 50px; }
 
+.main {
+    min-height: 360px;
+}
+

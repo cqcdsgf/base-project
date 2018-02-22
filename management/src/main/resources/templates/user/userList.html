@@ -17,9 +17,10 @@
             th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.js}"></script>
 </head>
 <body>
-<div class="container">
-    <div th:replace="/layout/header :: header"></div>
 
+<div th:replace="/layout/header :: header"></div>
+
+<div class="container main">
     <ol class="breadcrumb">
         <li class="active">用户管理</li>
     </ol>
@@ -68,8 +69,9 @@
         </div>
     </div>
 
-    <div th:replace="/layout/footer :: footer"></div>
 </div>
+
+<div th:replace="/layout/footer :: footer"></div>
 
 <script th:inline="javascript">
     $(function () {

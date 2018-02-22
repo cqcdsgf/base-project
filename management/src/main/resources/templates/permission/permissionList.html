@@ -24,12 +24,14 @@
 
 </head>
 <body>
-<div class="container">
-    <div th:replace="/layout/header :: header"></div>
 
+<div th:replace="/layout/header :: header"></div>
+
+<div class="container main">
     <ol class="breadcrumb">
         <li class="active">权限管理</li>
     </ol>
+
     <div class="panel panel-default">
         <a th:href="@{/permission/toCreate}" class="pull-right">创建权限</a>
         <div class="panel-heading" th:text="权限列表"></div>
@@ -60,9 +62,9 @@
         </table>
     </div>
 
-    <div th:replace="/layout/footer :: footer"></div>
 </div>
 
+<div th:replace="/layout/footer :: footer"></div>
 
 <script type="text/javascript" src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
         th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>

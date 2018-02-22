@@ -14,8 +14,10 @@
           th:href="@{/css/custome.css}">
 </head>
 <body>
-<div class="container">
-    <div th:replace="/layout/header :: header"></div>
+
+<div th:replace="/layout/header :: header"></div>
+
+<div class="container main">
 
     <ol class="breadcrumb">
         <li><a th:href="@{/permission/toQueryList}">权限管理</a></li>
@@ -64,8 +66,9 @@
         </div>
     </form>
 
-    <div th:replace="/layout/footer :: footer"></div>
 </div>
+
+<div th:replace="/layout/footer :: footer"></div>
 
 <script src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
         th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
