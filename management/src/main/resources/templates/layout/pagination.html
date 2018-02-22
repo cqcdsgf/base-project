@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content=""/>
+
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../../static/plugin/bootstrap-3.3.7/css/bootstrap.min.css"
+          th:href="@{/plugin/bootstrap-3.3.7/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/custom.common.css" th:href="@{/css/custom.common.css}">
+
+</head>
+<body>
+
+
+<ul th:fragment="pagination" class="pagination" >
+    <!-- 上一页 -->
+    <li class="page-item" data-th-classappend="${model.page.first} ? 'disabled' : ''">
+        <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} - 1)}" class="page-link">
+            <span aria-hidden="true">«</span>
+        </a>
+    </li>
+
+    <!-- 迭代生成页码 -->
+    <li class="page-item" data-th-each="i : ${#numbers.sequence(1, model.page.totalPages)}"
+        data-th-classappend="${(model.page.number + 1) eq i} ? 'active' : ''" >
+        <a class="page-link" data-th-attr="pageIndex=${i} - 1" th:href="@{${model.searchParams}(pageNumber=(${i}-1))}">
+            <span data-th-text="${i}"></span>
+        </a>
+    </li>
+
+    <!-- 下一页 -->
+    <li class="page-item" data-th-classappend="${model.page.last} ? 'disabled' : ''">
+        <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} + 1)}" class="page-link">
+            <span aria-hidden="true">»</span>
+        </a>
+    </li>
+</ul>
+
+
+
+
+
+
+
+
+<script src="../../static/plugin/jquery-1.12.4/jquery-1.12.4.min.js"
+        th:src="@{/plugin/jquery-1.12.4/jquery-1.12.4.min.js}"></script>
+
+<script type="text/javascript" src="../../static/plugin/jquery-validation-1.17.0/jquery.validate.min.js"
+        th:src="@{/plugin/jquery-validation-1.17.0/jquery.validate.min.js}"></script>
+
+<script src="../../static/plugin/bootstrap-3.3.7/js/bootstrap.min.js"
+        th:src="@{/plugin/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

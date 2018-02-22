@@ -3,6 +3,9 @@ package com.sgf.app.permission;
 import com.google.common.collect.Maps;
 import com.sgf.app.domain.AuthPermission;
 import com.sgf.base.constant.BaseMessageConstant;
+import com.sgf.base.persistence.DynamicSpecifications;
+import com.sgf.base.persistence.SearchFilter;
+import com.sgf.base.web.Servlets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -30,16 +36,27 @@ public class AuthPermissionController {
     private AuthPermissionService authPermissionService;
 
     @GetMapping("/permission/toQueryList")
-    public ModelAndView toQueryList(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                    @RequestParam(value = "size", defaultValue = "15") Integer size) {
-        /*List<AuthPermission> permissions = authPermissionService.findAll(new Sort(Sort.Direction.DESC, "modifyTime"));*/
+    public ModelAndView toQueryList(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+                                    @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize,
+                                    HttpServletRequest request) {
+        Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+        Sort sort = new Sort(Sort.Direction.DESC, "modifyTime");
+        Pageable pageable = new PageRequest(pageNumber, pageSize, sort);
 
-        Sort sort = new Sort(Sort.Direction.DESC, "id");
-        Pageable pageable = new PageRequest(page, size, sort);
+        Map<String,SearchFilter> filters = SearchFilter.parse(searchParams);
+        Specification<AuthPermission> spec = DynamicSpecifications.bySearchFilter(filters.values(),AuthPermission.class);
 
-        Page<AuthPermission> permissions = authPermissionService.findAll(pageable);
+        Page<AuthPermission> permissions = authPermissionService.findAll(spec,pageable);
 
-        return new ModelAndView("/permission/permissionList", "permissions", permissions);
+        Map<String,Object> model = Maps.newHashMap();
+        model.put("page",permissions);
+
+        // 将搜索条件编码成字符串，用于排序，分页的URL
+        String parames =  Servlets.encodeParameterStringWithPrefix(searchParams, "search_");
+        String path = request.getServletPath();
+        model.put("searchParams",path.concat("?".concat(parames)));
+
+        return new ModelAndView("/permission/permissionList", "model", model);
     }
 
     @GetMapping("/permission/toCreate")

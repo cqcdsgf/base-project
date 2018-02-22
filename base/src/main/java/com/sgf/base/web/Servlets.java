@@ -10,6 +10,7 @@ import com.google.common.net.HttpHeaders;
 import org.apache.commons.lang3.Validate;
 import com.sgf.base.utils.Collections3;
 import com.sgf.base.utils.Encodes;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -181,6 +182,10 @@ public class Servlets {
 		Iterator<Entry<String, Object>> it = params.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, Object> entry = it.next();
+			Object value = entry.getValue();
+			if(StringUtils.isEmpty(value)){
+				continue;
+			}
 			queryStringBuilder.append(prefix).append(entry.getKey()).append('=').append(entry.getValue());
 			if (it.hasNext()) {
 				queryStringBuilder.append('&');
