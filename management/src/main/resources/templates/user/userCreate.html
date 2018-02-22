@@ -20,6 +20,11 @@
         <li class="active">创建用户</li>
     </ol>
 
+    <div th:if="${errorMessage}"  class="alert alert-warning">
+        <span class="close" data-dismiss="alert">&times;</span>
+        <p th:text="${errorMessage}"></p>
+    </div>
+
     <form id="userCreateForm" method="post" class="form-horizontal" th:action="@{/user/create}">
         <div class="row">
             <div class="col-md-6">
