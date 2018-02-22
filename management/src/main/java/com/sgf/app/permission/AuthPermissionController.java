@@ -7,13 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,8 +30,14 @@ public class AuthPermissionController {
     private AuthPermissionService authPermissionService;
 
     @GetMapping("/permission/toQueryList")
-    public ModelAndView toQueryList() {
-        List<AuthPermission> permissions = authPermissionService.findAll(new Sort(Sort.Direction.DESC, "modifyTime"));
+    public ModelAndView toQueryList(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                    @RequestParam(value = "size", defaultValue = "15") Integer size) {
+        /*List<AuthPermission> permissions = authPermissionService.findAll(new Sort(Sort.Direction.DESC, "modifyTime"));*/
+
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(page, size, sort);
+
+        Page<AuthPermission> permissions = authPermissionService.findAll(pageable);
 
         return new ModelAndView("/permission/permissionList", "permissions", permissions);
     }

@@ -7,7 +7,9 @@ import com.sgf.base.constant.BaseMessageConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,9 @@ public class AuthUserController {
 
     @Autowired
     private AuthUserService authUserService;
+
+    @Value("${user.default.password}")
+    private String defaultPassword;
 
     @GetMapping("/user/toQueryList")
     public ModelAndView toQueryList() {
@@ -70,6 +75,17 @@ public class AuthUserController {
 
     @PostMapping("/user/create")
     public String createUser(AuthUser authUser, @RequestParam(value = "roleIds",required = false) List<Long> roleIds,RedirectAttributes redirectAttributes) {
+        String username = authUser.getUsername();
+        AuthUser oldAuthUser = authUserService.findByUsername(username);
+
+        if (null == oldAuthUser) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            authUser.setPassword(encoder.encode(defaultPassword));
+        }else{
+            redirectAttributes.addFlashAttribute( "errorMessage", username + "_用户名重复！");
+            return "redirect:/user/toCreate";
+        }
+
         if(!CollectionUtils.isEmpty(roleIds)) {
             authUser.getRoles().clear();
 
@@ -103,7 +119,23 @@ public class AuthUserController {
 
     @PostMapping("/user/update")
     public String update(AuthUser authUser, @RequestParam(value = "roleIds",required = false) List<Long> roleIds,RedirectAttributes redirectAttributes) {
-        AuthUser oldUser = authUserService.findOne(authUser.getId());
+        Long id = authUser.getId();
+
+        String username = authUser.getUsername();
+        AuthUser oldAuthUser = authUserService.findByUsername(username);
+
+        AuthUser oldUser;
+        if (null != oldAuthUser) {
+            if(oldAuthUser.getId() != id) {
+                redirectAttributes.addFlashAttribute("errorMessage", username + "_用户名重复！");
+                return "redirect:/user/toUpdate?id=" + id;
+            }else{
+                oldUser = oldAuthUser;
+            }
+        }else{
+            oldUser = authUserService.findOne(id);
+        }
+
         if(!CollectionUtils.isEmpty(roleIds)) {
             authUser.getRoles().clear();
 

@@ -41,41 +41,26 @@ public class ManagementSecurityMetadataSource implements FilterInvocationSecurit
         FilterInvocation fi = (FilterInvocation) object;
         String url = fi.getRequestUrl();
 
-        boolean flag = false;
-        String matchePath = "";
         List<AuthPermission> permissions = authPermissionDao.findAll();
         for(AuthPermission authPermission:permissions){
             String path = authPermission.getUrl();
             if(antPathMatcher.match(path,url)){
-                flag=true;
-                matchePath = path;
-            break;
+                Set<ConfigAttribute> configAttributes = Sets.newHashSet();
+                String tempRole = "";
+                Set<AuthRole> roles = authPermission.getRoles();
+                if(roles.size()==0){
+                    tempRole += tempRole.concat("403");
+                }
+                for(AuthRole role:roles){
+                    String name = role.getName();
+                    tempRole += tempRole.concat(",").concat(name);
+                }
+
+                configAttributes.add(new SecurityConfig(tempRole));
+                return configAttributes;
             }
         }
-
-        if(!flag){
-            //没有匹配到
-            return null;
-        }
-
-        Set<ConfigAttribute> configAttributes = Sets.newHashSet();
-        String tempRole = "";
-
-        AuthPermission authPermission = authPermissionDao.findByUrl(matchePath);
-        if(null == authPermission){
-
-        }else{
-            Set<AuthRole> roles = authPermission.getRoles();
-            if(roles.size()==0){
-                tempRole += tempRole.concat("403");
-            }
-            for(AuthRole role:roles){
-                String name = role.getName();
-                tempRole += tempRole.concat(",").concat(name);
-            }
-        }
-        configAttributes.add(new SecurityConfig(tempRole));
-        return configAttributes;
+        return null;
     }
 
     @Override
