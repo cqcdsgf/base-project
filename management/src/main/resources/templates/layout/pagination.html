@@ -17,29 +17,94 @@
 <body>
 
 
-<ul th:fragment="pagination" class="pagination" >
-    <!-- 上一页 -->
-    <li class="page-item" data-th-classappend="${model.page.first} ? 'disabled' : ''">
-        <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} - 1)}" class="page-link">
-            <span aria-hidden="true">«</span>
-        </a>
-    </li>
+<div th:fragment="pagination">
+    <ul class="pagination pagination-sm" data-th-if="${model.page.totalPages gt 0 and  model.page.totalPages le 7}" >
+        <!-- 上一页 -->
+        <li class="page-item" data-th-classappend="${model.page.first} ? 'disabled' : ''">
+            <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} - 1)}" class="page-link">
+                <span>«</span>
+            </a>
+        </li>
 
-    <!-- 迭代生成页码 -->
-    <li class="page-item" data-th-each="i : ${#numbers.sequence(1, model.page.totalPages)}"
-        data-th-classappend="${(model.page.number + 1) eq i} ? 'active' : ''" >
-        <a class="page-link" data-th-attr="pageIndex=${i} - 1" th:href="@{${model.searchParams}(pageNumber=(${i}-1))}">
-            <span data-th-text="${i}"></span>
-        </a>
-    </li>
+        <!-- 迭代生成页码 -->
+        <li class="page-item" data-th-each="i : ${#numbers.sequence(1, model.page.totalPages)}"
+            data-th-classappend="${(model.page.number + 1) eq i} ? 'active' : ''" >
+            <a class="page-link" th:href="@{${model.searchParams}(pageNumber=(${i}-1))}">
+                <span data-th-text="${i}"></span>
+            </a>
+        </li>
 
-    <!-- 下一页 -->
-    <li class="page-item" data-th-classappend="${model.page.last} ? 'disabled' : ''">
-        <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} + 1)}" class="page-link">
-            <span aria-hidden="true">»</span>
-        </a>
-    </li>
-</ul>
+        <!-- 下一页 -->
+        <li class="page-item" data-th-classappend="${model.page.last} ? 'disabled' : ''">
+            <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} + 1)}" class="page-link">
+                <span>»</span>
+            </a>
+        </li>
+    </ul>
+
+    <ul class="pagination pagination-sm" data-th-if="${model.page.totalPages gt 7}" >
+        <!-- 上一页 -->
+        <li class="page-item" data-th-classappend="${model.page.first} ? 'disabled' : ''">
+            <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} - 1)}" class="page-link">
+                <span>«</span>
+            </a>
+        </li>
+
+        <!-- 首页 -->
+        <li class="page-item" data-th-classappend="${(model.page.number + 1) eq 1} ? 'active' : ''" >
+            <a th:href="@{${model.searchParams}(pageNumber=0)}" class="page-link">1</a>
+        </li>
+
+        <li class="page-item disabled" data-th-if="${(model.page.number + 1) ge 4}">
+            <a href="javascript:void(0);" class="page-link">
+                <span aria-hidden="true">...</span>
+            </a>
+        </li>
+
+        <!-- 当前页面小于等于4 -->
+        <li class="page-item" data-th-if="${((model.page.number + 1) le 4) and (model.page.number != 3)}" data-th-each="i : ${#numbers.sequence(2,5)}"
+            data-th-classappend="${(model.page.number + 1) eq i} ? 'active' : ''" >
+            <a class="page-link" th:href="@{${model.searchParams}(pageNumber=(${i}-1))}">
+                <span data-th-text="${i}"></span>
+            </a>
+        </li>
+
+        <!-- 迭代生成页码 -->
+        <li class="page-item" data-th-if="${((model.page.number + 1) ge 4) and ((model.page.totalPages-(model.page.number + 1)) gt 4)}" data-th-each="i : ${#numbers.sequence(model.page.number, model.page.number + 2)}"
+            data-th-classappend="${(model.page.number + 1) eq i} ? 'active' : ''" >
+            <a class="page-link" th:href="@{${model.searchParams}(pageNumber=(${i}-1))}">
+                <span data-th-text="${i}"></span>
+            </a>
+        </li>
+
+        <!-- 当前页面与最大页数相差在4以内 -->
+        <li class="page-item" data-th-if="${(model.page.totalPages-(model.page.number + 1)) le 4}" data-th-each="i : ${#numbers.sequence(model.page.totalPages-4,model.page.totalPages-1)}"
+            data-th-classappend="${(model.page.number + 1) eq i} ? 'active' : ''" >
+            <a class="page-link" th:href="@{${model.searchParams}(pageNumber=(${i}-1))}">
+                <span data-th-text="${i}"></span>
+            </a>
+        </li>
+
+
+        <li class="page-item disabled"  data-th-if="${(model.page.totalPages-(model.page.number + 1)) gt 4}">
+            <a href="javascript:void(0);" class="page-link">
+                <span aria-hidden="true">...</span>
+            </a>
+        </li>
+
+        <!-- 最后一页 -->
+        <li class="page-item" data-th-classappend="${(model.page.number + 1) eq model.page.totalPages} ? 'active' : ''" >
+            <a th:href="@{${model.searchParams}(pageNumber=${model.page.totalPages}-1)}" class="page-link" >[[${model.page.totalPages}]]</a>
+        </li>
+
+        <!-- 下一页 -->
+        <li class="page-item" data-th-classappend="${model.page.last} ? 'disabled' : ''">
+            <a th:href="@{${model.searchParams}(pageNumber=${model.page.number} + 1)}" class="page-link">
+                <span aria-hidden="true">»</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
 
 
