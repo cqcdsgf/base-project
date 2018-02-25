@@ -266,6 +266,11 @@
             <version>0.7.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
