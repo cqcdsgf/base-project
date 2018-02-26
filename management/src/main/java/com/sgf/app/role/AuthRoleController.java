@@ -3,7 +3,6 @@ package com.sgf.app.role;
 import com.google.common.collect.Maps;
 import com.sgf.app.domain.AuthPermission;
 import com.sgf.app.domain.AuthRole;
-import com.sgf.app.domain.AuthUser;
 import com.sgf.app.permission.AuthPermissionService;
 import com.sgf.base.constant.BaseMessageConstant;
 import com.sgf.base.constant.PageConstant;
