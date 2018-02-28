@@ -1,117 +1,61 @@
 package com.sgf.app.config;
 
-import com.sgf.app.home.web.CustomAuthenticationProvider;
 import com.sgf.app.home.web.JWTAuthenticationFilter;
 import com.sgf.app.home.web.JWTLoginFilter;
-import com.sgf.base.security.custom.filter.*;
-import com.sgf.base.security.custom.interceptor.CustomAccessDecisionManager;
-import com.sgf.base.security.custom.interceptor.CustomFilterSecurityInterceptor;
-import com.sgf.base.security.custom.interceptor.CustomSecurityMetadataSource;
+import com.sgf.app.home.web.WebAuthenticationProvider;
 import com.sgf.base.security.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
 
 /**
  * Created by sgf on 2017\12\26 0026.
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-/*    @Bean
-    public FilterInvocationSecurityMetadataSource customSecurityMetadataSource() {
-        CustomSecurityMetadataSource securityMetadataSource = new CustomSecurityMetadataSource();
-        return securityMetadataSource;
-    }
-
-    @Bean
-    CustomFilterSecurityInterceptor customFilterSecurityInterceptor(){
-        CustomFilterSecurityInterceptor customFilterSecurityInterceptor = new CustomFilterSecurityInterceptor();
-
-       customFilterSecurityInterceptor.setSecurityMetadataSource(customSecurityMetadataSource());
-        customFilterSecurityInterceptor.setAccessDecisionManager( new CustomAccessDecisionManager());
-
-        return customFilterSecurityInterceptor;
-    }*/
-
-
-
     @Bean
     UserDetailsService customUserDetailsService() {
         return new CustomUserDetailsService();
     }
 
-    @Bean
-    protected CustomeAuthenticationProvider customeAuthenticationProvider() {
-        CustomeAuthenticationProvider provider = new CustomeAuthenticationProvider();
-        provider.setUserDetailsService(customUserDetailsService());
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
-        provider.setPreAuthenticationChecks(new CustomePreAuthenticationChecks());
+    // 设置 HTTP 验证规则
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // 添加一个过滤器 所有访问 /login 的请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容
+        http.addFilterBefore(new JWTLoginFilter("/login/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class);
 
-        provider.setHideUserNotFoundExceptions(false);
-        return provider;
-    }
+        // 关闭csrf验证
+        http.csrf().disable()
+                // 对请求进行认证
+                .authorizeRequests()
+                // 所有 / 的所有请求 都放行
+                .antMatchers("/").permitAll()
+                .antMatchers("/login/login").permitAll()
+                // 所有请求需要身份认证
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login/login?logout");
 
-    @Bean
-    protected CustomSimpleUrlAuthenticationFailureHandler customSimpleUrlAuthenticationFailureHandler() {
-        CustomSimpleUrlAuthenticationFailureHandler failureHandler = new CustomSimpleUrlAuthenticationFailureHandler("/login/backLogin?error=true");
-        failureHandler.setUseForward(true);
-        return failureHandler;
-    }
 
-    //配置封装 customUsernamePasswordAuthenticationFilter 的过滤器
-    CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
-        CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter = new CustomUsernamePasswordAuthenticationFilter();
-        //为过滤器添加认证器
-        customUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager);
-
-        customUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(customSimpleUrlAuthenticationFailureHandler());
-        //customUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
-        customUsernamePasswordAuthenticationFilter.setAuthenticationDetailsSource(new CustomAuthenticationDetailsSource());
-
-        return customUsernamePasswordAuthenticationFilter;
+                // 添加一个过滤器验证其他请求的Token是否合法
+        http.addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(customeAuthenticationProvider());
-    }
+        WebAuthenticationProvider webAuthenticationProvider = new WebAuthenticationProvider();
+        webAuthenticationProvider.setUserDetailsService(customUserDetailsService());
+        webAuthenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        // 使用自定义身份验证组件
+        auth.authenticationProvider(webAuthenticationProvider);
 
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        //注册customUsernamePasswordAuthenticationFilter  注意放置的顺序 这很关键
-        http.addFilterBefore(customUsernamePasswordAuthenticationFilter(authenticationManager()), RequestCacheAwareFilter.class);
-
-        http.authorizeRequests()
-                .antMatchers("/login/**").permitAll()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/upload/**").permitAll()
-                .antMatchers("/imageCode/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().ignoringAntMatchers("/login/login")
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login/login"))
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login/login?logout")
-                .permitAll();
     }
 
     public void configure(WebSecurity web) throws Exception {

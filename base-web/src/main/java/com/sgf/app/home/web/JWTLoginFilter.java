@@ -23,24 +23,24 @@ import java.io.IOException;
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     public JWTLoginFilter(String url, AuthenticationManager authManager) {
-        super(new AntPathRequestMatcher(url));
+        super(new AntPathRequestMatcher(url,"POST"));
         setAuthenticationManager(authManager);
     }
 
     @Override
     public Authentication attemptAuthentication(
-            HttpServletRequest req, HttpServletResponse res)
+            HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
 
         // JSON反序列化成 AccountCredentials
-        AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
+        //AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
+
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
 
         // 返回一个验证令牌
         return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        creds.getUsername(),
-                        creds.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(userName,password)
         );
     }
 

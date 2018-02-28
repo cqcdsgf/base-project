@@ -72,8 +72,6 @@
     $( document ).ready( function () {
         var loginFailFlag = [[${loginFailFlag}]];
 
-        displayImageCode(loginFailFlag);
-
         initFoucus();
 
         addCheck();
@@ -142,33 +140,7 @@
         }, function( data ) {
             loginFailFlag = data.result;
         },'json' );
-        displayImageCode(loginFailFlag);
-        addRule();
     });
-
-    function displayImageCode(flag) {
-        //需要图形验证码校验
-        if (flag) {
-            //没有添加图形验证码区域
-            if ($("#imageCodeArea").length<=0) {
-                var html = '<div id="imageCodeArea" class="input-group">';
-                html += '<input type="text" maxlength="4" class="form-control" id="imageCode" name="imageCode" th:value="${imageCode}" data-validation-engine="validate[required]" placeholder="请输入随机验证码" />';
-                html += '<input type="hidden" name="imageCodeType" value="personLogin"/>';
-                html +='<div class="input-group-btn">';
-                html += '<img id="changeCodeBtn" class="code" alt="验证码" title="看不清，换一张"/>';
-                html +='</div>';
-                html += '</div>';
-                $('#passwordArea').after(html);
-                $("#changeCodeBtn").click(function () {
-                    $(this).attr("src", "/imageCode/getCode?imageCodeType=personLogin&date" + new Date().getTime());
-                });
-            }
-            //自动获取图形验证码
-            $('#changeCodeBtn').trigger("click");
-        }
-    }
-
-
 
     function initFoucus() {
         var errorCode = [[${errorCode}]];
@@ -187,11 +159,6 @@
         }
     }
 
-    function addRule() {
-        if ($("#imageCodeArea").length > 0) {
-            $("#imageCode").rules("add", {required: true, messages: {required: "请输入验证码1"}});
-        }
-    }
 </script>
 
 </body>
