@@ -67,7 +67,7 @@ public class UploadController {
             }else{
                 lastFileName = fileName;
             }
-            resultMap.put("url","http://localhost/"+lastFileName);
+            resultMap.put("url","http://" + request.getServerName() + "/"+lastFileName);
 
         } catch (IllegalStateException e) {
             logger.error("上传文件时出现IllegalStateException！",e);
