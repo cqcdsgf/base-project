@@ -1,9 +1,8 @@
 package com.sgf.app.home.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sgf.base.utils.SpringContextUtil;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +20,9 @@ import java.io.IOException;
  * Created by sgf on 2018/2/25.
  */
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+
+    @Autowired
+    TokenService tokenService;
 
     public JWTLoginFilter(String url, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url,"POST"));
@@ -50,7 +52,13 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             HttpServletResponse res, FilterChain chain,
             Authentication auth) throws IOException, ServletException {
 
-        TokenAuthenticationService.addAuthentication(res, auth.getName());
+        if(null == tokenService){
+            tokenService = SpringContextUtil.getBean("tokenService");
+        }
+
+        tokenService.addAuthentication(res, auth.getName());
+
+        //TokenAuthenticationService.addAuthentication(res, auth.getName());
     }
 
 

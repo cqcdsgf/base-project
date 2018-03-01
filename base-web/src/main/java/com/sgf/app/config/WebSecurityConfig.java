@@ -30,10 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 添加一个过滤器 所有访问 /login 的请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容
         http.addFilterBefore(new JWTLoginFilter("/login/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class);
 
-        // 关闭csrf验证
-        http.csrf().disable()
+
                 // 对请求进行认证
-                .authorizeRequests()
+        http.authorizeRequests()
                 // 所有 / 的所有请求 都放行
                 .antMatchers("/").permitAll()
                 .antMatchers("/login/login").permitAll()

@@ -1,5 +1,7 @@
 package com.sgf.app.home.web;
 
+import com.sgf.base.utils.SpringContextUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -15,11 +17,19 @@ import java.io.IOException;
  * Created by sgf on 2018/2/25.
  */
 public class JWTAuthenticationFilter extends GenericFilterBean {
+    @Autowired
+    TokenService tokenService;
 
     @Override
     public void doFilter(ServletRequest request,ServletResponse response,FilterChain filterChain)
             throws IOException, ServletException {
-        Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest)request);
+        if(null == tokenService){
+            tokenService = SpringContextUtil.getBean("tokenService");
+        }
+
+        /*Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest)request);*/
+
+        Authentication authentication = tokenService.getAuthentication((HttpServletRequest)request);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request,response);
